@@ -18,7 +18,7 @@ You also need to `brew install ace icu4c pcre gd`.
 
 ## Notes
 
-Drakon provides a graphical display of the processes running on your UNIX machine.  The on-line help explains all the features of the program.
+Drakon provides a graphical display of the processes running on your UNIX machine.  The [on-line help](http://drakon.sourceforge.net/help.html) explains all the features of the program.
 
 http://sourceforge.net/p/drakon/
 
