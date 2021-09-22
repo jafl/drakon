@@ -1,5 +1,7 @@
 drakon
 Makefile
-strings/version
 *.o
 *.bak
+code/gpmStringData.h
+strings/version
+strings/drakon_menu_strings
