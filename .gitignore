@@ -1,4 +1,5 @@
 drakon
-*.bak
 Makefile
+strings/version
 *.o
+*.bak
