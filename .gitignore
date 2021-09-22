@@ -1,0 +1,4 @@
+drakon
+*.bak
+Makefile
+*.o
