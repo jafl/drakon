@@ -79,11 +79,6 @@ private:
 
 	void	ReadPrefs();
 	void	WritePrefs();
-
-	// not allowed
-
-	GPMMainDirector(const GPMMainDirector& source);
-	const GPMMainDirector& operator=(const GPMMainDirector& source);
 };
 
 #endif

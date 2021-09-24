@@ -132,11 +132,6 @@ private:
 	void	ReadStat();
 	void	ReadStatM();
 	#endif
-
-	// not allowed
-
-	GPMProcessEntry(const GPMProcessEntry& source);
-	const GPMProcessEntry& operator=(const GPMProcessEntry& source);
 };
 
 

@@ -38,11 +38,6 @@ private:
 private:
 
 	void	BuildWindow(const JString& prevVersStr);
-
-	// not allowed
-
-	GPMAboutDialog(const GPMAboutDialog& source);
-	const GPMAboutDialog& operator=(const GPMAboutDialog& source);
 };
 
 #endif

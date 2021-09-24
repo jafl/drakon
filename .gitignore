@@ -5,3 +5,4 @@ Makefile
 code/gpmStringData.h
 strings/version
 strings/drakon_menu_strings
+.jcc

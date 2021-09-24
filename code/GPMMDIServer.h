@@ -32,13 +32,6 @@ protected:
 private:
 
 	GPMMainDirector*	itsMainDirector;
-
-private:
-
-	// not allowed
-
-	GPMMDIServer(const GPMMDIServer& source);
-	const GPMMDIServer& operator=(const GPMMDIServer& source);
 };
 
 

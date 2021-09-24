@@ -31,7 +31,7 @@ public:
 	virtual ~GPMProcessTable();
 
 	bool	GetSelectedProcess(const GPMProcessEntry** entry) const;
-	void		SelectProcess(const GPMProcessEntry& entry);
+	void	SelectProcess(const GPMProcessEntry& entry);
 
 	virtual void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
@@ -76,12 +76,6 @@ private:
 	void	HandleContextMenu(const JIndex index);
 
 	void	AdjustColWidths();
-
-	// not allowed
-
-	GPMProcessTable(const GPMProcessTable& source);
-	const GPMProcessTable& operator=(const GPMProcessTable& source);
-
 };
 
 #endif

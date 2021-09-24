@@ -36,14 +36,6 @@ protected:
 private:
 
 	GPMProcessList*	itsList;
-
-private:
-
-	// not allowed
-
-	GPMTreeHeaderWidget(const GPMTreeHeaderWidget& source);
-	const GPMTreeHeaderWidget& operator=(const GPMTreeHeaderWidget& source);
-
 };
 
 #endif

@@ -32,7 +32,7 @@ public:
 	virtual ~GPMProcessTreeList();
 
 	bool	GetSelectedProcess(const GPMProcessEntry** entry) const;
-	void		SelectProcess(const GPMProcessEntry& entry);
+	void	SelectProcess(const GPMProcessEntry& entry);
 
 protected:
 
@@ -57,12 +57,6 @@ private:
 
 	void	UpdateContextMenu();
 	void	HandleContextMenu(const JIndex index);
-
-	// not allowed
-
-	GPMProcessTreeList(const GPMProcessTreeList& source);
-	const GPMProcessTreeList& operator=(const GPMProcessTreeList& source);
-
 };
 
 #endif

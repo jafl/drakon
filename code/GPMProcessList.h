@@ -77,18 +77,18 @@ public:
 
 	const JPtrArray<GPMProcessEntry>&	GetHiddenProcesses() const;
 
-	bool	ListColIsSelected(const JIndex index) const;
+	bool		ListColIsSelected(const JIndex index) const;
 	ListColType	GetSelectedListCol() const;
 	void		ListColSelected(const JIndex index);
 
-	bool	TreeColIsSelected(const JIndex index) const;
+	bool		TreeColIsSelected(const JIndex index) const;
 	TreeColType	GetSelectedTreeCol() const;
 	void		TreeColSelected(const JIndex index);
 
 	JTree*		GetProcessTree();
 
 	bool	WillShowUserOnly() const;
-	void		ShouldShowUserOnly(const bool show);
+	void	ShouldShowUserOnly(const bool show);
 
 private:
 
@@ -101,7 +101,7 @@ private:
 	JFloat						itsLastTime;
 	ListColType					itsListColType;
 	TreeColType					itsTreeColType;
-	bool					itsIsShowingUserOnly;
+	bool						itsIsShowingUserOnly;
 	const JIndex				itsUID;
 
 	#ifdef _J_HAS_PROC
@@ -112,8 +112,8 @@ private:
 
 	// not allowed
 
-	GPMProcessList(const GPMProcessList& source);
-	const GPMProcessList& operator=(const GPMProcessList& source);
+	GPMProcessList(const GPMProcessList&) = delete;
+	GPMProcessList& operator=(const GPMProcessList&) = delete;
 
 public:
 

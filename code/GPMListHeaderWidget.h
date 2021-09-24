@@ -36,14 +36,6 @@ protected:
 private:
 
 	GPMProcessList*	itsList;
-
-private:
-
-	// not allowed
-
-	GPMListHeaderWidget(const GPMListHeaderWidget& source);
-	const GPMListHeaderWidget& operator=(const GPMListHeaderWidget& source);
-
 };
 
 #endif

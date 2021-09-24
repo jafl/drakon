@@ -51,11 +51,6 @@ private:
 
 	void	ComputeStats(JFloat* userCPUPercentage, JFloat* otherCPUPercentage,
 						 JFloat* userMemoryPercentage, JFloat* otherMemoryPercentage) const;
-
-	// not allowed
-
-	GPMSystemStats(const GPMSystemStats& source);
-	const GPMSystemStats& operator=(const GPMSystemStats& source);
 };
 
 #endif

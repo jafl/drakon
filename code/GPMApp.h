@@ -26,14 +26,6 @@ public:
 protected:
 
 	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
-private:
-
-	// not allowed
-
-	GPMApp(const GPMApp& source);
-	const GPMApp& operator=(const GPMApp& source);
-
 };
 
 #endif

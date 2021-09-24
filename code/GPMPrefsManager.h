@@ -35,13 +35,6 @@ protected:
 
 	virtual void	UpgradeData(const bool isNew, const JFileVersion currentVersion);
 	virtual void	SaveAllBeforeDestruct();
-
-private:
-
-	// not allowed
-
-	GPMPrefsManager(const GPMPrefsManager& source);
-	const GPMPrefsManager& operator=(const GPMPrefsManager& source);
 };
 
 #endif
