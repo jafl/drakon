@@ -52,31 +52,31 @@ GPMCreateGlobals
 	assert( theMDIServer != nullptr );
 
 #ifdef _J_HAS_PROC
-	{
+{
 	std::ifstream ms("/proc/meminfo");
 	JString line;
 	while (ms.good() && !ms.eof())
-		{
+	{
 		line = JReadLine(ms);
 
 		const JStringMatch m = totalMemoryPattern.Match(line, JRegex::kIncludeSubmatches);
 		if (!m.IsEmpty())
-			{
+		{
 			m.GetSubstring(1).ConvertToUInt(&theSystemMemory);	// usually kB
 			break;
-			}
 		}
 	}
+}
 #elif defined _J_HAS_SYSCTL
-	{
+{
 	int mib[] = { CTL_HW, HW_PHYSMEM };
 	int memPages;
 	size_t len = sizeof(memPages);
 	if (sysctl(mib, 2, &memPages, &len, nullptr, 0) == 0)
-		{
+	{
 		theSystemMemory = memPages;	// bytes
-		}
 	}
+}
 #endif
 
 	return isNew;
@@ -116,9 +116,9 @@ GPMCleanUpBeforeSuddenDeath
 	)
 {
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		theMDIServer->JPrefObject::WritePrefs();
-		}
+	}
 
 	// must be last to save everything
 
@@ -181,10 +181,10 @@ JString
 GPMGetVersionStr()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	return JGetString("Description::gpmGlobals", map, sizeof(map));
 }
 

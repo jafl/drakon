@@ -1,5 +1,5 @@
 /******************************************************************************
- processmgr.cpp
+ main.cpp
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
@@ -33,9 +33,9 @@ main
 	ParseTextOptions(argc, argv);
 
 	if (!GPMMDIServer::WillBeMDIServer(GPMApp::GetAppSignature(), argc, argv))
-		{
+	{
 		return 0;
-		}
+	}
 
 	bool displayAbout;
 	JString prevVersStr;
@@ -44,9 +44,9 @@ main
 
 	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JCheckForNewerVersion(GPMGetPrefsManager(), kGPMVersionCheckID);
 
@@ -58,9 +58,9 @@ main
 	(GPMGetMDIServer())->SetMainDirector(dir);
 
 	if (displayAbout)
-		{
+	{
 		app->DisplayAbout(prevVersStr);
-		}
+	}
 
 	JThisProcess::Instance()->SetPriority(19);
 
@@ -87,23 +87,23 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (strcmp(argv[index], "-h") == 0 ||
 			strcmp(argv[index], "--help") == 0)
-			{
+		{
 			GPMApp::InitStrings();
 			GPMMDIServer::PrintCommandLineHelp();
 			exit(0);
-			}
+		}
 		else if (strcmp(argv[index], "-v") == 0 ||
 				 strcmp(argv[index], "--version") == 0)
-			{
+		{
 			GPMApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************

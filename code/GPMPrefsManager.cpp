@@ -69,9 +69,9 @@ GPMPrefsManager::UpgradeData
 	)
 {
 	if (isNew)
-		{
+	{
 		SetData(kGPMProgramVersionID, GPMGetVersionNumberStr());
-		}
+	}
 }
 
 /******************************************************************************

@@ -71,9 +71,9 @@ GPMProcessEntry::GPMProcessEntry
 
 	passwd* info = getpwuid(itsUID);
 	if (info != nullptr)
-		{
+	{
 		itsUser = info->pw_name;
-		}
+	}
 }
 
 #endif
@@ -121,37 +121,37 @@ GPMProcessEntry::Update
 
 #ifdef _J_HAS_PROC
 	try
-	{
+{
 		ReadStat();
 		ReadStatM();
 
 		JSize mem;
 		if (GPMGetSystemMemory(&mem))
-			{
+		{
 			itsPercentMemory = JFloat(itsResident * 100) / mem;
-			}
+		}
 
 		// shared across #if
 		ReadCmdline();	// not in ctor, to make ctor faster
-	}
+}
 	catch (...)
-	{
+{
 		itsState = kZombie;
 //		std::cerr << "failed to update: " << itsPID << std::endl;
-	}
+}
 #elif defined _J_HAS_SYSCTL
-	{
+{
 	int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, itsPID };
 
 	kinfo_proc entry;
 	size_t len = sizeof(entry);
 	int result = sysctl(mib, 4, &entry, &len, nullptr, 0);
 	if (result != 0)
-		{
+	{
 		itsState = kZombie;
-		}
+	}
 	else
-		{
+	{
 		itsCommand  = entry.kp_proc.p_comm;
 		itsPPID     = entry.kp_eproc.e_ppid;
 		itsPriority = entry.kp_proc.p_priority;
@@ -163,32 +163,32 @@ GPMProcessEntry::Update
 		itsSTime    = entry.kp_proc.p_sticks;
 
 		if (entry.kp_proc.p_stat == SSLEEP)
-			{
+		{
 			itsState = kSleep;
-			}
+		}
 		else if (entry.kp_proc.p_stat == SSTOP)
-			{
+		{
 			itsState = kStopped;
-			}
+		}
 		else if (entry.kp_proc.p_stat == SZOMB)
-			{
+		{
 			itsState = kZombie;
-			}
+		}
 		else
-			{
+		{
 			itsState = kRun;
-			}
+		}
 
 		JSize mem;
 		if (GPMGetSystemMemory(&mem))
-			{
+		{
 			itsPercentMemory = JFloat(itsResident) / mem;
-			}
 		}
+	}
 
 	// shared across #if
 	ReadCmdline();	// not in ctor, to make ctor faster
-	}
+}
 #endif
 
 	SetName(itsCommand);
@@ -216,38 +216,38 @@ GPMProcessEntry::ReadStat()
 	JString str = JCombinePathAndName(itsProcPath, JString("stat", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
-		{
+	{
 		is >> itsPID;
 		is >> std::ws;
 		itsCommand = JReadUntilws(is);
 		if (itsCommand.GetCharacterCount() > 2)
-			{
+		{
 			JStringIterator iter(&itsCommand);
 			iter.RemoveNext();
 			iter.MoveTo(kJIteratorStartAtEnd, 0);
 			iter.RemovePrev();
-			}
+		}
 		JString state = JReadUntilws(is);
 		if (state.Contains("S"))
-			{
+		{
 			itsState = kSleep;
-			}
+		}
 		else if (state.Contains("D"))
-			{
+		{
 			itsState = kUnIntSleep;
-			}
+		}
 		else if (state.Contains("Z"))
-			{
+		{
 			itsState = kZombie;
-			}
+		}
 		else if (state.Contains("T"))
-			{
+		{
 			itsState = kStopped;
-			}
+		}
 		else
-			{
+		{
 			itsState = kRun;
-			}
+		}
 		is >> itsPPID;
 		is >> std::ws;
 		int toss;
@@ -266,15 +266,15 @@ GPMProcessEntry::ReadStat()
 		is >> toss;
 		is >> itsPriority;
 		is >> itsNice;
-		}
+	}
 
 	if (!is.good())
-		{
+	{
 		itsState = kZombie;
 		itsUTime = uTime;
 		itsSTime = sTime;
 		itsPriority = itsNice = 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -289,18 +289,18 @@ GPMProcessEntry::ReadStatM()
 	JString str = JCombinePathAndName(itsProcPath, JString("statm", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
-		{
+	{
 		is >> itsSize >> itsResident >> itsShare;
 		itsSize	    *= 4;
 		itsResident *= 4;
 		itsShare    *= 4;
-		}
+	}
 
 	if (!is.good())
-		{
+	{
 		itsState = kZombie;
 		itsSize = itsResident = itsShare = 0;
-		}
+	}
 }
 
 /******************************************************************************
@@ -312,34 +312,34 @@ void
 GPMProcessEntry::ReadCmdline()
 {
 	if (!itsFullCommand.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 	JString str = JCombinePathAndName(itsProcPath, JString("cmdline", false));
 	std::ifstream is(str.GetBytes());
 	if (is.good())
-		{
+	{
 		JString cmdline;
 		JReadAll(is, &cmdline);
 		cmdline.TrimWhitespace();
 		if (cmdline.IsEmpty())
-			{
+		{
 			return;
-			}
+		}
 
 		JStringIterator iter(&cmdline);
 		JUtf8Character c;
 		while (iter.Next(&c))
-			{
+		{
 			if (c == '\0')
-				{
+			{
 				iter.SetPrev(JUtf8Character(' '), kJIteratorStay);
-				}
 			}
+		}
 
 		itsFullCommand = cmdline;
-		}
+	}
 }
 
 #elif defined _J_HAS_SYSCTL
@@ -353,34 +353,34 @@ void
 GPMProcessEntry::ReadCmdline()
 {
 	if (!itsFullCommand.IsEmpty())
-		{
+	{
 		return;
-		}
+	}
 
 #ifdef KERN_PROC_ARGS
 
 	int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_ARGS, itsPID };
 
 	if (sysctl(mib, 4, nullptr, &len, nullptr, 0) == 0)
-		{
+	{
 		void* buf = malloc(len);
 		assert( buf != nullptr );
 
 		result = sysctl(mib, 4, buf, &len, nullptr, 0);
 		if (result == 0)
-			{
+		{
 			JIndex i = 0;
 			while (i < len)
-				{
+			{
 				itsFullCommand += ((char*) buf) + i;
 				itsFullCommand.AppendCharacter(' ');
 
 				i += strlen(((char*) buf) + i) + 1;
-				}
 			}
+		}
 
 		free(buf);
-		}
+	}
 
 #elif defined KERN_PROCARGS2
 
@@ -389,7 +389,7 @@ GPMProcessEntry::ReadCmdline()
 	int argmax;
 	size_t len = sizeof(argmax);
 	if (sysctl(mib, 2, &argmax, &len, nullptr, 0) == 0)
-		{
+	{
 		void* buf = malloc(argmax);
 		assert( buf != nullptr );
 
@@ -399,29 +399,29 @@ GPMProcessEntry::ReadCmdline()
 
 		len = argmax;
 		if (sysctl(mib, 3, buf, &len, nullptr, 0) == 0)
-			{
+		{
 			int argc = * (int*) buf;
 			buf      = ((char*) buf) + sizeof(argc);
 
 			int offset = 0;
 			for (int i=0; i<argc; i++)
-				{
+			{
 				itsFullCommand += ((char*) buf) + offset;
 				itsFullCommand.Append(" ");
 
 				offset += strlen(((char*) buf) + offset) + 1;
-				}
 			}
 		}
+	}
 /*
 	task_port_t task;
 	task_basic_info task_info;
 	unsigned int info_count = TASK_BASIC_INFO_COUNT;
 	if (task_for_pid(mach_task_self(), itsPID, &task) == KERN_SUCCESS &&
 		task_info(task, TASK_BASIC_INFO, &task_info, &info_count) == KERN_SUCCESS)
-		{
+	{
 		std::cout << task_info.resident_size;
-		}
+	}
 */
 #endif
 }
@@ -441,17 +441,17 @@ GPMProcessEntry::CompareListPID
 	)
 {
 	if (e1->itsPID > e2->itsPID)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPID < e2->itsPID)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 JListT::CompareResult
@@ -465,13 +465,13 @@ GPMProcessEntry::CompareListUser
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 	else
-		{
+	{
 		return result;
-		}
+	}
 }
 
 JListT::CompareResult
@@ -482,17 +482,17 @@ GPMProcessEntry::CompareListNice
 	)
 {
 	if (e1->itsNice > e2->itsNice)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsNice < e2->itsNice)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -503,17 +503,17 @@ GPMProcessEntry::CompareListSize
 	)
 {
 	if (e1->itsSize > e2->itsSize)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsSize < e2->itsSize)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -524,17 +524,17 @@ GPMProcessEntry::CompareListPercentMemory
 	)
 {
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -545,17 +545,17 @@ GPMProcessEntry::CompareListPercentCPU
 	)
 {
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -566,17 +566,17 @@ GPMProcessEntry::CompareListTime
 	)
 {
 	if (e1->itsTime > e2->itsTime)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsTime < e2->itsTime)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -590,13 +590,13 @@ GPMProcessEntry::CompareListCommand
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		return CompareListPID(e1, e2);
-		}
+	}
 	else
-		{
+	{
 		return result;
-		}
+	}
 }
 
 JListT::CompareResult
@@ -625,17 +625,17 @@ GPMProcessEntry::CompareTreePID
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsPID > e2->itsPID)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPID < e2->itsPID)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return JListT::kFirstEqualSecond;
-		}
+	}
 }
 
 JListT::CompareResult
@@ -652,13 +652,13 @@ GPMProcessEntry::CompareTreeUser
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 	else
-		{
+	{
 		return result;
-		}
+	}
 }
 
 JListT::CompareResult
@@ -672,17 +672,17 @@ GPMProcessEntry::CompareTreeNice
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsNice > e2->itsNice)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsNice < e2->itsNice)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -696,17 +696,17 @@ GPMProcessEntry::CompareTreeSize
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsSize > e2->itsSize)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsSize < e2->itsSize)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -720,17 +720,17 @@ GPMProcessEntry::CompareTreePercentMemory
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -744,17 +744,17 @@ GPMProcessEntry::CompareTreePercentCPU
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -768,17 +768,17 @@ GPMProcessEntry::CompareTreeTime
 	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
 
 	if (e1->itsTime > e2->itsTime)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (e1->itsTime < e2->itsTime)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 }
 
 JListT::CompareResult
@@ -795,11 +795,11 @@ GPMProcessEntry::CompareTreeCommand
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
 	if (result == JListT::kFirstEqualSecond)
-		{
+	{
 		return CompareTreePID(n1, n2);
-		}
+	}
 	else
-		{
+	{
 		return result;
-		}
+	}
 }

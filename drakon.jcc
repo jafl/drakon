@@ -4,9 +4,9 @@ jx_browser_data 89
 T
 1 "main"
 T
-2 "processmgr.cpp"
+2 "main.cpp"
 F
-"./code/processmgr.cpp"
+"./code/main.cpp"
 T
 2 "GPMApp.cpp"
 F

@@ -103,9 +103,9 @@ GPMSystemStats::Draw
 	// detect multiple CPU's by looking for > 100% usages
 
 	while (cpuPercentage.user + cpuPercentage.other > itsMaxCPU + 5)
-		{
+	{
 		itsMaxCPU += 100;
-		}
+	}
 
 	// render memory usage
 
@@ -146,24 +146,24 @@ GPMSystemStats::Draw
 
 	const JSize historyCount = r.width() / (kCPUHistoryBarWidth + kCPUHistoryMarginWidth);
 	if (itsCPUHistory->GetElementCount() > historyCount)
-		{
+	{
 		itsCPUHistory->RemoveNextElements(1, itsCPUHistory->GetElementCount() - historyCount);
-		}
+	}
 	else
-		{
+	{
 		CPU blank;
 		blank.user = blank.other = 0;
 		while (itsCPUHistory->GetElementCount() < historyCount)
-			{
+		{
 			itsCPUHistory->PrependElement(blank);
-			}
 		}
+	}
 
 	r.left              = r.right - kCPUHistoryBarWidth;
 	const JCoordinate h = r.height();
 
 	for (JIndex i=historyCount; i>=1; i--)
-		{
+	{
 		const CPU cpu = itsCPUHistory->GetElement(i);
 
 		p.SetPenColor(userCPU);
@@ -175,7 +175,7 @@ GPMSystemStats::Draw
 		p.JPainter::Rect(r);
 
 		r.Shift(-kCPUHistoryBarWidth-kCPUHistoryMarginWidth, 0);
-		}
+	}
 }
 
 /******************************************************************************
@@ -191,13 +191,13 @@ GPMSystemStats::Receive
 	)
 {
 	if (sender == itsProcessList && message.Is(GPMProcessList::kListChanged))
-		{
+	{
 		Refresh();
-		}
+	}
 	else
-		{
+	{
 		JXWidget::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -226,63 +226,63 @@ GPMSystemStats::ComputeStats
 
 	JSize count = itsProcessList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const GPMProcessEntry* e = itsProcessList->GetProcessEntry(i);
 		if (e->GetUID() == itsUID)
-			{
+		{
 			*userCPUPercentage += e->GetPercentCPU();
-			}
-		else
-			{
-			*otherCPUPercentage += e->GetPercentCPU();
-			}
 		}
+		else
+		{
+			*otherCPUPercentage += e->GetPercentCPU();
+		}
+	}
 
 	const JPtrArray<GPMProcessEntry>& hidden = itsProcessList->GetHiddenProcesses();
 	count = hidden.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const GPMProcessEntry* e = hidden.GetElement(i);
 		*otherCPUPercentage     += e->GetPercentCPU();
-		}
+	}
 
 #ifdef _J_HAS_PROC
-	{
+{
 	JSize totalMem, freeMem = 0, otherMem = 0, foundCount = 0;
 	if (GPMGetSystemMemory(&totalMem))
-		{
+	{
 		std::ifstream ms("/proc/meminfo");
 		JString line;
 		while (ms.good() && !ms.eof())
-			{
+		{
 			line = JReadLine(ms);
 
 			const JStringMatch m1 = freeMemoryPattern.Match(line, JRegex::kIncludeSubmatches),
 							   m2 = bufferMemoryPattern.Match(line, JRegex::kIncludeSubmatches),
 							   m3 = cacheMemoryPattern.Match(line, JRegex::kIncludeSubmatches);
 			if (!m1.IsEmpty())
-				{
+			{
 				m1.GetSubstring(1).ConvertToUInt(&freeMem);	// usually kB
 				foundCount++;
-				}
+			}
 			else if (!m2.IsEmpty() || !m3.IsEmpty())
-				{
+			{
 				const JString s = m3.IsEmpty() ? m2.GetSubstring(1) : m3.GetSubstring(1);
 				JSize mem;
 				s.ConvertToUInt(&mem);	// usually kB
 				otherMem += mem;
 				foundCount++;
-				}
+			}
 
 			if (foundCount >= 3)
-				{
+			{
 				break;
-				}
 			}
+		}
 
 		*userMemoryPercentage  = 100 * (1 - (freeMem + otherMem) / JFloat(totalMem));
 		*otherMemoryPercentage = 100 * otherMem / JFloat(totalMem);
-		}
 	}
+}
 #endif
 }

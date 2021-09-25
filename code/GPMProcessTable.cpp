@@ -153,70 +153,70 @@ GPMProcessTable::Receive
 	)
 {
 	if (sender == itsList && message.Is(GPMProcessList::kPrepareForUpdate))
-		{
+	{
 		StopListening(itsSelectedEntry);
 		if (GetSelectedProcess(&itsSelectedEntry))
-			{
+		{
 			ClearWhenGoingAway(itsSelectedEntry, &itsSelectedEntry);
-			}
 		}
+	}
 
 	else if (sender == itsList && message.Is(GPMProcessList::kListChanged))
-		{
+	{
 		JTableSelection& s = GetTableSelection();
 		s.ClearSelection();
 
 		const JSize count	= GetRowCount();
 		const JSize lCount	= itsList->GetElementCount();
 		if (lCount > count)
-			{
+		{
 			AppendRows(lCount - count);
-			}
+		}
 		else if (count > lCount)
-			{
+		{
 			RemoveNextRows(1, count - lCount);
-			}
+		}
 
 		JIndex index;
 		if (itsSelectedEntry != nullptr)
-			{
+		{
 			if (itsList->GetEntryIndex(itsSelectedEntry, &index))
-				{
+			{
 				s.SelectRow(index);
-				}
+			}
 
 			StopListening(itsSelectedEntry);
 			itsSelectedEntry = nullptr;
-			}
+		}
 
 		Refresh();
-		}
+	}
 
 	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateContextMenu();
-		}
+	}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleContextMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		if (sender == &(GetTableSelection()) && message.Is(JTableData::kRectChanged))
-			{
+		{
 			const GPMProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
-				{
+			{
 				itsFullCmdDisplay->GetText()->SetText(entry->GetFullCommand());
-				}
 			}
+		}
 
 		JXTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -241,60 +241,60 @@ GPMProcessTable::TableDrawCell
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignRight;
 	if (cell.x == GPMProcessList::kListState)
-		{
+	{
 		DrawProcessState(entry, p, rect, *itsZombieImage);
 		return;
-		}
+	}
 	else if (cell.x == GPMProcessList::kListPID)
-		{
+	{
 		str	= JString((JUInt64) entry.GetPID());
-		}
+	}
 	else if (cell.x == GPMProcessList::kListUser)
-		{
+	{
 		str		= entry.GetUser();
 		halign	= JPainter::kHAlignLeft;
-		}
+	}
 /*	else if (cell.x == GPMProcessList::kListPPID)
-		{
+	{
 		str	= JString((JUInt64) entry.GetPPID());
-		}
+	}
 	else if (cell.x == GPMProcessList::kListPriority)
-		{
+	{
 		str	= JString((JUInt64) entry.GetPriority());
-		}
+	}
 */	else if (cell.x == GPMProcessList::kListNice)
-		{
+	{
 		str	= JString((JUInt64) entry.GetNice());
-		}
+	}
 	else if (cell.x == GPMProcessList::kListSize)
-		{
+	{
 		str	= JString((JUInt64) entry.GetSize());
-		}
+	}
 /*	else if (cell.x == GPMProcessList::kListResident)
-		{
+	{
 		str	= JString((JUInt64) entry.GetResident());
-		}
+	}
 	else if (cell.x == GPMProcessList::kListShare)
-		{
+	{
 		str	= JString((JUInt64) entry.GetShare());
-		}
+	}
 */	else if (cell.x == GPMProcessList::kListCPU)
-		{
+	{
 		str	= JString(entry.GetPercentCPU(), 1);
-		}
+	}
 	else if (cell.x == GPMProcessList::kListMemory)
-		{
+	{
 		str	= JString(entry.GetPercentMemory(), 1);
-		}
+	}
 	else if (cell.x == GPMProcessList::kListTime)
-		{
+	{
 		str	= JString((JUInt64) entry.GetTime());
-		}
+	}
 	else if (cell.x == GPMProcessList::kListCommand)
-		{
+	{
 		str	= entry.GetCommand();
 		halign	= JPainter::kHAlignLeft;
-		}
+	}
 
 	JRect r = rect;
 	r.Shrink(kHMarginWidth, 0);
@@ -316,12 +316,12 @@ GPMProcessTable::DrawRowBackground
 	)
 {
 	if (cell.y % 2 == 1)
-		{
+	{
 		p.SetPenColor(color);
 		p.SetFilling(true);
 		p.Rect(rect);
 		p.SetFilling(false);
-		}
+	}
 }
 
 /******************************************************************************
@@ -339,11 +339,11 @@ GPMProcessTable::DrawProcessState
 	)
 {
 	if (entry.GetState() == GPMProcessEntry::kZombie)
-		{
+	{
 		p.Image(zombieImage, zombieImage.GetBounds(), rect);
-		}
+	}
 	else
-		{
+	{
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);
 		p.SetPenColor(entry.GetState() == GPMProcessEntry::kStopped ?
@@ -353,7 +353,7 @@ GPMProcessTable::DrawProcessState
 		p.SetPenColor(JColorManager::GetBlackColor());
 		p.SetFilling(false);
 		p.Ellipse(r);
-		}
+	}
 }
 
 /******************************************************************************
@@ -372,9 +372,9 @@ GPMProcessTable::HandleMouseDown
 	)
 {
 	if (ScrollForWheel(button, modifiers))
-		{
+	{
 		return;
-		}
+	}
 
 	JTableSelection& s	= GetTableSelection();
 	s.ClearSelection();
@@ -382,22 +382,22 @@ GPMProcessTable::HandleMouseDown
 
 	JPoint cell;
 	if (!GetCell(pt, &cell))
-		{
+	{
 		return;
-		}
+	}
 
 	s.SelectRow(cell.y);
 
 	if (cell.x == GPMProcessList::kListState)
-		{
+	{
 		const GPMProcessEntry* entry = itsList->GetProcessEntry(cell.y);
 		ToggleProcessState(*entry);
 		itsList->Update();
-		}
+	}
 	else if (button == kJXRightButton)
-		{
+	{
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -414,25 +414,25 @@ GPMProcessTable::ToggleProcessState
 	const pid_t pid = entry.GetPID();
 	const uid_t uid = getuid();
 	if (uid == 0 || entry.GetUID() != uid)
-		{
+	{
 		// too dangerous to allow toggle
-		}
+	}
 	else if (pid == getpid() || pid == 0)
-		{
+	{
 		// do not allow pause
-		}
+	}
 	else if (entry.GetState() == GPMProcessEntry::kZombie)
-		{
+	{
 		// cannot do anything
-		}
+	}
 	else if (entry.GetState() == GPMProcessEntry::kStopped)
-		{
+	{
 		JSendSignalToProcess(pid, SIGCONT);
-		}
+	}
 	else
-		{
+	{
 		JSendSignalToProcess(pid, SIGSTOP);
-		}
+	}
 }
 
 /******************************************************************************
@@ -461,40 +461,40 @@ GPMProcessTable::HandleKeyPress
 	)
 {
 	if (c == ' ' || c == kJEscapeKey)
-		{
+	{
 		itsKeyBuffer.Clear();
 		GetTableSelection().ClearSelection();
-		}
+	}
 
 	// incremental search
 
 	else if (c.IsPrint() && !modifiers.control() && !modifiers.meta())
-		{
+	{
 		itsKeyBuffer.Append(c);
 
 		GPMProcessEntry* entry;
 		JIndex index;
 		if (itsList->ClosestMatch(itsKeyBuffer, &entry) &&
 			itsList->GetEntryIndex(entry, &index))
-			{
+		{
 			(GetTableSelection()).ClearSelection();
 			(GetTableSelection()).SelectRow(index);
 			TableScrollToCell(JPoint(1, index));
-			}
-		else
-			{
-			(GetTableSelection()).ClearSelection();
-			}
 		}
+		else
+		{
+			(GetTableSelection()).ClearSelection();
+		}
+	}
 
 	else
-		{
+	{
 		if (c.IsPrint())
-			{
+		{
 			itsKeyBuffer.Clear();
-			}
-		JXTable::HandleKeyPress(c, keySym, modifiers);
 		}
+		JXTable::HandleKeyPress(c, keySym, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -507,9 +507,9 @@ GPMProcessTable::UpdateContextMenu()
 {
 	const GPMProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
-		{
+	{
 		UpdateContextMenu(itsContextMenu, *entry);
-		}
+	}
 }
 
 // static
@@ -522,14 +522,14 @@ GPMProcessTable::UpdateContextMenu
 	)
 {
 	if (entry.GetState() != GPMProcessEntry::kZombie)
-		{
+	{
 		const bool notSelf = entry.GetPID() != getpid();
 		menu->EnableItem(kContextEndCmd);
 		menu->EnableItem(kContextKillCmd);
 		menu->SetItemEnable(kContextPauseCmd, notSelf);
 		menu->SetItemEnable(kContextContinueCmd, notSelf);
 		menu->EnableItem(kContextReNiceCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -545,9 +545,9 @@ GPMProcessTable::HandleContextMenu
 {
 	const GPMProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
-		{
+	{
 		HandleContextMenu(index, *entry, itsList);
-		}
+	}
 }
 
 // static
@@ -561,56 +561,56 @@ GPMProcessTable::HandleContextMenu
 	)
 {
 	if (entry.GetState() == GPMProcessEntry::kZombie)
-		{
+	{
 		return;
-		}
+	}
 
 	if (menuIndex == kContextReNiceCmd)
-		{
+	{
 		JSetProcessPriority(entry.GetPID(), 19);
 		list->Update();
 		return;
-		}
+	}
 
 	JIndex sigValue = 0;
 	if (menuIndex == kContextEndCmd)
-		{
+	{
 		sigValue = SIGTERM;
-		}
+	}
 	else if (menuIndex == kContextKillCmd)
-		{
+	{
 		sigValue = SIGKILL;
-		}
+	}
 	else if (menuIndex == kContextPauseCmd)
-		{
+	{
 		sigValue = SIGSTOP;
-		}
+	}
 	else if (menuIndex == kContextContinueCmd)
-		{
+	{
 		sigValue = SIGCONT;
-		}
+	}
 
 	const pid_t pid = entry.GetPID();
 	if (sigValue == 0 || pid == 0)
-		{
+	{
 		return;
-		}
+	}
 
 	const uid_t uid = getuid();
 	if (uid == 0 || entry.GetUID() == uid)
-		{
+	{
 		JSendSignalToProcess(pid, sigValue);
 		list->Update();
-		}
+	}
 	else
-		{
+	{
 		JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
 		cmd += JString((JUInt64) sigValue);
 		cmd += " ";
 		cmd += JString((JUInt64) pid);
 		cmd += "'";
 		JSimpleProcess::Create(cmd, true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -627,15 +627,15 @@ GPMProcessTable::GetSelectedProcess
 {
 	JPoint cell;
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
-		{
+	{
 		*entry = itsList->GetProcessEntry(cell.y);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		*entry = nullptr;
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -655,10 +655,10 @@ GPMProcessTable::SelectProcess
 
 	JIndex index;
 	if (itsList->GetEntryIndex(&entry, &index))
-		{
+	{
 		s.SelectRow(index);
 		TableScrollToCell(JPoint(1, index));
-		}
+	}
 }
 
 /******************************************************************************

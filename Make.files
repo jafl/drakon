@@ -4,7 +4,7 @@
 
 @drakon
 
-.cpp ./code/processmgr
+.cpp ./code/main
 .cpp ./code/GPMApp
 .cpp ./code/gpmGlobals
 .cpp ./code/GPMPrefsManager

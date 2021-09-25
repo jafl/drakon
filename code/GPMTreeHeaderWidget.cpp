@@ -77,15 +77,15 @@ GPMTreeHeaderWidget::TableDrawCell
 
 	JString str;
 	if (!GetColTitle(cell.x, &str))
-		{
+	{
 		str = JString((JUInt64) cell.x);
-		}
+	}
 
 	JSize underLines = 0;
 	if (itsList->TreeColIsSelected(cell.x))
-		{
+	{
 		underLines = 1;
-		}
+	}
 
 	const JFont font = JFontManager::GetFont(
 		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
@@ -111,8 +111,8 @@ GPMTreeHeaderWidget::HandleMouseDown
 {
 	JPoint cell;
 	if (GetCell(pt, &cell))
-		{
+	{
 		itsList->TreeColSelected(cell.x);
 		TableRefresh();
-		}
+	}
 }

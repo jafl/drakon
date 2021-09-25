@@ -327,7 +327,7 @@ GPMMainDirector::BuildWindow()
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsProcessMenu, kShowAllCmd);
@@ -342,7 +342,7 @@ GPMMainDirector::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -358,80 +358,80 @@ GPMMainDirector::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsProcessMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateProcessMenu();
-		}
+	}
 	else if (sender == itsProcessMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleProcessMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdatePrefsMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateHelpMenu();
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsTimerTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		itsProcessList->Update();
-		}
+	}
 
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
 			 message.Is(JXCardFile::kCardIndexChanged))
-		{
+	{
 		JIndex index;
 		const bool ok = itsTabGroup->GetCurrentTabIndex(&index);
 		assert( ok );
 
 		const GPMProcessEntry* entry;
 		if (index == kListTabIndex && itsProcessTree->GetSelectedProcess(&entry))
-			{
+		{
 			itsProcessTable->SelectProcess(*entry);
-			}
-		else if (index == kTreeTabIndex && itsProcessTable->GetSelectedProcess(&entry))
-			{
-			itsProcessTree->SelectProcess(*entry);
-			}
 		}
+		else if (index == kTreeTabIndex && itsProcessTable->GetSelectedProcess(&entry))
+		{
+			itsProcessTree->SelectProcess(*entry);
+		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -456,9 +456,9 @@ GPMMainDirector::HandleFileMenu
 	)
 {
 	if (index == kQuitCmd)
-		{
+	{
 		GPMGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -471,9 +471,9 @@ GPMMainDirector::UpdateProcessMenu()
 {
 	itsProcessMenu->EnableItem(kShowAllCmd);
 	if (!itsProcessList->WillShowUserOnly())
-		{
+	{
 		itsProcessMenu->CheckItem(kShowAllCmd);
-		}
+	}
 
 	JIndex tabIndex;
 	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
@@ -482,17 +482,17 @@ GPMMainDirector::UpdateProcessMenu()
 	const GPMProcessEntry* entry;
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
-		{
+	{
 		if (entry->GetState() != GPMProcessEntry::kZombie)
-			{
+		{
 			const bool notSelf = entry->GetPID() != getpid();
 			itsProcessMenu->EnableItem(kEndCmd);
 			itsProcessMenu->EnableItem(kKillCmd);
 			itsProcessMenu->SetItemEnable(kPauseCmd, notSelf);
 			itsProcessMenu->SetItemEnable(kContinueCmd, notSelf);
 			itsProcessMenu->EnableItem(kReNiceCmd);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -507,10 +507,10 @@ GPMMainDirector::HandleProcessMenu
 	)
 {
 	if (index == kShowAllCmd)
-		{
+	{
 		itsProcessList->ShouldShowUserOnly(!itsProcessList->WillShowUserOnly());
 		return;
-		}
+	}
 
 	JIndex tabIndex;
 	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
@@ -519,58 +519,58 @@ GPMMainDirector::HandleProcessMenu
 	const GPMProcessEntry* entry;
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
-		{
+	{
 		if (entry->GetState() == GPMProcessEntry::kZombie)
-			{
+		{
 			return;
-			}
+		}
 
 		if (index == kReNiceCmd)
-			{
+		{
 			JSetProcessPriority(entry->GetPID(), 19);
 			return;
-			}
+		}
 
 		JIndex sigValue = 0;
 		if (index == kEndCmd)
-			{
+		{
 			sigValue = SIGTERM;
-			}
+		}
 		else if (index == kKillCmd)
-			{
+		{
 			sigValue = SIGKILL;
-			}
+		}
 		else if (index == kPauseCmd)
-			{
+		{
 			sigValue = SIGSTOP;
-			}
+		}
 		else if (index == kContinueCmd)
-			{
+		{
 			sigValue = SIGCONT;
-			}
+		}
 
 		const pid_t pid = entry->GetPID();
 		if (sigValue == 0 || pid == 0)
-			{
+		{
 			return;
-			}
+		}
 
 		const uid_t uid = getuid();
 		if (uid == 0 || entry->GetUID() == uid)
-			{
+		{
 			JSendSignalToProcess(pid, sigValue);
 			itsProcessList->Update();
-			}
+		}
 		else
-			{
+		{
 			JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
 			cmd += JString((JUInt64) sigValue);
 			cmd += " ";
 			cmd += JString((JUInt64) pid);
 			cmd += "'";
 			JSimpleProcess::Create(cmd, true);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -595,9 +595,9 @@ GPMMainDirector::HandlePrefsMenu
 	)
 {
 	if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -622,31 +622,31 @@ GPMMainDirector::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		GPMGetApplication()->DisplayAbout();
-		}
+	}
 
 	else if (index == kTOCCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowTOC();
-		}
+	}
 	else if (index == kOverviewCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("GPMOverviewHelp");
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("GPMMainHelp");
-		}
+	}
 
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************
@@ -663,49 +663,49 @@ GPMMainDirector::ReadPrefs
 	JFileVersion vers;
 	input >> vers;
 	if (vers > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	if (vers >= 1)
-		{
+	{
 		bool show;
 		input >> JBoolFromString(show);
 		itsProcessList->ShouldShowUserOnly(show);
-		}
+	}
 
 	if (vers >= 2)
-		{
+	{
 		GetWindow()->ReadGeometry(input);
 		GetWindow()->Deiconify();
-		}
+	}
 
 	if (3 <= vers && vers < 6)
-		{
+	{
 		bool full;
 		input >> JBoolFromString(full);
-		}
+	}
 
 	if (vers >= 4)
-		{
+	{
 		int type;
 		input >> type;
 		itsProcessList->ListColSelected(type);
-		}
+	}
 
 	if (vers >= 6)
-		{
+	{
 		int type;
 		input >> type;
 		itsProcessList->TreeColSelected(type);
-		}
+	}
 
 	if (vers >= 5)
-		{
+	{
 		JIndex tabIndex;
 		input >> tabIndex;
 		itsTabGroup->ShowTab(tabIndex);
-		}
+	}
 }
 
 /******************************************************************************

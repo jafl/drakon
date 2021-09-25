@@ -46,9 +46,9 @@ GPMMDIServer::HandleMDIRequest
 	)
 {
 	if (itsMainDirector != nullptr)
-		{
+	{
 		itsMainDirector->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -60,10 +60,10 @@ void
 GPMMDIServer::PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   GPMGetVersionNumberStr().GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	const JString s = JGetString("CommandLineHelp::GPMMDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

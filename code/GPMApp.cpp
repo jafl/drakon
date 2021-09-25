@@ -35,21 +35,21 @@ GPMApp::GPMApp
 	*displayAbout = GPMCreateGlobals(this);
 
 	if (!*displayAbout)
-		{
+	{
 		*prevVersStr = (GPMGetPrefsManager())->GetPrevVersionStr();
 		if (*prevVersStr == GPMGetVersionNumberStr())
-			{
-			prevVersStr->Clear();
-			}
-		else
-			{
-			*displayAbout = true;
-			}
-		}
-	else
 		{
-		prevVersStr->Clear();
+			prevVersStr->Clear();
 		}
+		else
+		{
+			*displayAbout = true;
+		}
+	}
+	else
+	{
+		prevVersStr->Clear();
+	}
 }
 
 /******************************************************************************
@@ -96,9 +96,9 @@ GPMApp::CleanUpBeforeSuddenDeath
 	JXApplication::CleanUpBeforeSuddenDeath(reason);
 
 	if (reason != JXDocumentManager::kAssertFired)
-		{
+	{
 //		JPrefObject::WritePrefs();
-		}
+	}
 
 	GPMCleanUpBeforeSuddenDeath(reason);		// must be last call
 }
