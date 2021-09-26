@@ -10,7 +10,7 @@
 #ifndef _H_GPMSystemStats
 #define _H_GPMSystemStats
 
-#include <JXWidget.h>
+#include <jx-af/jx/JXWidget.h>
 
 class GPMProcessList;
 

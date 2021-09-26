@@ -8,7 +8,7 @@
 #ifndef _H_GPMAboutDialog
 #define _H_GPMAboutDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 

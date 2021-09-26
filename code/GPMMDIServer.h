@@ -8,7 +8,7 @@
 #ifndef _H_GPMMDIServer
 #define _H_GPMMDIServer
 
-#include <JXMDIServer.h>
+#include <jx-af/jx/JXMDIServer.h>
 
 class GPMMainDirector;
 

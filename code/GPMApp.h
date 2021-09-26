@@ -8,7 +8,7 @@
 #ifndef _H_GPMApp
 #define _H_GPMApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class GPMApp : public JXApplication
 {

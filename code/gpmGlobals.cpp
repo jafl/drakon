@@ -11,14 +11,14 @@
 #include "GPMApp.h"
 #include "GPMPrefsManager.h"
 #include "GPMMDIServer.h"
-#include <JRegex.h>
-#include <jStreamUtil.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jStreamUtil.h>
 
 #ifdef _J_HAS_SYSCTL
 #include <sys/sysctl.h>
 #endif
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static GPMApp*			theApplication  = nullptr;		// owns itself
 static GPMPrefsManager*	thePrefsManager = nullptr;

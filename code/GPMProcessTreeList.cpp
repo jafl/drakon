@@ -12,16 +12,17 @@
 #include "GPMProcessList.h"
 #include "gpmGlobals.h"
 
-#include <JXTextMenu.h>
-#include <JXTEBase.h>
-#include <JXImage.h>
-#include <JXImageCache.h>
-#include <JXColorManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXTEBase.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXImageCache.h>
+#include <jx-af/jx/JXColorManager.h>
 
-#include <JTableSelection.h>
-#include <JTreeList.h>
-#include <JPainter.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JTreeList.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include <jx_edit_clear.xpm>
 

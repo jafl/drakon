@@ -8,8 +8,8 @@
 #ifndef _H_GPMProcessList
 #define _H_GPMProcessList
 
-#include <JContainer.h>
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JContainer.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include "GPMProcessEntry.h"
 
 class JTree;

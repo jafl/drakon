@@ -12,7 +12,7 @@
 #ifndef _H_gpmActionDefs
 #define _H_gpmActionDefs
 
-#include <jXActionDefs.h>	// for convenience
+#include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 // Process menu
 

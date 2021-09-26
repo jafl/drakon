@@ -10,7 +10,7 @@
 #ifndef _H_GPMProcessEntry
 #define _H_GPMProcessEntry
 
-#include <JNamedTreeNode.h>
+#include <jx-af/jcore/JNamedTreeNode.h>
 #include <sys/types.h>
 
 #ifdef _J_HAS_SYSCTL

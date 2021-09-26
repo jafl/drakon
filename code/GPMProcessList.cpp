@@ -10,21 +10,21 @@
 #include <GPMProcessList.h>
 #include <GPMProcessEntry.h>
 
-#include <JTree.h>
+#include <jx-af/jcore/JTree.h>
 
 #ifdef _J_HAS_PROC
-#include <JDirInfo.h>
+#include <jx-af/jcore/JDirInfo.h>
 #endif
 
-#include <jStreamUtil.h>
-#include <jTime.h>
-#include <jSysUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jSysUtil.h>
 
-#include <jFStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 #include <sys/time.h>
 #include <unistd.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* GPMProcessList::kListChanged      = "ListChanged::GPMProcessList";
 const JUtf8Byte* GPMProcessList::kPrepareForUpdate = "PrepareForUpdate::GPMProcessList";

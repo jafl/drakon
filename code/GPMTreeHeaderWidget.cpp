@@ -10,12 +10,12 @@
 #include "GPMTreeHeaderWidget.h"
 #include "GPMProcessList.h"
 #include "gpmGlobals.h"
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <JPainter.h>
-#include <JFontManager.h>
-#include <JXColorManager.h>
-#include <jAssert.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

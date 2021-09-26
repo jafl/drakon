@@ -12,12 +12,12 @@
 #include "GPMSystemStats.h"
 #include "GPMProcessList.h"
 #include "gpmGlobals.h"
-#include <JXWindowPainter.h>
-#include <JXColorManager.h>
-#include <JRegex.h>
-#include <jStreamUtil.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/jStreamUtil.h>
 #include <unistd.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kCPUHistoryBarWidth    = 2;
 const JCoordinate kCPUHistoryMarginWidth = 1;

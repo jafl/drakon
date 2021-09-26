@@ -10,23 +10,23 @@
 #include "GPMProcessEntry.h"
 #include "gpmGlobals.h"
 
-#include <JTree.h>
+#include <jx-af/jcore/JTree.h>
 
 #ifdef _J_HAS_PROC
-#include <JDirEntry.h>
+#include <jx-af/jcore/JDirEntry.h>
 #endif
 
-#include <JStringIterator.h>
-#include <jDirUtil.h>
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <pwd.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

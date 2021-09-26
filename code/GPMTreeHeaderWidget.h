@@ -8,7 +8,7 @@
 #ifndef _H_GPMTreeHeaderWidget
 #define _H_GPMTreeHeaderWidget
 
-#include <JXColHeaderWidget.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
 
 class GPMProcessList;
 

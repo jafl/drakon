@@ -12,8 +12,8 @@
 
 #include "GPMApp.h"
 #include "GPMPrefsManager.h"
-#include <JXDocumentManager.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXDocumentManager.h>
+#include <jx-af/jx/jXGlobals.h>
 
 class GPMMDIServer;
 

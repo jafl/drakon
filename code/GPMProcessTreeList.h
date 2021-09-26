@@ -8,7 +8,7 @@
 #ifndef _H_GPMProcessTreeList
 #define _H_GPMProcessTreeList
 
-#include <JXNamedTreeListWidget.h>
+#include <jx-af/jx/JXNamedTreeListWidget.h>
 
 class GPMProcessList;
 class GPMProcessEntry;

@@ -8,7 +8,7 @@
 #ifndef _H_GPMProcessTable
 #define _H_GPMProcessTable
 
-#include <JXTable.h>
+#include <jx-af/jx/JXTable.h>
 
 class GPMProcessList;
 class GPMProcessEntry;

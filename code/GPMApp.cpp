@@ -13,7 +13,7 @@
 #include "GPMAboutDialog.h"
 #include "gpmStringData.h"
 #include "gpmGlobals.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "npsprocessmgr";
 

@@ -18,22 +18,22 @@
 #include "gpmGlobals.h"
 #include "gpmActionDefs.h"
 
-#include <JXApplication.h>
-#include <JXHelpManager.h>
-#include <JXMenuBar.h>
-#include <JXToolBar.h>
-#include <JXTabGroup.h>
-#include <JXScrollbarSet.h>
-#include <JXTextMenu.h>
-#include <JXStaticText.h>
-#include <JXTimerTask.h>
-#include <JXImage.h>
-#include <JXColorManager.h>
-#include <JXWindow.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXTabGroup.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include <JNamedTreeList.h>
-#include <JSimpleProcess.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JNamedTreeList.h>
+#include <jx-af/jcore/JSimpleProcess.h>
+#include <jx-af/jcore/jAssert.h>
 
 #include "pause.xpm"
 #include "cont.xpm"

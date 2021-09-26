@@ -8,8 +8,8 @@
 #ifndef _H_GPMMainDirector
 #define _H_GPMMainDirector
 
-#include <JXWindowDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXToolBar;
 class JXTabGroup;
