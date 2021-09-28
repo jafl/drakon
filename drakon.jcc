@@ -94,41 +94,6 @@ T
 F
 "./release/ChangeLog.html"
 F
-T
-1 "images"
-T
-2 "gpm_about_icon.xpm"
-F
-"./code/gpm_about_icon.xpm"
-T
-2 "gpm_main_window_icon.xpm"
-F
-"./code/gpm_main_window_icon.xpm"
-T
-2 "cont.xpm"
-F
-"./code/cont.xpm"
-T
-2 "slow.xpm"
-F
-"./code/slow.xpm"
-T
-2 "pause.xpm"
-F
-"./code/pause.xpm"
-T
-2 "gpm_stop.xpm"
-F
-"./code/gpm_stop.xpm"
-T
-2 "mini_term.xpm"
-F
-"./code/mini_term.xpm"
-T
-2 "gpm_all_processes.xpm"
-F
-"./code/gpm_all_processes.xpm"
-F
 F
 # tasks
 4
