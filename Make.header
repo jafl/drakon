@@ -27,8 +27,8 @@ endif
 
 # library dependencies
 
-LIB_DEPS := ${JX_LIB_ROOT}/libjcore.a \
-            ${JX_LIB_ROOT}/libjx.a
+LIB_DEPS := ${JX_LIB_ROOT}/libjx.a \
+            ${JX_LIB_ROOT}/libjcore.a
 
 # make variables
 
