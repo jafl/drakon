@@ -1,5 +1,5 @@
 /******************************************************************************
- gpmActionDefs.h
+ actionDefs.h
 
 	Shared actions for use as menu item ID's and in keybinding tables.
 	These preprocessor definitions allow them to be included in static
@@ -9,22 +9,22 @@
 
  ******************************************************************************/
 
-#ifndef _H_gpmActionDefs
-#define _H_gpmActionDefs
+#ifndef _H_ActionDefs
+#define _H_ActionDefs
 
 #include <jx-af/jx/jXActionDefs.h>	// for convenience
 
 // Process menu
 
-#define kGPMShowAllAction   "GPMShowAll"
-#define kGPMPauseAction     "GPMPause"
-#define kGPMContinueAction  "GPMContinue"
-#define kGPMReNiceAction    "GPMReNice"
-#define kGPMStopAction      "GPMStop"
-#define kGPMKillAction      "GPMKill"
+#define kShowAllAction   "ShowAll"
+#define kPauseAction     "Pause"
+#define kContinueAction  "Continue"
+#define kReNiceAction    "ReNice"
+#define kStopAction      "Stop"
+#define kKillAction      "Kill"
 
 // Preferences menu
 
-#define kGPMToolbarButtonsAction "GPMEditToolBar"
+#define kToolbarButtonsAction "EditToolBar"
 
 #endif

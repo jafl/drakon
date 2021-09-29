@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessTable.cpp
+ ProcessTable.cpp
 
 	BASE CLASS = JXTable
 
@@ -7,10 +7,10 @@
 
  *****************************************************************************/
 
-#include "GPMProcessTable.h"
-#include "GPMProcessList.h"
+#include "ProcessTable.h"
+#include "ProcessList.h"
 
-#include "gpmGlobals.h"
+#include "globals.h"
 
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXColorManager.h>
@@ -64,9 +64,9 @@ enum
 
  *****************************************************************************/
 
-GPMProcessTable::GPMProcessTable
+ProcessTable::ProcessTable
 	(
-	GPMProcessList*		list,
+	ProcessList*		list,
 	JXTEBase*			fullCmdDisplay,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -86,15 +86,15 @@ GPMProcessTable::GPMProcessTable
 	itsFullCmdDisplay(fullCmdDisplay),
 	itsZombieImage(nullptr)
 {
-	AppendCols(GPMProcessList::kListCount);
-	SetColWidth(GPMProcessList::kListState,  20);
-	SetColWidth(GPMProcessList::kListPID,    50);
-	SetColWidth(GPMProcessList::kListUser,   75);
-	SetColWidth(GPMProcessList::kListNice,   40);
-	SetColWidth(GPMProcessList::kListSize,   60);
-	SetColWidth(GPMProcessList::kListCPU,    50);
-	SetColWidth(GPMProcessList::kListMemory, 70);
-	SetColWidth(GPMProcessList::kListTime,   60);
+	AppendCols(ProcessList::kListCount);
+	SetColWidth(ProcessList::kListState,  20);
+	SetColWidth(ProcessList::kListPID,    50);
+	SetColWidth(ProcessList::kListUser,   75);
+	SetColWidth(ProcessList::kListNice,   40);
+	SetColWidth(ProcessList::kListSize,   60);
+	SetColWidth(ProcessList::kListCPU,    50);
+	SetColWidth(ProcessList::kListMemory, 70);
+	SetColWidth(ProcessList::kListTime,   60);
 
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
@@ -112,7 +112,7 @@ GPMProcessTable::GPMProcessTable
 
  *****************************************************************************/
 
-GPMProcessTable::~GPMProcessTable()
+ProcessTable::~ProcessTable()
 {
 }
 
@@ -122,7 +122,7 @@ GPMProcessTable::~GPMProcessTable()
  ******************************************************************************/
 
 JXTextMenu*
-GPMProcessTable::CreateContextMenu
+ProcessTable::CreateContextMenu
 	(
 	JXContainer* enclosure
 	)
@@ -147,13 +147,13 @@ GPMProcessTable::CreateContextMenu
  ******************************************************************************/
 
 void
-GPMProcessTable::Receive
+ProcessTable::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
-	if (sender == itsList && message.Is(GPMProcessList::kPrepareForUpdate))
+	if (sender == itsList && message.Is(ProcessList::kPrepareForUpdate))
 	{
 		StopListening(itsSelectedEntry);
 		if (GetSelectedProcess(&itsSelectedEntry))
@@ -162,7 +162,7 @@ GPMProcessTable::Receive
 		}
 	}
 
-	else if (sender == itsList && message.Is(GPMProcessList::kListChanged))
+	else if (sender == itsList && message.Is(ProcessList::kListChanged))
 	{
 		JTableSelection& s = GetTableSelection();
 		s.ClearSelection();
@@ -209,7 +209,7 @@ GPMProcessTable::Receive
 	{
 		if (sender == &(GetTableSelection()) && message.Is(JTableData::kRectChanged))
 		{
-			const GPMProcessEntry* entry;
+			const ProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
 			{
 				itsFullCmdDisplay->GetText()->SetText(entry->GetFullCommand());
@@ -226,7 +226,7 @@ GPMProcessTable::Receive
  ******************************************************************************/
 
 void
-GPMProcessTable::TableDrawCell
+ProcessTable::TableDrawCell
 	(
 	JPainter&		p,
 	const JPoint&	cell,
@@ -237,61 +237,61 @@ GPMProcessTable::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	const GPMProcessEntry& entry = *(itsList->GetProcessEntry(cell.y));
+	const ProcessEntry& entry = *(itsList->GetProcessEntry(cell.y));
 
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignRight;
-	if (cell.x == GPMProcessList::kListState)
+	if (cell.x == ProcessList::kListState)
 	{
 		DrawProcessState(entry, p, rect, *itsZombieImage);
 		return;
 	}
-	else if (cell.x == GPMProcessList::kListPID)
+	else if (cell.x == ProcessList::kListPID)
 	{
 		str	= JString((JUInt64) entry.GetPID());
 	}
-	else if (cell.x == GPMProcessList::kListUser)
+	else if (cell.x == ProcessList::kListUser)
 	{
 		str		= entry.GetUser();
 		halign	= JPainter::kHAlignLeft;
 	}
-/*	else if (cell.x == GPMProcessList::kListPPID)
+/*	else if (cell.x == ProcessList::kListPPID)
 	{
 		str	= JString((JUInt64) entry.GetPPID());
 	}
-	else if (cell.x == GPMProcessList::kListPriority)
+	else if (cell.x == ProcessList::kListPriority)
 	{
 		str	= JString((JUInt64) entry.GetPriority());
 	}
-*/	else if (cell.x == GPMProcessList::kListNice)
+*/	else if (cell.x == ProcessList::kListNice)
 	{
 		str	= JString((JUInt64) entry.GetNice());
 	}
-	else if (cell.x == GPMProcessList::kListSize)
+	else if (cell.x == ProcessList::kListSize)
 	{
 		str	= JString((JUInt64) entry.GetSize());
 	}
-/*	else if (cell.x == GPMProcessList::kListResident)
+/*	else if (cell.x == ProcessList::kListResident)
 	{
 		str	= JString((JUInt64) entry.GetResident());
 	}
-	else if (cell.x == GPMProcessList::kListShare)
+	else if (cell.x == ProcessList::kListShare)
 	{
 		str	= JString((JUInt64) entry.GetShare());
 	}
-*/	else if (cell.x == GPMProcessList::kListCPU)
+*/	else if (cell.x == ProcessList::kListCPU)
 	{
 		str	= JString(entry.GetPercentCPU(), 1);
 	}
-	else if (cell.x == GPMProcessList::kListMemory)
+	else if (cell.x == ProcessList::kListMemory)
 	{
 		str	= JString(entry.GetPercentMemory(), 1);
 	}
-	else if (cell.x == GPMProcessList::kListTime)
+	else if (cell.x == ProcessList::kListTime)
 	{
 		str	= JString((JUInt64) entry.GetTime());
 	}
-	else if (cell.x == GPMProcessList::kListCommand)
+	else if (cell.x == ProcessList::kListCommand)
 	{
 		str	= entry.GetCommand();
 		halign	= JPainter::kHAlignLeft;
@@ -308,7 +308,7 @@ GPMProcessTable::TableDrawCell
  ******************************************************************************/
 
 void
-GPMProcessTable::DrawRowBackground
+ProcessTable::DrawRowBackground
 	(
 	JPainter&			p,
 	const JPoint&		cell,
@@ -331,15 +331,15 @@ GPMProcessTable::DrawRowBackground
  ******************************************************************************/
 
 void
-GPMProcessTable::DrawProcessState
+ProcessTable::DrawProcessState
 	(
-	const GPMProcessEntry&	entry,
+	const ProcessEntry&	entry,
 	JPainter&				p,
 	const JRect&			rect,
 	const JXImage&			zombieImage
 	)
 {
-	if (entry.GetState() == GPMProcessEntry::kZombie)
+	if (entry.GetState() == ProcessEntry::kZombie)
 	{
 		p.Image(zombieImage, zombieImage.GetBounds(), rect);
 	}
@@ -347,7 +347,7 @@ GPMProcessTable::DrawProcessState
 	{
 		JRect r(rect.ycenter()-3, rect.xcenter()-3,
 				rect.ycenter()+4, rect.xcenter()+4);
-		p.SetPenColor(entry.GetState() == GPMProcessEntry::kStopped ?
+		p.SetPenColor(entry.GetState() == ProcessEntry::kStopped ?
 					  JColorManager::GetRedColor() : JColorManager::GetGreenColor());
 		p.SetFilling(true);
 		p.Ellipse(r);
@@ -363,7 +363,7 @@ GPMProcessTable::DrawProcessState
  ******************************************************************************/
 
 void
-GPMProcessTable::HandleMouseDown
+ProcessTable::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -389,9 +389,9 @@ GPMProcessTable::HandleMouseDown
 
 	s.SelectRow(cell.y);
 
-	if (cell.x == GPMProcessList::kListState)
+	if (cell.x == ProcessList::kListState)
 	{
-		const GPMProcessEntry* entry = itsList->GetProcessEntry(cell.y);
+		const ProcessEntry* entry = itsList->GetProcessEntry(cell.y);
 		ToggleProcessState(*entry);
 		itsList->Update();
 	}
@@ -407,9 +407,9 @@ GPMProcessTable::HandleMouseDown
  ******************************************************************************/
 
 void
-GPMProcessTable::ToggleProcessState
+ProcessTable::ToggleProcessState
 	(
-	const GPMProcessEntry& entry
+	const ProcessEntry& entry
 	)
 {
 	const pid_t pid = entry.GetPID();
@@ -422,11 +422,11 @@ GPMProcessTable::ToggleProcessState
 	{
 		// do not allow pause
 	}
-	else if (entry.GetState() == GPMProcessEntry::kZombie)
+	else if (entry.GetState() == ProcessEntry::kZombie)
 	{
 		// cannot do anything
 	}
-	else if (entry.GetState() == GPMProcessEntry::kStopped)
+	else if (entry.GetState() == ProcessEntry::kStopped)
 	{
 		JSendSignalToProcess(pid, SIGCONT);
 	}
@@ -442,7 +442,7 @@ GPMProcessTable::ToggleProcessState
  ******************************************************************************/
 
 void
-GPMProcessTable::HandleFocusEvent()
+ProcessTable::HandleFocusEvent()
 {
 	JXTable::HandleFocusEvent();
 	itsKeyBuffer.Clear();
@@ -454,7 +454,7 @@ GPMProcessTable::HandleFocusEvent()
  ******************************************************************************/
 
 void
-GPMProcessTable::HandleKeyPress
+ProcessTable::HandleKeyPress
 	(
 	const JUtf8Character&	c,
 	const int				keySym,
@@ -473,7 +473,7 @@ GPMProcessTable::HandleKeyPress
 	{
 		itsKeyBuffer.Append(c);
 
-		GPMProcessEntry* entry;
+		ProcessEntry* entry;
 		JIndex index;
 		if (itsList->ClosestMatch(itsKeyBuffer, &entry) &&
 			itsList->GetEntryIndex(entry, &index))
@@ -504,9 +504,9 @@ GPMProcessTable::HandleKeyPress
  ******************************************************************************/
 
 void
-GPMProcessTable::UpdateContextMenu()
+ProcessTable::UpdateContextMenu()
 {
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
 	{
 		UpdateContextMenu(itsContextMenu, *entry);
@@ -516,13 +516,13 @@ GPMProcessTable::UpdateContextMenu()
 // static
 
 void
-GPMProcessTable::UpdateContextMenu
+ProcessTable::UpdateContextMenu
 	(
 	JXTextMenu*				menu,
-	const GPMProcessEntry&	entry
+	const ProcessEntry&	entry
 	)
 {
-	if (entry.GetState() != GPMProcessEntry::kZombie)
+	if (entry.GetState() != ProcessEntry::kZombie)
 	{
 		const bool notSelf = entry.GetPID() != getpid();
 		menu->EnableItem(kContextEndCmd);
@@ -539,12 +539,12 @@ GPMProcessTable::UpdateContextMenu
  ******************************************************************************/
 
 void
-GPMProcessTable::HandleContextMenu
+ProcessTable::HandleContextMenu
 	(
 	const JIndex index
 	)
 {
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
 	{
 		HandleContextMenu(index, *entry, itsList);
@@ -554,14 +554,14 @@ GPMProcessTable::HandleContextMenu
 // static
 
 void
-GPMProcessTable::HandleContextMenu
+ProcessTable::HandleContextMenu
 	(
 	const JIndex			menuIndex,
-	const GPMProcessEntry&	entry,
-	GPMProcessList*			list
+	const ProcessEntry&	entry,
+	ProcessList*			list
 	)
 {
-	if (entry.GetState() == GPMProcessEntry::kZombie)
+	if (entry.GetState() == ProcessEntry::kZombie)
 	{
 		return;
 	}
@@ -620,9 +620,9 @@ GPMProcessTable::HandleContextMenu
  ******************************************************************************/
 
 bool
-GPMProcessTable::GetSelectedProcess
+ProcessTable::GetSelectedProcess
 	(
-	const GPMProcessEntry** entry
+	const ProcessEntry** entry
 	)
 	const
 {
@@ -645,9 +645,9 @@ GPMProcessTable::GetSelectedProcess
  ******************************************************************************/
 
 void
-GPMProcessTable::SelectProcess
+ProcessTable::SelectProcess
 	(
-	const GPMProcessEntry& entry
+	const ProcessEntry& entry
 	)
 {
 	JTableSelection& s = GetTableSelection();
@@ -668,7 +668,7 @@ GPMProcessTable::SelectProcess
  ******************************************************************************/
 
 void
-GPMProcessTable::ApertureResized
+ProcessTable::ApertureResized
 	(
 	const JCoordinate dw,
 	const JCoordinate dh
@@ -684,9 +684,9 @@ GPMProcessTable::ApertureResized
  ******************************************************************************/
 
 void
-GPMProcessTable::AdjustColWidths()
+ProcessTable::AdjustColWidths()
 {
 	const JCoordinate availWidth =
-		GetApertureWidth() - (GetBoundsWidth() - GetColWidth(GPMProcessList::kListCommand));
-	SetColWidth(GPMProcessList::kListCommand, JMax(kDefColWidth, availWidth));
+		GetApertureWidth() - (GetBoundsWidth() - GetColWidth(ProcessList::kListCommand));
+	SetColWidth(ProcessList::kListCommand, JMax(kDefColWidth, availWidth));
 }

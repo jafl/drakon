@@ -1,29 +1,29 @@
 /******************************************************************************
- GPMSystemStats.h
+ SystemStats.h
 
-	Interface for the GPMSystemStats class
+	Interface for the SystemStats class
 
 	Copyright (C) 2011 by John Lindal.
 
  ******************************************************************************/
 
-#ifndef _H_GPMSystemStats
-#define _H_GPMSystemStats
+#ifndef _H_SystemStats
+#define _H_SystemStats
 
 #include <jx-af/jx/JXWidget.h>
 
-class GPMProcessList;
+class ProcessList;
 
-class GPMSystemStats : public JXWidget
+class SystemStats : public JXWidget
 {
 public:
 
-	GPMSystemStats(GPMProcessList* processList, JXContainer* enclosure,
+	SystemStats(ProcessList* processList, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
 
-	virtual ~GPMSystemStats();
+	virtual ~SystemStats();
 
 protected:
 
@@ -43,7 +43,7 @@ public:
 private:
 
 	const JIndex	itsUID;
-	GPMProcessList*	itsProcessList;		// not owned
+	ProcessList*	itsProcessList;		// not owned
 	JArray<CPU>*	itsCPUHistory;		// newest appended to the end
 	JFloat			itsMaxCPU;
 

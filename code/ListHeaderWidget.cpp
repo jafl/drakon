@@ -1,15 +1,15 @@
 /******************************************************************************
- GPMTreeHeaderWidget.cpp
+ ListHeaderWidget.cpp
 
 	BASE CLASS = JXColHeaderWidget
 
-	Copyright (C) 2006 by John Lindal.
+	Copyright (C) 2000 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#include "GPMTreeHeaderWidget.h"
-#include "GPMProcessList.h"
-#include "gpmGlobals.h"
+#include "ListHeaderWidget.h"
+#include "ProcessList.h"
+#include "globals.h"
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/jXConstants.h>
 #include <jx-af/jcore/JPainter.h>
@@ -22,10 +22,10 @@
 
  ******************************************************************************/
 
-GPMTreeHeaderWidget::GPMTreeHeaderWidget
+ListHeaderWidget::ListHeaderWidget
 	(
 	JXTable*			table,
-	GPMProcessList*		list,
+	ProcessList*		list,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -40,15 +40,14 @@ GPMTreeHeaderWidget::GPMTreeHeaderWidget
 	itsList(list)
 {
 	SetColTitle(1, JString::empty);
-	SetColTitle(2, JGetString("CommandColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(3, JString::empty);
-	SetColTitle(4, JGetString("PIDColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(5, JGetString("UserColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(6, JGetString("NiceColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(7, JGetString("SizeColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(8, JGetString("CPUColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(9, JGetString("MemoryColumnTite::GPMListHeaderWidget"));
-	SetColTitle(10, JGetString("TimeColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(2, JGetString("PIDColumnTitle::ListHeaderWidget"));
+	SetColTitle(3, JGetString("UserColumnTitle::ListHeaderWidget"));
+	SetColTitle(4, JGetString("NiceColumnTitle::ListHeaderWidget"));
+	SetColTitle(5, JGetString("SizeColumnTitle::ListHeaderWidget"));
+	SetColTitle(6, JGetString("CPUColumnTitle::ListHeaderWidget"));
+	SetColTitle(7, JGetString("MemoryColumnTite::ListHeaderWidget"));
+	SetColTitle(8, JGetString("TimeColumnTitle::ListHeaderWidget"));
+	SetColTitle(9, JGetString("CommandColumnTitle::ListHeaderWidget"));
 }
 
 /******************************************************************************
@@ -56,7 +55,7 @@ GPMTreeHeaderWidget::GPMTreeHeaderWidget
 
  *****************************************************************************/
 
-GPMTreeHeaderWidget::~GPMTreeHeaderWidget()
+ListHeaderWidget::~ListHeaderWidget()
 {
 }
 
@@ -66,7 +65,7 @@ GPMTreeHeaderWidget::~GPMTreeHeaderWidget()
  ******************************************************************************/
 
 void
-GPMTreeHeaderWidget::TableDrawCell
+ListHeaderWidget::TableDrawCell
 	(
 	JPainter&		p,
 	const JPoint&	cell,
@@ -82,7 +81,7 @@ GPMTreeHeaderWidget::TableDrawCell
 	}
 
 	JSize underLines = 0;
-	if (itsList->TreeColIsSelected(cell.x))
+	if (itsList->ListColIsSelected(cell.x))
 	{
 		underLines = 1;
 	}
@@ -100,7 +99,7 @@ GPMTreeHeaderWidget::TableDrawCell
  ******************************************************************************/
 
 void
-GPMTreeHeaderWidget::HandleMouseDown
+ListHeaderWidget::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -112,7 +111,7 @@ GPMTreeHeaderWidget::HandleMouseDown
 	JPoint cell;
 	if (GetCell(pt, &cell))
 	{
-		itsList->TreeColSelected(cell.x);
+		itsList->ListColSelected(cell.x);
 		TableRefresh();
 	}
 }

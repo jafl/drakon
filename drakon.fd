@@ -7,7 +7,7 @@ Number of forms: 2
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: GPMAboutDialog
+Name: AboutDialog
 Width: 430
 Height: 180
 Number of Objects: 7
@@ -139,7 +139,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GPMMainDirector
+Name: MainDirector
 Width: 530
 Height: 350
 Number of Objects: 4
@@ -196,7 +196,7 @@ resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsToolBar
 callback: 
-argument: GPMGetPrefsManager(), kGPMMainToolBarID, menuBar,
+argument: GetPrefsManager(), kMainToolBarID, menuBar,
 
 --------------------
 class: FL_BOX

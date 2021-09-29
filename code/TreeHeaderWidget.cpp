@@ -1,15 +1,15 @@
 /******************************************************************************
- GPMListHeaderWidget.cpp
+ TreeHeaderWidget.cpp
 
 	BASE CLASS = JXColHeaderWidget
 
-	Copyright (C) 2000 by Glenn W. Bach.
+	Copyright (C) 2006 by John Lindal.
 
  *****************************************************************************/
 
-#include "GPMListHeaderWidget.h"
-#include "GPMProcessList.h"
-#include "gpmGlobals.h"
+#include "TreeHeaderWidget.h"
+#include "ProcessList.h"
+#include "globals.h"
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/jXConstants.h>
 #include <jx-af/jcore/JPainter.h>
@@ -22,10 +22,10 @@
 
  ******************************************************************************/
 
-GPMListHeaderWidget::GPMListHeaderWidget
+TreeHeaderWidget::TreeHeaderWidget
 	(
 	JXTable*			table,
-	GPMProcessList*		list,
+	ProcessList*		list,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -40,14 +40,15 @@ GPMListHeaderWidget::GPMListHeaderWidget
 	itsList(list)
 {
 	SetColTitle(1, JString::empty);
-	SetColTitle(2, JGetString("PIDColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(3, JGetString("UserColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(4, JGetString("NiceColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(5, JGetString("SizeColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(6, JGetString("CPUColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(7, JGetString("MemoryColumnTite::GPMListHeaderWidget"));
-	SetColTitle(8, JGetString("TimeColumnTitle::GPMListHeaderWidget"));
-	SetColTitle(9, JGetString("CommandColumnTitle::GPMListHeaderWidget"));
+	SetColTitle(2, JGetString("CommandColumnTitle::ListHeaderWidget"));
+	SetColTitle(3, JString::empty);
+	SetColTitle(4, JGetString("PIDColumnTitle::ListHeaderWidget"));
+	SetColTitle(5, JGetString("UserColumnTitle::ListHeaderWidget"));
+	SetColTitle(6, JGetString("NiceColumnTitle::ListHeaderWidget"));
+	SetColTitle(7, JGetString("SizeColumnTitle::ListHeaderWidget"));
+	SetColTitle(8, JGetString("CPUColumnTitle::ListHeaderWidget"));
+	SetColTitle(9, JGetString("MemoryColumnTite::ListHeaderWidget"));
+	SetColTitle(10, JGetString("TimeColumnTitle::ListHeaderWidget"));
 }
 
 /******************************************************************************
@@ -55,7 +56,7 @@ GPMListHeaderWidget::GPMListHeaderWidget
 
  *****************************************************************************/
 
-GPMListHeaderWidget::~GPMListHeaderWidget()
+TreeHeaderWidget::~TreeHeaderWidget()
 {
 }
 
@@ -65,7 +66,7 @@ GPMListHeaderWidget::~GPMListHeaderWidget()
  ******************************************************************************/
 
 void
-GPMListHeaderWidget::TableDrawCell
+TreeHeaderWidget::TableDrawCell
 	(
 	JPainter&		p,
 	const JPoint&	cell,
@@ -81,7 +82,7 @@ GPMListHeaderWidget::TableDrawCell
 	}
 
 	JSize underLines = 0;
-	if (itsList->ListColIsSelected(cell.x))
+	if (itsList->TreeColIsSelected(cell.x))
 	{
 		underLines = 1;
 	}
@@ -99,7 +100,7 @@ GPMListHeaderWidget::TableDrawCell
  ******************************************************************************/
 
 void
-GPMListHeaderWidget::HandleMouseDown
+TreeHeaderWidget::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -111,7 +112,7 @@ GPMListHeaderWidget::HandleMouseDown
 	JPoint cell;
 	if (GetCell(pt, &cell))
 	{
-		itsList->ListColSelected(cell.x);
+		itsList->TreeColSelected(cell.x);
 		TableRefresh();
 	}
 }

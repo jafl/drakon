@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMAboutDialog.cpp
+ AboutDialog.cpp
 
 	BASE CLASS = JXDialogDirector
 
@@ -7,8 +7,8 @@
 
  ******************************************************************************/
 
-#include "GPMAboutDialog.h"
-#include "gpmGlobals.h"
+#include "AboutDialog.h"
+#include "globals.h"
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXStaticText.h>
@@ -24,7 +24,7 @@
 
  ******************************************************************************/
 
-GPMAboutDialog::GPMAboutDialog
+AboutDialog::AboutDialog
 	(
 	JXDirector*		supervisor,
 	const JString&	prevVersStr
@@ -42,7 +42,7 @@ GPMAboutDialog::GPMAboutDialog
 
  ******************************************************************************/
 
-GPMAboutDialog::~GPMAboutDialog()
+AboutDialog::~AboutDialog()
 {
 }
 
@@ -55,7 +55,7 @@ GPMAboutDialog::~GPMAboutDialog()
 #include <new_planet_software.xpm>
 
 void
-GPMAboutDialog::BuildWindow
+AboutDialog::BuildWindow
 	(
 	const JString& prevVersStr
 	)
@@ -66,18 +66,18 @@ GPMAboutDialog::BuildWindow
 	assert( window != nullptr );
 
 	auto* textWidget =
-		jnew JXStaticText(JGetString("textWidget::GPMAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::AboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != nullptr );
 
 	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::GPMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::GPMAboutDialog::shortcuts::JXLayout"));
+	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::GPMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
 	assert( itsHelpButton != nullptr );
 
@@ -87,7 +87,7 @@ GPMAboutDialog::BuildWindow
 	assert( gpmIcon != nullptr );
 
 	itsCreditsButton =
-		jnew JXTextButton(JGetString("itsCreditsButton::GPMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
 	assert( itsCreditsButton != nullptr );
 
@@ -98,7 +98,7 @@ GPMAboutDialog::BuildWindow
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::GPMAboutDialog"));
+	window->SetTitle(JGetString("WindowTitle::AboutDialog"));
 	SetButtons(okButton, nullptr);
 
 	ListenTo(itsHelpButton);
@@ -107,16 +107,16 @@ GPMAboutDialog::BuildWindow
 	gpmIcon->SetXPM(gpm_about_icon);
 	npsIcon->SetXPM(new_planet_software);
 
-	JString text = GPMGetVersionStr();
+	JString text = GetVersionStr();
 	if (!prevVersStr.IsEmpty())
 	{
 		const JUtf8Byte* map[] =
 		{
 			"vers", prevVersStr.GetBytes()
 		};
-		text += JGetString("UpgradeNotice::GPMAboutDialog");
+		text += JGetString("UpgradeNotice::AboutDialog");
 		JGetStringManager()->Replace(&text, map, sizeof(map));
-		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::GPMAboutDialog"));
+		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::AboutDialog"));
 		itsIsUpgradeFlag = true;
 	}
 	textWidget->GetText()->SetText(text);
@@ -137,7 +137,7 @@ GPMAboutDialog::BuildWindow
  ******************************************************************************/
 
 void
-GPMAboutDialog::Receive
+AboutDialog::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
@@ -147,18 +147,18 @@ GPMAboutDialog::Receive
 	{
 		if (itsIsUpgradeFlag)
 		{
-			(JXGetHelpManager())->ShowChangeLog();
+			JXGetHelpManager()->ShowChangeLog();
 		}
 		else
 		{
-			(JXGetHelpManager())->ShowTOC();
+			JXGetHelpManager()->ShowTOC();
 		}
 		EndDialog(true);
 	}
 
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		EndDialog(true);
 	}
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMMainDirector.cpp
+ MainDirector.cpp
 
 	BASE CLASS = public JXWindowDirector
 
@@ -7,16 +7,16 @@
 
  *****************************************************************************/
 
-#include "GPMMainDirector.h"
-#include "GPMSystemStats.h"
-#include "GPMProcessTable.h"
-#include "GPMListHeaderWidget.h"
-#include "GPMProcessTreeList.h"
-#include "GPMTreeHeaderWidget.h"
-#include "GPMProcessList.h"
+#include "MainDirector.h"
+#include "SystemStats.h"
+#include "ProcessTable.h"
+#include "ListHeaderWidget.h"
+#include "ProcessTreeList.h"
+#include "TreeHeaderWidget.h"
+#include "ProcessList.h"
 
-#include "gpmGlobals.h"
-#include "gpmActionDefs.h"
+#include "globals.h"
+#include "actionDefs.h"
 
 #include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXHelpManager.h>
@@ -75,12 +75,12 @@ enum
 // Process menu
 
 static const JUtf8Byte* kProcessMenuStr =
-	"    Show processes from all users %b %i" kGPMShowAllAction
-	"%l| End process                      %i" kGPMStopAction
-	"  | Kill process                     %i" kGPMKillAction
-	"%l| Pause process                    %i" kGPMPauseAction
-	"  | Continue process                 %i" kGPMContinueAction
-	"%l| Re-nice process                  %i" kGPMReNiceAction;
+	"    Show processes from all users %b %i" kShowAllAction
+	"%l| End process                      %i" kStopAction
+	"  | Kill process                     %i" kKillAction
+	"%l| Pause process                    %i" kPauseAction
+	"  | Continue process                 %i" kContinueAction
+	"%l| Re-nice process                  %i" kReNiceAction;
 //	"  | Send signal to process";
 
 enum
@@ -96,7 +96,7 @@ enum
 // Prefs menu
 
 static const JUtf8Byte* kPrefsMenuStr =
-	"Toolbar buttons...  %i" kGPMToolbarButtonsAction;
+	"Toolbar buttons...  %i" kToolbarButtonsAction;
 
 enum
 {
@@ -128,16 +128,16 @@ enum
 
  *****************************************************************************/
 
-GPMMainDirector::GPMMainDirector
+MainDirector::MainDirector
 	(
 	JXDirector* supervisor
 	)
 	:
 	JXWindowDirector(supervisor),
-	JPrefObject(GPMGetPrefsManager(), kGPMMainDirectorID),
+	JPrefObject(GetPrefsManager(), kMainDirectorID),
 	itsTimerTask(nullptr)
 {
-	itsProcessList	= jnew GPMProcessList();
+	itsProcessList	= jnew ProcessList();
 	assert( itsProcessList != nullptr );
 
 	BuildWindow();
@@ -155,7 +155,7 @@ GPMMainDirector::GPMMainDirector
 
  *****************************************************************************/
 
-GPMMainDirector::~GPMMainDirector()
+MainDirector::~MainDirector()
 {
 	JPrefObject::WritePrefs();
 	jdelete itsProcessList;
@@ -172,7 +172,7 @@ GPMMainDirector::~GPMMainDirector()
 #include <jx_help_toc.xpm>
 
 void
-GPMMainDirector::BuildWindow()
+MainDirector::BuildWindow()
 {
 // begin JXLayout
 
@@ -185,7 +185,7 @@ GPMMainDirector::BuildWindow()
 	assert( menuBar != nullptr );
 
 	itsToolBar =
-		jnew JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, window,
+		jnew JXToolBar(GetPrefsManager(), kMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
 	assert( itsToolBar != nullptr );
 
@@ -196,10 +196,10 @@ GPMMainDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::GPMMainDirector"));
+	window->SetTitle(JGetString("WindowTitle::MainDirector"));
 	window->SetCloseAction(JXWindow::kQuitApp);
 	window->SetMinSize(530, 250);
-	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
+	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
 
 	auto* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
 	assert( image != nullptr );
@@ -208,7 +208,7 @@ GPMMainDirector::BuildWindow()
 	// system stats
 
 	itsSystemStats =
-		jnew GPMSystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
+		jnew SystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kFixedTop,
 					   0,kStatusMargin, 100,kStatusHeight);
 	assert( itsSystemStats != nullptr );
@@ -228,8 +228,8 @@ GPMMainDirector::BuildWindow()
 	itsTabGroup->AdjustSize(0, -statusHeight);
 	itsTabGroup->Move(0, statusHeight);
 
-	JXContainer* listTab = itsTabGroup->AppendTab(JGetString("ListTabTitle::GPMMainDirector"));
-	JXContainer* treeTab = itsTabGroup->AppendTab(JGetString("TreeTabTitle::GPMMainDirector"));
+	JXContainer* listTab = itsTabGroup->AppendTab(JGetString("ListTabTitle::MainDirector"));
+	JXContainer* treeTab = itsTabGroup->AppendTab(JGetString("TreeTabTitle::MainDirector"));
 
 	// list view
 
@@ -243,7 +243,7 @@ GPMMainDirector::BuildWindow()
 	const JCoordinate tableHeight   = scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kHeaderHeight;
 
 	itsProcessTable =
-		jnew GPMProcessTable(itsProcessList, itsFullCmdDisplay,
+		jnew ProcessTable(itsProcessList, itsFullCmdDisplay,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
@@ -251,7 +251,7 @@ GPMMainDirector::BuildWindow()
 	itsProcessTable->FitToEnclosure(true, false);
 
 	auto* tableHeader =
-		jnew GPMListHeaderWidget(itsProcessTable, itsProcessList,
+		jnew ListHeaderWidget(itsProcessTable, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
@@ -270,7 +270,7 @@ GPMMainDirector::BuildWindow()
 	assert( treeList != nullptr );
 
 	itsProcessTree =
-		jnew GPMProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay,
+		jnew ProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
@@ -278,7 +278,7 @@ GPMMainDirector::BuildWindow()
 	itsProcessTree->FitToEnclosure(true, false);
 
 	auto* treeHeader =
-		jnew GPMTreeHeaderWidget(itsProcessTree, itsProcessList,
+		jnew TreeHeaderWidget(itsProcessTree, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
@@ -299,8 +299,8 @@ GPMMainDirector::BuildWindow()
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
 
-	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::GPMMainDirector"));
-	itsProcessMenu->SetMenuItems(kProcessMenuStr, "GPMProcessTable");
+	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::MainDirector"));
+	itsProcessMenu->SetMenuItems(kProcessMenuStr, "ProcessTable");
 	ListenTo(itsProcessMenu);
 
 	itsProcessMenu->SetItemImage(kShowAllCmd, JXPM(gpm_all_processes));
@@ -351,7 +351,7 @@ GPMMainDirector::BuildWindow()
  ******************************************************************************/
 
 void
-GPMMainDirector::Receive
+MainDirector::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
@@ -417,7 +417,7 @@ GPMMainDirector::Receive
 		const bool ok = itsTabGroup->GetCurrentTabIndex(&index);
 		assert( ok );
 
-		const GPMProcessEntry* entry;
+		const ProcessEntry* entry;
 		if (index == kListTabIndex && itsProcessTree->GetSelectedProcess(&entry))
 		{
 			itsProcessTable->SelectProcess(*entry);
@@ -440,7 +440,7 @@ GPMMainDirector::Receive
  ******************************************************************************/
 
 void
-GPMMainDirector::UpdateFileMenu()
+MainDirector::UpdateFileMenu()
 {
 }
 
@@ -450,14 +450,14 @@ GPMMainDirector::UpdateFileMenu()
  ******************************************************************************/
 
 void
-GPMMainDirector::HandleFileMenu
+MainDirector::HandleFileMenu
 	(
 	const JIndex index
 	)
 {
 	if (index == kQuitCmd)
 	{
-		GPMGetApplication()->Quit();
+		GetApplication()->Quit();
 	}
 }
 
@@ -467,7 +467,7 @@ GPMMainDirector::HandleFileMenu
  ******************************************************************************/
 
 void
-GPMMainDirector::UpdateProcessMenu()
+MainDirector::UpdateProcessMenu()
 {
 	itsProcessMenu->EnableItem(kShowAllCmd);
 	if (!itsProcessList->WillShowUserOnly())
@@ -479,11 +479,11 @@ GPMMainDirector::UpdateProcessMenu()
 	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
 	assert( ok );
 
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
 	{
-		if (entry->GetState() != GPMProcessEntry::kZombie)
+		if (entry->GetState() != ProcessEntry::kZombie)
 		{
 			const bool notSelf = entry->GetPID() != getpid();
 			itsProcessMenu->EnableItem(kEndCmd);
@@ -501,7 +501,7 @@ GPMMainDirector::UpdateProcessMenu()
  ******************************************************************************/
 
 void
-GPMMainDirector::HandleProcessMenu
+MainDirector::HandleProcessMenu
 	(
 	const JIndex index
 	)
@@ -516,11 +516,11 @@ GPMMainDirector::HandleProcessMenu
 	const bool ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);
 	assert( ok );
 
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
 	{
-		if (entry->GetState() == GPMProcessEntry::kZombie)
+		if (entry->GetState() == ProcessEntry::kZombie)
 		{
 			return;
 		}
@@ -579,7 +579,7 @@ GPMMainDirector::HandleProcessMenu
  ******************************************************************************/
 
 void
-GPMMainDirector::UpdatePrefsMenu()
+MainDirector::UpdatePrefsMenu()
 {
 }
 
@@ -589,7 +589,7 @@ GPMMainDirector::UpdatePrefsMenu()
  ******************************************************************************/
 
 void
-GPMMainDirector::HandlePrefsMenu
+MainDirector::HandlePrefsMenu
 	(
 	const JIndex index
 	)
@@ -606,7 +606,7 @@ GPMMainDirector::HandlePrefsMenu
  ******************************************************************************/
 
 void
-GPMMainDirector::UpdateHelpMenu()
+MainDirector::UpdateHelpMenu()
 {
 }
 
@@ -616,14 +616,14 @@ GPMMainDirector::UpdateHelpMenu()
  ******************************************************************************/
 
 void
-GPMMainDirector::HandleHelpMenu
+MainDirector::HandleHelpMenu
 	(
 	const JIndex index
 	)
 {
 	if (index == kAboutCmd)
 	{
-		GPMGetApplication()->DisplayAbout();
+		GetApplication()->DisplayAbout();
 	}
 
 	else if (index == kTOCCmd)
@@ -632,11 +632,11 @@ GPMMainDirector::HandleHelpMenu
 	}
 	else if (index == kOverviewCmd)
 	{
-		(JXGetHelpManager())->ShowSection("GPMOverviewHelp");
+		(JXGetHelpManager())->ShowSection("OverviewHelp");
 	}
 	else if (index == kThisWindowCmd)
 	{
-		(JXGetHelpManager())->ShowSection("GPMMainHelp");
+		(JXGetHelpManager())->ShowSection("MainHelp");
 	}
 
 	else if (index == kChangesCmd)
@@ -655,7 +655,7 @@ GPMMainDirector::HandleHelpMenu
  ******************************************************************************/
 
 void
-GPMMainDirector::ReadPrefs
+MainDirector::ReadPrefs
 	(
 	std::istream& input
 	)
@@ -714,7 +714,7 @@ GPMMainDirector::ReadPrefs
  ******************************************************************************/
 
 void
-GPMMainDirector::WritePrefs
+MainDirector::WritePrefs
 	(
 	std::ostream& output
 	)

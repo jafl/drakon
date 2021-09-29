@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include "GPMApp.h"
-#include "GPMMDIServer.h"
-#include "GPMMainDirector.h"
-#include "gpmGlobals.h"
+#include "App.h"
+#include "MDIServer.h"
+#include "MainDirector.h"
+#include "globals.h"
 #include <jx-af/jcore/JThisProcess.h>
 #include <jx-af/jcore/jWebUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -32,14 +32,14 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	if (!GPMMDIServer::WillBeMDIServer(GPMApp::GetAppSignature(), argc, argv))
+	if (!MDIServer::WillBeMDIServer(App::GetAppSignature(), argc, argv))
 	{
 		return 0;
 	}
 
 	bool displayAbout;
 	JString prevVersStr;
-	auto* app = jnew GPMApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&
@@ -48,14 +48,14 @@ main
 		return 0;
 	}
 
-	JCheckForNewerVersion(GPMGetPrefsManager(), kGPMVersionCheckID);
+	JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
 
-	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);
+	(GetMDIServer())->HandleCmdLineOptions(argc, argv);
 
-	auto* dir = jnew GPMMainDirector(app);
+	auto* dir = jnew MainDirector(app);
 	assert( dir != nullptr );
 	dir->Activate();
-	(GPMGetMDIServer())->SetMainDirector(dir);
+	(GetMDIServer())->SetMainDirector(dir);
 
 	if (displayAbout)
 	{
@@ -91,14 +91,14 @@ ParseTextOptions
 		if (strcmp(argv[index], "-h") == 0 ||
 			strcmp(argv[index], "--help") == 0)
 		{
-			GPMApp::InitStrings();
-			GPMMDIServer::PrintCommandLineHelp();
+			App::InitStrings();
+			MDIServer::PrintCommandLineHelp();
 			exit(0);
 		}
 		else if (strcmp(argv[index], "-v") == 0 ||
 				 strcmp(argv[index], "--version") == 0)
 		{
-			GPMApp::InitStrings();
+			App::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
@@ -115,6 +115,6 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	std::cout << GPMGetVersionStr() << std::endl;
+	std::cout << GetVersionStr() << std::endl;
 	std::cout << std::endl;
 }

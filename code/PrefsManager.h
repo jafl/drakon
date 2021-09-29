@@ -1,12 +1,12 @@
 /******************************************************************************
- GPMPrefsManager.h
+ PrefsManager.h
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMPrefsManager
-#define _H_GPMPrefsManager
+#ifndef _H_PrefsManager
+#define _H_PrefsManager
 
 #include <jx-af/jx/JXPrefsManager.h>
 
@@ -14,20 +14,20 @@
 
 enum
 {
-	kGPMProgramVersionID = 1,
-	kGPMgCSFSetupID,
-	kGPMMainDirectorID,
-	kGPMMainToolBarID,
-	kGPMVersionCheckID
+	kProgramVersionID = 1,
+	kgCSFSetupID,
+	kMainDirectorID,
+	kMainToolBarID,
+	kVersionCheckID
 };
 
-class GPMPrefsManager : public JXPrefsManager
+class PrefsManager : public JXPrefsManager
 {
 public:
 
-	GPMPrefsManager(bool* isNew);
+	PrefsManager(bool* isNew);
 
-	virtual ~GPMPrefsManager();
+	virtual ~PrefsManager();
 
 	JString GetPrevVersionStr() const;
 

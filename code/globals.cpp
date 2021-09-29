@@ -1,5 +1,5 @@
 /******************************************************************************
- gpmGlobals.cpp
+ globals.cpp
 
 	Access to global objects and factories.
 
@@ -7,10 +7,10 @@
 
  ******************************************************************************/
 
-#include "gpmGlobals.h"
-#include "GPMApp.h"
-#include "GPMPrefsManager.h"
-#include "GPMMDIServer.h"
+#include "globals.h"
+#include "App.h"
+#include "PrefsManager.h"
+#include "MDIServer.h"
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jStreamUtil.h>
 
@@ -20,35 +20,35 @@
 
 #include <jx-af/jcore/jAssert.h>
 
-static GPMApp*			theApplication  = nullptr;		// owns itself
-static GPMPrefsManager*	thePrefsManager = nullptr;
-static GPMMDIServer*	theMDIServer    = nullptr;
+static App*				theApplication  = nullptr;		// owns itself
+static PrefsManager*	thePrefsManager = nullptr;
+static MDIServer*		theMDIServer    = nullptr;
 
 static JSize			theSystemMemory      = 0;
 static const JRegex		totalMemoryPattern   = "^MemTotal:\\s*([0-9]+)";
 
 /******************************************************************************
- GPMCreateGlobals
+ CreateGlobals
 
 	Returns true if this is the first time the program is run.
 
  ******************************************************************************/
 
 bool
-GPMCreateGlobals
+CreateGlobals
 	(
-	GPMApp* app
+	App* app
 	)
 {
 	theApplication = app;
 
 	bool isNew;
-	thePrefsManager	= jnew GPMPrefsManager(&isNew);
+	thePrefsManager	= jnew PrefsManager(&isNew);
 	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
-	theMDIServer = jnew GPMMDIServer;
+	theMDIServer = jnew MDIServer;
 	assert( theMDIServer != nullptr );
 
 #ifdef _J_HAS_PROC
@@ -83,12 +83,12 @@ GPMCreateGlobals
 }
 
 /******************************************************************************
- GPMDeleteGlobals
+ DeleteGlobals
 
  ******************************************************************************/
 
 void
-GPMDeleteGlobals()
+DeleteGlobals()
 {
 	theApplication = nullptr;
 	theMDIServer   = nullptr;
@@ -100,9 +100,9 @@ GPMDeleteGlobals()
 }
 
 /******************************************************************************
- GPMCleanUpBeforeSuddenDeath
+ CleanUpBeforeSuddenDeath
 
-	This must be the last one called by GPMApp so we can save
+	This must be the last one called by App so we can save
 	the preferences to disk.
 
 	*** If the server is dead, you cannot call any code that contacts it.
@@ -110,7 +110,7 @@ GPMDeleteGlobals()
  ******************************************************************************/
 
 void
-GPMCleanUpBeforeSuddenDeath
+CleanUpBeforeSuddenDeath
 	(
 	const JXDocumentManager::SafetySaveReason reason
 	)
@@ -126,81 +126,81 @@ GPMCleanUpBeforeSuddenDeath
 }
 
 /******************************************************************************
- GPMGetApplication
+ GetApplication
 
  ******************************************************************************/
 
-GPMApp*
-GPMGetApplication()
+App*
+GetApplication()
 {
 	assert( theApplication != nullptr );
 	return theApplication;
 }
 
 /******************************************************************************
- GPMGetPrefsManager
+ GetPrefsManager
 
  ******************************************************************************/
 
-GPMPrefsManager*
-GPMGetPrefsManager()
+PrefsManager*
+GetPrefsManager()
 {
 	assert( thePrefsManager != nullptr );
 	return thePrefsManager;
 }
 
 /******************************************************************************
- GPMGetMDIServer
+ GetMDIServer
 
  ******************************************************************************/
 
-GPMMDIServer*
-GPMGetMDIServer()
+MDIServer*
+GetMDIServer()
 {
 	assert( theMDIServer != nullptr );
 	return theMDIServer;
 }
 
 /******************************************************************************
- GPMGetVersionNumberStr
+ GetVersionNumberStr
 
  ******************************************************************************/
 
 const JString&
-GPMGetVersionNumberStr()
+GetVersionNumberStr()
 {
 	return JGetString("VERSION");
 }
 
 /******************************************************************************
- GPMGetVersionStr
+ GetVersionStr
 
  ******************************************************************************/
 
 JString
-GPMGetVersionStr()
+GetVersionStr()
 {
 	const JUtf8Byte* map[] =
 	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	return JGetString("Description::gpmGlobals", map, sizeof(map));
+	return JGetString("Description::globals", map, sizeof(map));
 }
 
 /******************************************************************************
- GPMGetWMClassInstance
+ GetWMClassInstance
 
  ******************************************************************************/
 
 const JUtf8Byte*
-GPMGetWMClassInstance()
+GetWMClassInstance()
 {
 	return "Drakon";
 }
 
 const JUtf8Byte*
-GPMGetMainWindowClass()
+GetMainWindowClass()
 {
 	return "Drakon_Main_Window";
 }
@@ -211,7 +211,7 @@ GPMGetMainWindowClass()
  ******************************************************************************/
 
 bool
-GPMGetSystemMemory
+GetSystemMemory
 	(
 	JSize* mem
 	)

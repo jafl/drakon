@@ -1,12 +1,12 @@
 /******************************************************************************
- GPMMainDirector.h
+ MainDirector.h
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMMainDirector
-#define _H_GPMMainDirector
+#ifndef _H_MainDirector
+#define _H_MainDirector
 
 #include <jx-af/jx/JXWindowDirector.h>
 #include <jx-af/jcore/JPrefObject.h>
@@ -17,19 +17,19 @@ class JXStaticText;
 class JXTextMenu;
 class JXTimerTask;
 
-class GPMSystemStats;
-class GPMProcessList;
-class GPMProcessTable;
-class GPMProcessTreeList;
+class SystemStats;
+class ProcessList;
+class ProcessTable;
+class ProcessTreeList;
 
-class GPMMainDirector : public JXWindowDirector, public JPrefObject
+class MainDirector : public JXWindowDirector, public JPrefObject
 {
 public:
 
 public:
 
-	GPMMainDirector(JXDirector* supervisor);
-	virtual ~GPMMainDirector();
+	MainDirector(JXDirector* supervisor);
+	virtual ~MainDirector();
 
 protected:
 
@@ -45,14 +45,14 @@ private:
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;
 
-	GPMProcessList*	itsProcessList;
+	ProcessList*	itsProcessList;
 	JXTimerTask*	itsTimerTask;
 
-	GPMSystemStats*	itsSystemStats;
+	SystemStats*	itsSystemStats;
 
 	JXTabGroup*			itsTabGroup;
-	GPMProcessTable*	itsProcessTable;
-	GPMProcessTreeList*	itsProcessTree;
+	ProcessTable*	itsProcessTable;
+	ProcessTreeList*	itsProcessTree;
 
 // begin JXLayout
 

@@ -20,7 +20,7 @@ DOWNLOAD_URL	"https://sourceforge.net/projects/drakon/"
 
 # gpmGlobals
 
-Description::gpmGlobals
+Description::globals
 "Drakon Process Manager $version
 
 Misbehaving processes require draconian justice!
@@ -30,7 +30,7 @@ $copyright"
 # GPMMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-CommandLineHelp::GPMMDIServer
+CommandLineHelp::MDIServer
 "Drakon Process Manager $version
 
 $copyright
@@ -47,14 +47,14 @@ Usage:
 
 # GPMPrefsDialog
 
-WindowTitle::GPMPrefsDialog "Preferences"
+WindowTitle::PrefsDialog "Preferences"
 
 # GPMAboutDialog
 
-WindowTitle::GPMAboutDialog			"About"
-ChangeButtonLabel::GPMAboutDialog	"Changes"
+WindowTitle::AboutDialog		"About"
+ChangeButtonLabel::AboutDialog	"Changes"
 
-UpgradeNotice::GPMAboutDialog
+UpgradeNotice::AboutDialog
 "
 
 
@@ -62,18 +62,18 @@ You have just upgraded from version $vers"
 
 # GPMMainDirector
 
-WindowTitle::GPMMainDirector		"Drakon Process Manager"
-ProcessMenuTitle::GPMMainDirector	"Process"
-ListTabTitle::GPMMainDirector		"List"
-TreeTabTitle::GPMMainDirector		"Tree"
+WindowTitle::MainDirector		"Drakon Process Manager"
+ProcessMenuTitle::MainDirector	"Process"
+ListTabTitle::MainDirector		"List"
+TreeTabTitle::MainDirector		"Tree"
 
 # GPMListHeaderWidget
 
-PIDColumnTitle::GPMListHeaderWidget		"PID"
-UserColumnTitle::GPMListHeaderWidget	"User"
-NiceColumnTitle::GPMListHeaderWidget	"Nice"
-SizeColumnTitle::GPMListHeaderWidget	"Size"
-CPUColumnTitle::GPMListHeaderWidget		"%CPU"
-MemoryColumnTite::GPMListHeaderWidget	"%Memory"
-TimeColumnTitle::GPMListHeaderWidget	"Time"
-CommandColumnTitle::GPMListHeaderWidget	"Command"
+PIDColumnTitle::ListHeaderWidget		"PID"
+UserColumnTitle::ListHeaderWidget		"User"
+NiceColumnTitle::ListHeaderWidget		"Nice"
+SizeColumnTitle::ListHeaderWidget		"Size"
+CPUColumnTitle::ListHeaderWidget		"%CPU"
+MemoryColumnTite::ListHeaderWidget		"%Memory"
+TimeColumnTitle::ListHeaderWidget		"Time"
+CommandColumnTitle::ListHeaderWidget	"Command"

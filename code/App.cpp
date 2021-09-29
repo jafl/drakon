@@ -1,7 +1,5 @@
 /******************************************************************************
- GPMApp.cpp
-
-	<Description>
+ App.cpp
 
 	BASE CLASS = public JXApplication
 
@@ -9,10 +7,10 @@
 
  *****************************************************************************/
 
-#include "GPMApp.h"
-#include "GPMAboutDialog.h"
-#include "gpmStringData.h"
-#include "gpmGlobals.h"
+#include "App.h"
+#include "AboutDialog.h"
+#include "stringData.h"
+#include "globals.h"
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "npsprocessmgr";
@@ -22,7 +20,7 @@ static const JUtf8Byte* kAppSignature = "npsprocessmgr";
 
  *****************************************************************************/
 
-GPMApp::GPMApp
+App::App
 	(
 	int*		argc,
 	char*		argv[],
@@ -30,14 +28,14 @@ GPMApp::GPMApp
 	JString*	prevVersStr
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kGPMDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
 {
-	*displayAbout = GPMCreateGlobals(this);
+	*displayAbout = CreateGlobals(this);
 
 	if (!*displayAbout)
 	{
-		*prevVersStr = (GPMGetPrefsManager())->GetPrevVersionStr();
-		if (*prevVersStr == GPMGetVersionNumberStr())
+		*prevVersStr = (GetPrefsManager())->GetPrevVersionStr();
+		if (*prevVersStr == GetVersionNumberStr())
 		{
 			prevVersStr->Clear();
 		}
@@ -57,9 +55,9 @@ GPMApp::GPMApp
 
  *****************************************************************************/
 
-GPMApp::~GPMApp()
+App::~App()
 {
-	GPMDeleteGlobals();
+	DeleteGlobals();
 }
 
 /******************************************************************************
@@ -70,12 +68,12 @@ GPMApp::~GPMApp()
  ******************************************************************************/
 
 void
-GPMApp::DisplayAbout
+App::DisplayAbout
 	(
 	const JString& prevVersStr
 	)
 {
-	auto* dlog = jnew GPMAboutDialog(this, prevVersStr);
+	auto* dlog = jnew AboutDialog(this, prevVersStr);
 	assert( dlog != nullptr );
 	dlog->BeginDialog();
 }
@@ -88,7 +86,7 @@ GPMApp::DisplayAbout
  ******************************************************************************/
 
 void
-GPMApp::CleanUpBeforeSuddenDeath
+App::CleanUpBeforeSuddenDeath
 	(
 	const JXDocumentManager::SafetySaveReason reason
 	)
@@ -100,7 +98,7 @@ GPMApp::CleanUpBeforeSuddenDeath
 //		JPrefObject::WritePrefs();
 	}
 
-	GPMCleanUpBeforeSuddenDeath(reason);		// must be last call
+	::CleanUpBeforeSuddenDeath(reason);		// must be last call
 }
 
 /******************************************************************************
@@ -109,7 +107,7 @@ GPMApp::CleanUpBeforeSuddenDeath
  ******************************************************************************/
 
 const JUtf8Byte*
-GPMApp::GetAppSignature()
+App::GetAppSignature()
 {
 	return kAppSignature;
 }
@@ -123,7 +121,7 @@ GPMApp::GetAppSignature()
  ******************************************************************************/
 
 void
-GPMApp::InitStrings()
+App::InitStrings()
 {
-	JGetStringManager()->Register(kAppSignature, kGPMDefaultStringData);
+	JGetStringManager()->Register(kAppSignature, kDefaultStringData);
 }

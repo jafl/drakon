@@ -5,18 +5,18 @@
 @drakon
 
 .cpp ./code/main
-.cpp ./code/GPMApp
-.cpp ./code/gpmGlobals
-.cpp ./code/GPMPrefsManager
-.cpp ./code/GPMMDIServer
-.cpp ./code/GPMAboutDialog
-.cpp ./code/GPMSystemStats
-.cpp ./code/GPMMainDirector
-.cpp ./code/GPMProcessTable
-.cpp ./code/GPMListHeaderWidget
-.cpp ./code/GPMProcessTreeList
-.cpp ./code/GPMTreeHeaderWidget
-.cpp ./code/GPMProcessList
-.cpp ./code/GPMProcessEntry
+.cpp ./code/App
+.cpp ./code/globals
+.cpp ./code/PrefsManager
+.cpp ./code/MDIServer
+.cpp ./code/AboutDialog
+.cpp ./code/SystemStats
+.cpp ./code/MainDirector
+.cpp ./code/ProcessTable
+.cpp ./code/ListHeaderWidget
+.cpp ./code/ProcessTreeList
+.cpp ./code/TreeHeaderWidget
+.cpp ./code/ProcessList
+.cpp ./code/ProcessEntry
 
 literal: ${LIB_DEPS}

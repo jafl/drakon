@@ -1,26 +1,26 @@
 /******************************************************************************
- GPMProcessList.h
+ ProcessList.h
 
 	Copyright (C) 2000 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMProcessList
-#define _H_GPMProcessList
+#ifndef _H_ProcessList
+#define _H_ProcessList
 
 #include <jx-af/jcore/JContainer.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
-#include "GPMProcessEntry.h"
+#include "ProcessEntry.h"
 
 class JTree;
 class JTreeNode;
 class JDirInfo;
 
-class GPMProcessList : public JContainer
+class ProcessList : public JContainer
 {
 public:
 
-	// don't forget to update GPMListHeaderWidget
+	// don't forget to update ListHeaderWidget
 
 	enum ListColType
 	{
@@ -41,7 +41,7 @@ public:
 		kListCount = kListCommand
 	};
 
-	// don't forget to update GPMTreeHeaderWidget
+	// don't forget to update TreeHeaderWidget
 
 	enum TreeColType
 	{
@@ -65,17 +65,17 @@ public:
 
 public:
 
-	GPMProcessList();
-	virtual ~GPMProcessList();
+	ProcessList();
+	virtual ~ProcessList();
 
 	void	Update();
 
-	const GPMProcessEntry*	GetProcessEntry(const JIndex index) const;
-	bool				GetEntryIndex(const GPMProcessEntry* entry, JIndex *index);
-	bool				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
-	bool				ClosestMatch(const JString& prefix, GPMProcessEntry** entry) const;
+	const ProcessEntry*	GetProcessEntry(const JIndex index) const;
+	bool				GetEntryIndex(const ProcessEntry* entry, JIndex *index);
+	bool				FindProcessEntry(const pid_t pid, ProcessEntry** entry) const;
+	bool				ClosestMatch(const JString& prefix, ProcessEntry** entry) const;
 
-	const JPtrArray<GPMProcessEntry>&	GetHiddenProcesses() const;
+	const JPtrArray<ProcessEntry>&	GetHiddenProcesses() const;
 
 	bool		ListColIsSelected(const JIndex index) const;
 	ListColType	GetSelectedListCol() const;
@@ -92,9 +92,9 @@ public:
 
 private:
 
-	JPtrArray<GPMProcessEntry>*	itsVisibleEntries;
-	JPtrArray<GPMProcessEntry>*	itsAlphaEntries;
-	JPtrArray<GPMProcessEntry>*	itsHiddenEntries;
+	JPtrArray<ProcessEntry>*	itsVisibleEntries;
+	JPtrArray<ProcessEntry>*	itsAlphaEntries;
+	JPtrArray<ProcessEntry>*	itsHiddenEntries;
 	JTree*						itsTree;
 	JTreeNode*					itsRootNode;
 	JFloat						itsElapsedTime;
@@ -112,8 +112,8 @@ private:
 
 	// not allowed
 
-	GPMProcessList(const GPMProcessList&) = delete;
-	GPMProcessList& operator=(const GPMProcessList&) = delete;
+	ProcessList(const ProcessList&) = delete;
+	ProcessList& operator=(const ProcessList&) = delete;
 
 public:
 
@@ -148,7 +148,7 @@ public:
  ******************************************************************************/
 
 inline bool
-GPMProcessList::ListColIsSelected
+ProcessList::ListColIsSelected
 	(
 	const JIndex index
 	)
@@ -162,8 +162,8 @@ GPMProcessList::ListColIsSelected
 
  ******************************************************************************/
 
-inline GPMProcessList::ListColType
-GPMProcessList::GetSelectedListCol()
+inline ProcessList::ListColType
+ProcessList::GetSelectedListCol()
 	const
 {
 	return itsListColType;
@@ -175,7 +175,7 @@ GPMProcessList::GetSelectedListCol()
  ******************************************************************************/
 
 inline bool
-GPMProcessList::TreeColIsSelected
+ProcessList::TreeColIsSelected
 	(
 	const JIndex index
 	)
@@ -189,8 +189,8 @@ GPMProcessList::TreeColIsSelected
 
  ******************************************************************************/
 
-inline GPMProcessList::TreeColType
-GPMProcessList::GetSelectedTreeCol()
+inline ProcessList::TreeColType
+ProcessList::GetSelectedTreeCol()
 	const
 {
 	return itsTreeColType;
@@ -202,7 +202,7 @@ GPMProcessList::GetSelectedTreeCol()
  ******************************************************************************/
 
 inline JTree*
-GPMProcessList::GetProcessTree()
+ProcessList::GetProcessTree()
 {
 	return itsTree;
 }
@@ -213,7 +213,7 @@ GPMProcessList::GetProcessTree()
  ******************************************************************************/
 
 inline bool
-GPMProcessList::WillShowUserOnly()
+ProcessList::WillShowUserOnly()
 	const
 {
 	return itsIsShowingUserOnly;
@@ -224,8 +224,8 @@ GPMProcessList::WillShowUserOnly()
 
  ******************************************************************************/
 
-inline const GPMProcessEntry*
-GPMProcessList::GetProcessEntry
+inline const ProcessEntry*
+ProcessList::GetProcessEntry
 	(
 	const JIndex index
 	)
@@ -240,13 +240,13 @@ GPMProcessList::GetProcessEntry
  ******************************************************************************/
 
 inline bool
-GPMProcessList::GetEntryIndex
+ProcessList::GetEntryIndex
 	(
-	const GPMProcessEntry*	entry,
+	const ProcessEntry*	entry,
 	JIndex*					index
 	)
 {
-	return itsVisibleEntries->SearchSorted(const_cast<GPMProcessEntry*>(entry), JListT::kAnyMatch, index);
+	return itsVisibleEntries->SearchSorted(const_cast<ProcessEntry*>(entry), JListT::kAnyMatch, index);
 }
 
 /******************************************************************************
@@ -254,8 +254,8 @@ GPMProcessList::GetEntryIndex
 
  ******************************************************************************/
 
-inline const JPtrArray<GPMProcessEntry>&
-GPMProcessList::GetHiddenProcesses()
+inline const JPtrArray<ProcessEntry>&
+ProcessList::GetHiddenProcesses()
 	const
 {
 	return *itsHiddenEntries;

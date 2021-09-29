@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessEntry.cpp
+ ProcessEntry.cpp
 
 	BASE CLASS = JNamedTreeNode
 
@@ -7,8 +7,8 @@
 
  *****************************************************************************/
 
-#include "GPMProcessEntry.h"
-#include "gpmGlobals.h"
+#include "ProcessEntry.h"
+#include "globals.h"
 
 #include <jx-af/jcore/JTree.h>
 
@@ -35,7 +35,7 @@
 
 #ifdef _J_HAS_PROC
 
-GPMProcessEntry::GPMProcessEntry
+ProcessEntry::ProcessEntry
 	(
 	JTree*				tree,
 	const JDirEntry&	entry
@@ -56,7 +56,7 @@ GPMProcessEntry::GPMProcessEntry
 
 #elif defined _J_HAS_SYSCTL
 
-GPMProcessEntry::GPMProcessEntry
+ProcessEntry::ProcessEntry
 	(
 	JTree*				tree,
 	const kinfo_proc&	entry
@@ -80,7 +80,7 @@ GPMProcessEntry::GPMProcessEntry
 
 // search target
 
-GPMProcessEntry::GPMProcessEntry
+ProcessEntry::ProcessEntry
 	(
 	JTree*			tree,
 	const JString&	prefix
@@ -96,7 +96,7 @@ GPMProcessEntry::GPMProcessEntry
 
  *****************************************************************************/
 
-GPMProcessEntry::~GPMProcessEntry()
+ProcessEntry::~ProcessEntry()
 {
 }
 
@@ -112,7 +112,7 @@ kern_return_t task_for_pid(task_port_t task, pid_t pid, task_port_t *target);
 #endif
 
 void
-GPMProcessEntry::Update
+ProcessEntry::Update
 	(
 	const JFloat elapsedTime
 	)
@@ -126,7 +126,7 @@ GPMProcessEntry::Update
 		ReadStatM();
 
 		JSize mem;
-		if (GPMGetSystemMemory(&mem))
+		if (GetSystemMemory(&mem))
 		{
 			itsPercentMemory = JFloat(itsResident * 100) / mem;
 		}
@@ -180,7 +180,7 @@ GPMProcessEntry::Update
 		}
 
 		JSize mem;
-		if (GPMGetSystemMemory(&mem))
+		if (GetSystemMemory(&mem))
 		{
 			itsPercentMemory = JFloat(itsResident) / mem;
 		}
@@ -209,7 +209,7 @@ GPMProcessEntry::Update
  ******************************************************************************/
 
 void
-GPMProcessEntry::ReadStat()
+ProcessEntry::ReadStat()
 {
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
@@ -283,7 +283,7 @@ GPMProcessEntry::ReadStat()
  ******************************************************************************/
 
 void
-GPMProcessEntry::ReadStatM()
+ProcessEntry::ReadStatM()
 {
 
 	JString str = JCombinePathAndName(itsProcPath, JString("statm", false));
@@ -309,7 +309,7 @@ GPMProcessEntry::ReadStatM()
  ******************************************************************************/
 
 void
-GPMProcessEntry::ReadCmdline()
+ProcessEntry::ReadCmdline()
 {
 	if (!itsFullCommand.IsEmpty())
 	{
@@ -350,7 +350,7 @@ GPMProcessEntry::ReadCmdline()
  ******************************************************************************/
 
 void
-GPMProcessEntry::ReadCmdline()
+ProcessEntry::ReadCmdline()
 {
 	if (!itsFullCommand.IsEmpty())
 	{
@@ -434,10 +434,10 @@ GPMProcessEntry::ReadCmdline()
  ******************************************************************************/
 
 JListT::CompareResult
-GPMProcessEntry::CompareListPID
+ProcessEntry::CompareListPID
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsPID > e2->itsPID)
@@ -455,10 +455,10 @@ GPMProcessEntry::CompareListPID
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListUser
+ProcessEntry::CompareListUser
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	JListT::CompareResult	result =
@@ -475,10 +475,10 @@ GPMProcessEntry::CompareListUser
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListNice
+ProcessEntry::CompareListNice
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsNice > e2->itsNice)
@@ -496,10 +496,10 @@ GPMProcessEntry::CompareListNice
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListSize
+ProcessEntry::CompareListSize
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsSize > e2->itsSize)
@@ -517,10 +517,10 @@ GPMProcessEntry::CompareListSize
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListPercentMemory
+ProcessEntry::CompareListPercentMemory
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
@@ -538,10 +538,10 @@ GPMProcessEntry::CompareListPercentMemory
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListPercentCPU
+ProcessEntry::CompareListPercentCPU
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
@@ -559,10 +559,10 @@ GPMProcessEntry::CompareListPercentCPU
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListTime
+ProcessEntry::CompareListTime
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	if (e1->itsTime > e2->itsTime)
@@ -580,10 +580,10 @@ GPMProcessEntry::CompareListTime
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListCommand
+ProcessEntry::CompareListCommand
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	JListT::CompareResult	result =
@@ -600,10 +600,10 @@ GPMProcessEntry::CompareListCommand
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareListCommandForIncrSearch
+ProcessEntry::CompareListCommandForIncrSearch
 	(
-	GPMProcessEntry * const & e1,
-	GPMProcessEntry * const & e2
+	ProcessEntry * const & e1,
+	ProcessEntry * const & e2
 	)
 {
 	return JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
@@ -615,14 +615,14 @@ GPMProcessEntry::CompareListCommandForIncrSearch
  ******************************************************************************/
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreePID
+ProcessEntry::CompareTreePID
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsPID > e2->itsPID)
 	{
@@ -639,14 +639,14 @@ GPMProcessEntry::CompareTreePID
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreeUser
+ProcessEntry::CompareTreeUser
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
@@ -662,14 +662,14 @@ GPMProcessEntry::CompareTreeUser
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreeNice
+ProcessEntry::CompareTreeNice
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsNice > e2->itsNice)
 	{
@@ -686,14 +686,14 @@ GPMProcessEntry::CompareTreeNice
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreeSize
+ProcessEntry::CompareTreeSize
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsSize > e2->itsSize)
 	{
@@ -710,14 +710,14 @@ GPMProcessEntry::CompareTreeSize
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreePercentMemory
+ProcessEntry::CompareTreePercentMemory
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
 	{
@@ -734,14 +734,14 @@ GPMProcessEntry::CompareTreePercentMemory
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreePercentCPU
+ProcessEntry::CompareTreePercentCPU
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
 	{
@@ -758,14 +758,14 @@ GPMProcessEntry::CompareTreePercentCPU
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreeTime
+ProcessEntry::CompareTreeTime
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	if (e1->itsTime > e2->itsTime)
 	{
@@ -782,14 +782,14 @@ GPMProcessEntry::CompareTreeTime
 }
 
 JListT::CompareResult
-GPMProcessEntry::CompareTreeCommand
+ProcessEntry::CompareTreeCommand
 	(
 	JTreeNode * const & n1,
 	JTreeNode * const & n2
 	)
 {
-	auto * const e1 = dynamic_cast<GPMProcessEntry*const>(n1);
-	auto * const e2 = dynamic_cast<GPMProcessEntry*const>(n2);
+	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
+	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
 	JListT::CompareResult	result =
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));

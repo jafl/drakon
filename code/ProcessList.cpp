@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessList.cpp
+ ProcessList.cpp
 
 	BASE CLASS = JContainer
 
@@ -7,8 +7,8 @@
 
  *****************************************************************************/
 
-#include <GPMProcessList.h>
-#include <GPMProcessEntry.h>
+#include <ProcessList.h>
+#include <ProcessEntry.h>
 
 #include <jx-af/jcore/JTree.h>
 
@@ -26,15 +26,15 @@
 
 #include <jx-af/jcore/jAssert.h>
 
-const JUtf8Byte* GPMProcessList::kListChanged      = "ListChanged::GPMProcessList";
-const JUtf8Byte* GPMProcessList::kPrepareForUpdate = "PrepareForUpdate::GPMProcessList";
+const JUtf8Byte* ProcessList::kListChanged      = "ListChanged::ProcessList";
+const JUtf8Byte* ProcessList::kPrepareForUpdate = "PrepareForUpdate::ProcessList";
 
 /******************************************************************************
  Constructor
 
  *****************************************************************************/
 
-GPMProcessList::GPMProcessList()
+ProcessList::ProcessList()
 	:
 	itsElapsedTime(0),
 	itsLastTime(0),
@@ -44,24 +44,24 @@ GPMProcessList::GPMProcessList()
 	,itsDirInfo(nullptr)
 #endif
 {
-	itsVisibleEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
+	itsVisibleEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kForgetAll);
 	assert(itsVisibleEntries != nullptr);
-	itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
+	itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 	InstallCollection(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 
-	itsAlphaEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
+	itsAlphaEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != nullptr );
-	itsAlphaEntries->SetCompareFunction(GPMProcessEntry::CompareListCommandForIncrSearch);
+	itsAlphaEntries->SetCompareFunction(ProcessEntry::CompareListCommandForIncrSearch);
 
-	itsHiddenEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kDeleteAll);
+	itsHiddenEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kDeleteAll);
 	assert(itsHiddenEntries != nullptr);
-	itsHiddenEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
+	itsHiddenEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 
 	itsRootNode = jnew JTreeNode(nullptr);
 	assert( itsRootNode != nullptr );
-	itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeCommand,
+	itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeCommand,
 										 JListT::kSortAscending, true);
 
 	itsTree = jnew JTree(itsRootNode);
@@ -75,7 +75,7 @@ GPMProcessList::GPMProcessList()
 
  *****************************************************************************/
 
-GPMProcessList::~GPMProcessList()
+ProcessList::~ProcessList()
 {
 	jdelete itsHiddenEntries;
 	jdelete itsVisibleEntries;
@@ -93,7 +93,7 @@ GPMProcessList::~GPMProcessList()
  ******************************************************************************/
 
 void
-GPMProcessList::ShouldShowUserOnly
+ProcessList::ShouldShowUserOnly
 	(
 	const bool show
 	)
@@ -111,7 +111,7 @@ GPMProcessList::ShouldShowUserOnly
  ******************************************************************************/
 
 void
-GPMProcessList::Update()
+ProcessList::Update()
 {
 	Broadcast(PrepareForUpdate());
 	
@@ -123,8 +123,8 @@ GPMProcessList::Update()
 	itsElapsedTime       = itsLastTime == 0 ? 0 : newTime - itsLastTime;
 	itsLastTime          = newTime;
 
-	JPtrArray<GPMProcessEntry> newEntries(JPtrArrayT::kForgetAll);
-	newEntries.SetCompareFunction(GPMProcessEntry::CompareListPID);
+	JPtrArray<ProcessEntry> newEntries(JPtrArrayT::kForgetAll);
+	newEntries.SetCompareFunction(ProcessEntry::CompareListPID);
 
 #ifdef _J_HAS_PROC
 {
@@ -144,7 +144,7 @@ GPMProcessList::Update()
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
 		if (entry.GetName().IsInteger())
 		{
-			GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, entry);
+			ProcessEntry* pentry = jnew ProcessEntry(itsTree, entry);
 			assert(pentry != nullptr);
 			newEntries.InsertSorted(pentry);
 		}
@@ -181,7 +181,7 @@ GPMProcessList::Update()
 			const JSize count = len / sizeof(kinfo_proc);
 			for (JUnsignedOffset i=0; i<count; i++)
 			{
-				auto* pentry = jnew GPMProcessEntry(itsTree, list[i]);
+				auto* pentry = jnew ProcessEntry(itsTree, list[i]);
 				assert( pentry != nullptr );
 				newEntries.InsertSorted(pentry);
 			}
@@ -202,7 +202,7 @@ GPMProcessList::Update()
 	JSize count = itsHiddenEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		GPMProcessEntry* pentry	= itsHiddenEntries->GetElement(i);
+		ProcessEntry* pentry	= itsHiddenEntries->GetElement(i);
 		JIndex findex;
 		if (!newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
@@ -217,7 +217,7 @@ GPMProcessList::Update()
 		count = newEntries.GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			GPMProcessEntry* pentry	= newEntries.GetElement(i);
+			ProcessEntry* pentry	= newEntries.GetElement(i);
 			if (pentry->GetUID() != itsUID)
 			{
 				newEntries.RemoveElement(i);
@@ -246,7 +246,7 @@ GPMProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		GPMProcessEntry* pentry	= itsVisibleEntries->GetElement(i);
+		ProcessEntry* pentry	= itsVisibleEntries->GetElement(i);
 		JIndex findex;
 		if (newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
@@ -285,7 +285,7 @@ GPMProcessList::Update()
 	count = newEntries.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		GPMProcessEntry* pentry = newEntries.GetElement(i);
+		ProcessEntry* pentry = newEntries.GetElement(i);
 		pentry->Update(itsElapsedTime);
 		itsVisibleEntries->InsertSorted(pentry);
 		itsAlphaEntries->InsertSorted(pentry);
@@ -298,8 +298,8 @@ GPMProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		GPMProcessEntry* pentry = itsVisibleEntries->GetElement(i);
-		GPMProcessEntry* parent;
+		ProcessEntry* pentry = itsVisibleEntries->GetElement(i);
+		ProcessEntry* parent;
 		if (FindProcessEntry(pentry->GetPPID(), &parent) &&
 			parent != pentry)
 		{
@@ -320,17 +320,17 @@ GPMProcessList::Update()
  ******************************************************************************/
 
 bool
-GPMProcessList::FindProcessEntry
+ProcessList::FindProcessEntry
 	(
 	const pid_t			pid,
-	GPMProcessEntry**	entry
+	ProcessEntry**	entry
 	)
 	const
 {
 	const JSize count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		GPMProcessEntry* e = itsVisibleEntries->GetElement(i);
+		ProcessEntry* e = itsVisibleEntries->GetElement(i);
 		if (e->GetPID() == pid)
 		{
 			*entry = e;
@@ -348,14 +348,14 @@ GPMProcessList::FindProcessEntry
  ******************************************************************************/
 
 bool
-GPMProcessList::ClosestMatch
+ProcessList::ClosestMatch
 	(
 	const JString&		prefix,
-	GPMProcessEntry**	entry
+	ProcessEntry**	entry
 	)
 	const
 {
-	GPMProcessEntry target(itsTree, prefix);
+	ProcessEntry target(itsTree, prefix);
 	bool found;
 	JIndex i = itsAlphaEntries->SearchSorted1(&target, JListT::kFirstMatch, &found);
 	if (i > itsAlphaEntries->GetElementCount())		// insert beyond end of list
@@ -381,7 +381,7 @@ GPMProcessList::ClosestMatch
  ******************************************************************************/
 
 void
-GPMProcessList::ListColSelected
+ProcessList::ListColSelected
 	(
 	const JIndex index
 	)
@@ -390,49 +390,49 @@ GPMProcessList::ListColSelected
 
 	if (index == kListPID)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 		itsVisibleEntries->SetSortOrder(JListT::kSortAscending);
 		changed = true;
 	}
 	else if (index == kListUser)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListUser);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListUser);
 		itsVisibleEntries->SetSortOrder(JListT::kSortAscending);
 		changed = true;
 	}
 	else if (index == kListNice)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListNice);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListNice);
 		itsVisibleEntries->SetSortOrder(JListT::kSortAscending);
 		changed = true;
 	}
 	else if (index == kListSize)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListSize);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListSize);
 		itsVisibleEntries->SetSortOrder(JListT::kSortDescending);
 		changed = true;
 	}
 	else if (index == kListCPU)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPercentCPU);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPercentCPU);
 		itsVisibleEntries->SetSortOrder(JListT::kSortDescending);
 		changed = true;
 	}
 	else if (index == kListMemory)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPercentMemory);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPercentMemory);
 		itsVisibleEntries->SetSortOrder(JListT::kSortDescending);
 		changed = true;
 	}
 	else if (index == kListTime)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListTime);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListTime);
 		itsVisibleEntries->SetSortOrder(JListT::kSortDescending);
 		changed = true;
 	}
 	else if (index == kListCommand)
 	{
-		itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListCommand);
+		itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListCommand);
 		itsVisibleEntries->SetSortOrder(JListT::kSortAscending);
 		changed = true;
 	}
@@ -452,7 +452,7 @@ GPMProcessList::ListColSelected
  ******************************************************************************/
 
 void
-GPMProcessList::TreeColSelected
+ProcessList::TreeColSelected
 	(
 	const JIndex index
 	)
@@ -460,7 +460,7 @@ GPMProcessList::TreeColSelected
 	if (index == kTreePID)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreePID,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreePID,
 											 JListT::kSortAscending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -468,7 +468,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeUser)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeUser,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeUser,
 											 JListT::kSortAscending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -476,7 +476,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeNice)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeNice,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeNice,
 											 JListT::kSortAscending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -484,7 +484,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeSize)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeSize,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeSize,
 											 JListT::kSortDescending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -492,7 +492,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeCPU)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreePercentCPU,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreePercentCPU,
 											 JListT::kSortDescending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -500,7 +500,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeMemory)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreePercentMemory,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreePercentMemory,
 											 JListT::kSortDescending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -508,7 +508,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeTime)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeTime,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeTime,
 											 JListT::kSortDescending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());
@@ -516,7 +516,7 @@ GPMProcessList::TreeColSelected
 	else if (index == kTreeCommand)
 	{
 		Broadcast(PrepareForUpdate());
-		itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeCommand,
+		itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeCommand,
 											 JListT::kSortAscending, true);
 		itsTreeColType = (TreeColType) index;
 		Broadcast(ListChanged());

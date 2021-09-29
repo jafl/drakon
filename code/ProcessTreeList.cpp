@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMProcessTreeList.cpp
+ ProcessTreeList.cpp
 
 	BASE CLASS = JXNamedTreeListWidget
 
@@ -7,10 +7,10 @@
 
  *****************************************************************************/
 
-#include "GPMProcessTreeList.h"
-#include "GPMProcessTable.h"
-#include "GPMProcessList.h"
-#include "gpmGlobals.h"
+#include "ProcessTreeList.h"
+#include "ProcessTable.h"
+#include "ProcessList.h"
+#include "globals.h"
 
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXTextMenu.h>
@@ -33,9 +33,9 @@ const JCoordinate kHMarginWidth	= 5;
 
  *****************************************************************************/
 
-GPMProcessTreeList::GPMProcessTreeList
+ProcessTreeList::ProcessTreeList
 	(
-	GPMProcessList*		list,
+	ProcessList*		list,
 	JNamedTreeList*		treeList,
 	JXTEBase*			fullCmdDisplay,
 	JXScrollbarSet*		scrollbarSet,
@@ -55,19 +55,19 @@ GPMProcessTreeList::GPMProcessTreeList
 	itsFullCmdDisplay(fullCmdDisplay),
 	itsZombieImage(nullptr)
 {
-	AppendCols(GPMProcessList::kTreeCount - 2);
-	SetColWidth(GPMProcessList::kTreeState,  20);
-	SetColWidth(GPMProcessList::kTreePID,    50);
-	SetColWidth(GPMProcessList::kTreeUser,   75);
-	SetColWidth(GPMProcessList::kTreeNice,   40);
-	SetColWidth(GPMProcessList::kTreeSize,   60);
-	SetColWidth(GPMProcessList::kTreeCPU,    50);
-	SetColWidth(GPMProcessList::kTreeMemory, 60);
-	SetColWidth(GPMProcessList::kTreeTime,   60);
+	AppendCols(ProcessList::kTreeCount - 2);
+	SetColWidth(ProcessList::kTreeState,  20);
+	SetColWidth(ProcessList::kTreePID,    50);
+	SetColWidth(ProcessList::kTreeUser,   75);
+	SetColWidth(ProcessList::kTreeNice,   40);
+	SetColWidth(ProcessList::kTreeSize,   60);
+	SetColWidth(ProcessList::kTreeCPU,    50);
+	SetColWidth(ProcessList::kTreeMemory, 60);
+	SetColWidth(ProcessList::kTreeTime,   60);
 
 	itsZombieImage = GetDisplay()->GetImageCache()->GetImage(jx_edit_clear);
 
-	itsContextMenu = GPMProcessTable::CreateContextMenu(this);
+	itsContextMenu = ProcessTable::CreateContextMenu(this);
 	ListenTo(itsContextMenu);
 
 	ListenTo(itsList);
@@ -78,7 +78,7 @@ GPMProcessTreeList::GPMProcessTreeList
 
  *****************************************************************************/
 
-GPMProcessTreeList::~GPMProcessTreeList()
+ProcessTreeList::~ProcessTreeList()
 {
 }
 
@@ -88,13 +88,13 @@ GPMProcessTreeList::~GPMProcessTreeList()
  ******************************************************************************/
 
 void
-GPMProcessTreeList::Receive
+ProcessTreeList::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
-	if (sender == itsList && message.Is(GPMProcessList::kPrepareForUpdate))
+	if (sender == itsList && message.Is(ProcessList::kPrepareForUpdate))
 	{
 		if (itsSelectedEntry != nullptr)
 		{
@@ -108,7 +108,7 @@ GPMProcessTreeList::Receive
 		}
 	}
 
-	else if (sender == itsList && message.Is(GPMProcessList::kListChanged))
+	else if (sender == itsList && message.Is(ProcessList::kListChanged))
 	{
 		JTableSelection& s = GetTableSelection();
 		s.ClearSelection();
@@ -142,7 +142,7 @@ GPMProcessTreeList::Receive
 	{
 		if (sender == &(GetTableSelection()) && message.Is(JTableData::kRectChanged))
 		{
-			const GPMProcessEntry* entry;
+			const ProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
 			{
 				itsFullCmdDisplay->GetText()->SetText(entry->GetFullCommand());
@@ -159,17 +159,17 @@ GPMProcessTreeList::Receive
  ******************************************************************************/
 
 void
-GPMProcessTreeList::TableDrawCell
+ProcessTreeList::TableDrawCell
 	(
 	JPainter&		p,
 	const JPoint&	cell,
 	const JRect&	rect
 	)
 {
-	GPMProcessTable::DrawRowBackground(p, cell, rect, JColorManager::GetGrayColor(95));
+	ProcessTable::DrawRowBackground(p, cell, rect, JColorManager::GetGrayColor(95));
 
-	if (cell.x == GPMProcessList::kTreeOpenClose ||
-		cell.x == GPMProcessList::kTreeCommand)
+	if (cell.x == ProcessList::kTreeOpenClose ||
+		cell.x == ProcessList::kTreeCommand)
 	{
 		JXNamedTreeListWidget::TableDrawCell(p, cell, rect);
 		return;
@@ -178,56 +178,56 @@ GPMProcessTreeList::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	const JTreeNode* node        = GetTreeList()->GetNode(cell.y);
-	const GPMProcessEntry& entry = * dynamic_cast<const GPMProcessEntry*>(node);
+	const ProcessEntry& entry = * dynamic_cast<const ProcessEntry*>(node);
 
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignRight;
-	if (cell.x == GPMProcessList::kTreeState)
+	if (cell.x == ProcessList::kTreeState)
 	{
-		GPMProcessTable::DrawProcessState(entry, p, rect, *itsZombieImage);
+		ProcessTable::DrawProcessState(entry, p, rect, *itsZombieImage);
 	}
-	else if (cell.x == GPMProcessList::kTreePID)
+	else if (cell.x == ProcessList::kTreePID)
 	{
 		str	= JString((JUInt64) entry.GetPID());
 	}
-	else if (cell.x == GPMProcessList::kTreeUser)
+	else if (cell.x == ProcessList::kTreeUser)
 	{
 		str    = entry.GetUser();
 		halign = JPainter::kHAlignLeft;
 	}
-/*	else if (cell.x == GPMProcessList::kTreePPID)
+/*	else if (cell.x == ProcessList::kTreePPID)
 	{
 		str	= JString((JUInt64) entry.GetPPID());
 	}
-	else if (cell.x == GPMProcessList::kTreePriority)
+	else if (cell.x == ProcessList::kTreePriority)
 	{
 		str	= JString((JUInt64) entry.GetPriority());
 	}
-*/	else if (cell.x == GPMProcessList::kTreeNice)
+*/	else if (cell.x == ProcessList::kTreeNice)
 	{
 		str	= JString((JUInt64) entry.GetNice());
 	}
-	else if (cell.x == GPMProcessList::kTreeSize)
+	else if (cell.x == ProcessList::kTreeSize)
 	{
 		str	= JString((JUInt64) entry.GetSize());
 	}
-/*	else if (cell.x == GPMProcessList::kTreeResident)
+/*	else if (cell.x == ProcessList::kTreeResident)
 	{
 		str	= JString((JUInt64) entry.GetResident());
 	}
-	else if (cell.x == GPMProcessList::kTreeShare)
+	else if (cell.x == ProcessList::kTreeShare)
 	{
 		str	= JString((JUInt64) entry.GetShare());
 	}
-*/	else if (cell.x == GPMProcessList::kTreeCPU)
+*/	else if (cell.x == ProcessList::kTreeCPU)
 	{
 		str	= JString(entry.GetPercentCPU(), 1);
 	}
-	else if (cell.x == GPMProcessList::kTreeMemory)
+	else if (cell.x == ProcessList::kTreeMemory)
 	{
 		str	= JString(entry.GetPercentMemory(), 1);
 	}
-	else if (cell.x == GPMProcessList::kTreeTime)
+	else if (cell.x == ProcessList::kTreeTime)
 	{
 		str	= JString((JUInt64) entry.GetTime());
 	}
@@ -244,7 +244,7 @@ GPMProcessTreeList::TableDrawCell
  ******************************************************************************/
 
 void
-GPMProcessTreeList::HandleMouseDown
+ProcessTreeList::HandleMouseDown
 	(
 	const JPoint&			pt,
 	const JXMouseButton		button,
@@ -269,16 +269,16 @@ GPMProcessTreeList::HandleMouseDown
 
 	s.SelectRow(cell.y);
 
-	if (cell.x == GPMProcessList::kTreeState)
+	if (cell.x == ProcessList::kTreeState)
 	{
-		const GPMProcessEntry* entry;
+		const ProcessEntry* entry;
 		const bool ok = GetSelectedProcess(&entry);
 		assert( ok );
 
-		GPMProcessTable::ToggleProcessState(*entry);
+		ProcessTable::ToggleProcessState(*entry);
 		itsList->Update();
 	}
-	else if (cell.x != GPMProcessList::kTreeOpenClose &&
+	else if (cell.x != ProcessList::kTreeOpenClose &&
 			 button == kJXRightButton)
 	{
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
@@ -295,12 +295,12 @@ GPMProcessTreeList::HandleMouseDown
  ******************************************************************************/
 
 void
-GPMProcessTreeList::UpdateContextMenu()
+ProcessTreeList::UpdateContextMenu()
 {
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
 	{
-		GPMProcessTable::UpdateContextMenu(itsContextMenu, *entry);
+		ProcessTable::UpdateContextMenu(itsContextMenu, *entry);
 	}
 }
 
@@ -310,15 +310,15 @@ GPMProcessTreeList::UpdateContextMenu()
  ******************************************************************************/
 
 void
-GPMProcessTreeList::HandleContextMenu
+ProcessTreeList::HandleContextMenu
 	(
 	const JIndex index
 	)
 {
-	const GPMProcessEntry* entry;
+	const ProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
 	{
-		GPMProcessTable::HandleContextMenu(index, *entry, itsList);
+		ProcessTable::HandleContextMenu(index, *entry, itsList);
 	}
 }
 
@@ -328,18 +328,18 @@ GPMProcessTreeList::HandleContextMenu
  ******************************************************************************/
 
 bool
-GPMProcessTreeList::GetSelectedProcess
+ProcessTreeList::GetSelectedProcess
 	(
-	const GPMProcessEntry** entry
+	const ProcessEntry** entry
 	)
 	const
 {
 	JPtrArray<JTreeNode> list(JPtrArrayT::kForgetAll);
-	const_cast<GPMProcessTreeList*>(this)->GetSelectedNodes(&list);
+	const_cast<ProcessTreeList*>(this)->GetSelectedNodes(&list);
 
 	if (!list.IsEmpty())
 	{
-		*entry = dynamic_cast<GPMProcessEntry*>(list.GetFirstElement());
+		*entry = dynamic_cast<ProcessEntry*>(list.GetFirstElement());
 		return true;
 	}
 	else
@@ -355,9 +355,9 @@ GPMProcessTreeList::GetSelectedProcess
  ******************************************************************************/
 
 void
-GPMProcessTreeList::SelectProcess
+ProcessTreeList::SelectProcess
 	(
-	const GPMProcessEntry& entry
+	const ProcessEntry& entry
 	)
 {
 	JTableSelection& s = GetTableSelection();

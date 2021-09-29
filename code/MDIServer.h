@@ -1,28 +1,28 @@
 /******************************************************************************
- GPMMDIServer.h
+ MDIServer.h
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMMDIServer
-#define _H_GPMMDIServer
+#ifndef _H_MDIServer
+#define _H_MDIServer
 
 #include <jx-af/jx/JXMDIServer.h>
 
-class GPMMainDirector;
+class MainDirector;
 
-class GPMMDIServer : public JXMDIServer
+class MDIServer : public JXMDIServer
 {
 public:
 
-	GPMMDIServer();
+	MDIServer();
 
-	virtual ~GPMMDIServer();
+	virtual ~MDIServer();
 
 	static void	PrintCommandLineHelp();
 
-	void	SetMainDirector(GPMMainDirector* dir);
+	void	SetMainDirector(MainDirector* dir);
 
 protected:
 
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	GPMMainDirector*	itsMainDirector;
+	MainDirector*	itsMainDirector;
 };
 
 
@@ -41,9 +41,9 @@ private:
  *****************************************************************************/
 
 inline void
-GPMMDIServer::SetMainDirector
+MDIServer::SetMainDirector
 	(
-	GPMMainDirector* dir
+	MainDirector* dir
 	)
 {
 	itsMainDirector = dir;

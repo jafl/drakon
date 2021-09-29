@@ -1,14 +1,14 @@
 /******************************************************************************
- GPMProcessEntry.h
+ ProcessEntry.h
 
-	Interface for the GPMProcessEntry class
+	Interface for the ProcessEntry class
 
 	Copyright (C) 2000 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMProcessEntry
-#define _H_GPMProcessEntry
+#ifndef _H_ProcessEntry
+#define _H_ProcessEntry
 
 #include <jx-af/jcore/JNamedTreeNode.h>
 #include <sys/types.h>
@@ -19,7 +19,7 @@
 
 class JDirEntry;
 
-class GPMProcessEntry : public JNamedTreeNode
+class ProcessEntry : public JNamedTreeNode
 {
 public:
 
@@ -35,14 +35,14 @@ public:
 public:
 
 	#ifdef _J_HAS_PROC
-	GPMProcessEntry(JTree* tree, const JDirEntry& entry);
+	ProcessEntry(JTree* tree, const JDirEntry& entry);
 	#elif defined _J_HAS_SYSCTL
-	GPMProcessEntry(JTree* tree, const kinfo_proc& entry);
+	ProcessEntry(JTree* tree, const kinfo_proc& entry);
 	#endif
 
-	GPMProcessEntry(JTree* tree, const JString& prefix);
+	ProcessEntry(JTree* tree, const JString& prefix);
 
-	virtual ~GPMProcessEntry();
+	virtual ~ProcessEntry();
 
 	void	Update(const JFloat elapsedTime);
 
@@ -63,23 +63,23 @@ public:
 	JFloat			GetPercentCPU() const;
 
 	static JListT::CompareResult
-		CompareListPID(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListPID(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListUser(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListUser(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListNice(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListNice(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListSize(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListSize(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListPercentMemory(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListPercentMemory(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListPercentCPU(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListPercentCPU(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListTime(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListTime(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListCommand(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListCommand(ProcessEntry * const & e1, ProcessEntry * const & e2);
 	static JListT::CompareResult
-		CompareListCommandForIncrSearch(GPMProcessEntry * const & e1, GPMProcessEntry * const & e2);
+		CompareListCommandForIncrSearch(ProcessEntry * const & e1, ProcessEntry * const & e2);
 
 	static JListT::CompareResult
 		CompareTreePID(JTreeNode * const & e1, JTreeNode * const & e2);
@@ -140,8 +140,8 @@ private:
 
  ******************************************************************************/
 
-inline GPMProcessEntry::State
-GPMProcessEntry::GetState()
+inline ProcessEntry::State
+ProcessEntry::GetState()
 	const
 {
 	return itsState;
@@ -153,7 +153,7 @@ GPMProcessEntry::GetState()
  ******************************************************************************/
 
 inline uid_t
-GPMProcessEntry::GetUID()
+ProcessEntry::GetUID()
 	const
 {
 	return itsUID;
@@ -165,7 +165,7 @@ GPMProcessEntry::GetUID()
  ******************************************************************************/
 
 inline const JString&
-GPMProcessEntry::GetUser()
+ProcessEntry::GetUser()
 	const
 {
 	return itsUser;
@@ -177,7 +177,7 @@ GPMProcessEntry::GetUser()
  ******************************************************************************/
 
 inline pid_t
-GPMProcessEntry::GetPID()
+ProcessEntry::GetPID()
 	const
 {
 	return itsPID;
@@ -189,7 +189,7 @@ GPMProcessEntry::GetPID()
  ******************************************************************************/
 
 inline const JString&
-GPMProcessEntry::GetCommand()
+ProcessEntry::GetCommand()
 	const
 {
 	return itsCommand;
@@ -201,7 +201,7 @@ GPMProcessEntry::GetCommand()
  ******************************************************************************/
 
 inline const JString&
-GPMProcessEntry::GetFullCommand()
+ProcessEntry::GetFullCommand()
 	const
 {
 	return itsFullCommand;
@@ -213,7 +213,7 @@ GPMProcessEntry::GetFullCommand()
  ******************************************************************************/
 
 inline pid_t
-GPMProcessEntry::GetPPID()
+ProcessEntry::GetPPID()
 	const
 {
 	return itsPPID;
@@ -225,7 +225,7 @@ GPMProcessEntry::GetPPID()
  ******************************************************************************/
 
 inline JInteger
-GPMProcessEntry::GetPriority()
+ProcessEntry::GetPriority()
 	const
 {
 	return itsPriority;
@@ -237,7 +237,7 @@ GPMProcessEntry::GetPriority()
  ******************************************************************************/
 
 inline JInteger
-GPMProcessEntry::GetNice()
+ProcessEntry::GetNice()
 	const
 {
 	return itsNice;
@@ -249,7 +249,7 @@ GPMProcessEntry::GetNice()
  ******************************************************************************/
 
 inline JSize
-GPMProcessEntry::GetSize()
+ProcessEntry::GetSize()
 	const
 {
 	return itsSize;
@@ -261,7 +261,7 @@ GPMProcessEntry::GetSize()
  ******************************************************************************/
 
 inline JSize
-GPMProcessEntry::GetResident()
+ProcessEntry::GetResident()
 	const
 {
 	return itsResident;
@@ -273,7 +273,7 @@ GPMProcessEntry::GetResident()
  ******************************************************************************/
 
 inline JSize
-GPMProcessEntry::GetShare()
+ProcessEntry::GetShare()
 	const
 {
 	return itsShare;
@@ -285,7 +285,7 @@ GPMProcessEntry::GetShare()
  ******************************************************************************/
 
 inline JSize
-GPMProcessEntry::GetTime()
+ProcessEntry::GetTime()
 	const
 {
 	return itsTime;
@@ -297,7 +297,7 @@ GPMProcessEntry::GetTime()
  ******************************************************************************/
 
 inline JFloat
-GPMProcessEntry::GetPercentMemory()
+ProcessEntry::GetPercentMemory()
 	const
 {
 	return itsPercentMemory;
@@ -309,7 +309,7 @@ GPMProcessEntry::GetPercentMemory()
  ******************************************************************************/
 
 inline JFloat
-GPMProcessEntry::GetPercentCPU()
+ProcessEntry::GetPercentCPU()
 	const
 {
 	return itsPercentCPU;

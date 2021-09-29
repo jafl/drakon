@@ -1,28 +1,28 @@
 /******************************************************************************
- GPMTreeHeaderWidget.h
+ ListHeaderWidget.h
 
-	Copyright (C) 2006 by John Lindal.
+	Copyright (C) 2000 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMTreeHeaderWidget
-#define _H_GPMTreeHeaderWidget
+#ifndef _H_ListHeaderWidget
+#define _H_ListHeaderWidget
 
 #include <jx-af/jx/JXColHeaderWidget.h>
 
-class GPMProcessList;
+class ProcessList;
 
-class GPMTreeHeaderWidget : public JXColHeaderWidget
+class ListHeaderWidget : public JXColHeaderWidget
 {
 public:
 
-	GPMTreeHeaderWidget(JXTable* table, GPMProcessList* list,
+	ListHeaderWidget(JXTable* table, ProcessList* list,
 						JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 						const HSizingOption hSizing, const VSizingOption vSizing,
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	virtual ~GPMTreeHeaderWidget();
+	virtual ~ListHeaderWidget();
 
 protected:
 
@@ -35,7 +35,7 @@ protected:
 
 private:
 
-	GPMProcessList*	itsList;
+	ProcessList*	itsList;
 };
 
 #endif

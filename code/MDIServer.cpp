@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMMDIServer.cpp
+ MDIServer.cpp
 
 	BASE CLASS = public JXMDIServer
 
@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include "GPMMDIServer.h"
-#include "GPMMainDirector.h"
-#include "gpmGlobals.h"
+#include "MDIServer.h"
+#include "MainDirector.h"
+#include "globals.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -17,7 +17,7 @@
 
  *****************************************************************************/
 
-GPMMDIServer::GPMMDIServer()
+MDIServer::MDIServer()
 	:
 	JXMDIServer(),
 	itsMainDirector(nullptr)
@@ -29,7 +29,7 @@ GPMMDIServer::GPMMDIServer()
 
  *****************************************************************************/
 
-GPMMDIServer::~GPMMDIServer()
+MDIServer::~MDIServer()
 {
 }
 
@@ -39,7 +39,7 @@ GPMMDIServer::~GPMMDIServer()
  *****************************************************************************/
 
 void
-GPMMDIServer::HandleMDIRequest
+MDIServer::HandleMDIRequest
 	(
 	const JString&				dir,
 	const JPtrArray<JString>&	argList
@@ -57,13 +57,13 @@ GPMMDIServer::HandleMDIRequest
  ******************************************************************************/
 
 void
-GPMMDIServer::PrintCommandLineHelp()
+MDIServer::PrintCommandLineHelp()
 {
 	const JUtf8Byte* map[] =
 	{
-		"version",   GPMGetVersionNumberStr().GetBytes(),
+		"version",   GetVersionNumberStr().GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	const JString s = JGetString("CommandLineHelp::GPMMDIServer", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::MDIServer", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }

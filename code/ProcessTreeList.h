@@ -1,38 +1,38 @@
 /******************************************************************************
- GPMProcessTreeList.h
+ ProcessTreeList.h
 
 	Copyright (C) 2006 by John Lindal.
 
  *****************************************************************************/
 
-#ifndef _H_GPMProcessTreeList
-#define _H_GPMProcessTreeList
+#ifndef _H_ProcessTreeList
+#define _H_ProcessTreeList
 
 #include <jx-af/jx/JXNamedTreeListWidget.h>
 
-class GPMProcessList;
-class GPMProcessEntry;
+class ProcessList;
+class ProcessEntry;
 
 class JXTextMenu;
 class JXToolBar;
 class JXTEBase;
 class JXImage;
 
-class GPMProcessTreeList : public JXNamedTreeListWidget
+class ProcessTreeList : public JXNamedTreeListWidget
 {
 public:
 
-	GPMProcessTreeList(GPMProcessList* list, JNamedTreeList* treeList,
+	ProcessTreeList(ProcessList* list, JNamedTreeList* treeList,
 						JXTEBase* fullCmdDisplay,
 						JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 						const HSizingOption hSizing, const VSizingOption vSizing,
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate w, const JCoordinate h);
 
-	virtual ~GPMProcessTreeList();
+	virtual ~ProcessTreeList();
 
-	bool	GetSelectedProcess(const GPMProcessEntry** entry) const;
-	void	SelectProcess(const GPMProcessEntry& entry);
+	bool	GetSelectedProcess(const ProcessEntry** entry) const;
+	void	SelectProcess(const ProcessEntry& entry);
 
 protected:
 
@@ -47,9 +47,9 @@ protected:
 
 private:
 
-	GPMProcessList*			itsList;			// not owned
+	ProcessList*			itsList;			// not owned
 	JXTextMenu*				itsContextMenu;
-	const GPMProcessEntry* 	itsSelectedEntry;
+	const ProcessEntry* 	itsSelectedEntry;
 	JXTEBase*				itsFullCmdDisplay;
 	JXImage*				itsZombieImage;		// not owned
 

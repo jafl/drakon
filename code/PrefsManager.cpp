@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMPrefsManager.cpp
+ PrefsManager.cpp
 
 	BASE CLASS = public JXPrefsManager
 
@@ -7,8 +7,8 @@
 
  *****************************************************************************/
 
-#include "GPMPrefsManager.h"
-#include "gpmGlobals.h"
+#include "PrefsManager.h"
+#include "globals.h"
 #include <jx-af/jx/JXChooseSaveFile.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -19,7 +19,7 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 
  *****************************************************************************/
 
-GPMPrefsManager::GPMPrefsManager
+PrefsManager::PrefsManager
 	(
 	bool* isNew
 	)
@@ -29,7 +29,7 @@ GPMPrefsManager::GPMPrefsManager
 	*isNew = JPrefsManager::UpgradeData();
 
 	JXChooseSaveFile* csf = JXGetChooseSaveFile();
-	csf->SetPrefInfo(this, kGPMgCSFSetupID);
+	csf->SetPrefInfo(this, kgCSFSetupID);
 	csf->JPrefObject::ReadPrefs();
 }
 
@@ -38,7 +38,7 @@ GPMPrefsManager::GPMPrefsManager
 
  *****************************************************************************/
 
-GPMPrefsManager::~GPMPrefsManager()
+PrefsManager::~PrefsManager()
 {
 	SaveAllBeforeDestruct();
 }
@@ -49,9 +49,9 @@ GPMPrefsManager::~GPMPrefsManager()
  ******************************************************************************/
 
 void
-GPMPrefsManager::SaveAllBeforeDestruct()
+PrefsManager::SaveAllBeforeDestruct()
 {
-	SetData(kGPMProgramVersionID, GPMGetVersionNumberStr());
+	SetData(kProgramVersionID, GetVersionNumberStr());
 
 	JXPrefsManager::SaveAllBeforeDestruct();
 }
@@ -62,7 +62,7 @@ GPMPrefsManager::SaveAllBeforeDestruct()
  ******************************************************************************/
 
 void
-GPMPrefsManager::UpgradeData
+PrefsManager::UpgradeData
 	(
 	const bool		isNew,
 	const JFileVersion	currentVersion
@@ -70,7 +70,7 @@ GPMPrefsManager::UpgradeData
 {
 	if (isNew)
 	{
-		SetData(kGPMProgramVersionID, GPMGetVersionNumberStr());
+		SetData(kProgramVersionID, GetVersionNumberStr());
 	}
 }
 
@@ -80,11 +80,11 @@ GPMPrefsManager::UpgradeData
  ******************************************************************************/
 
 JString
-GPMPrefsManager::GetPrevVersionStr()
+PrefsManager::GetPrevVersionStr()
 	const
 {
 	std::string data;
-	const bool ok = GetData(kGPMProgramVersionID, &data);
+	const bool ok = GetData(kProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
 }

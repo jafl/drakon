@@ -1,5 +1,5 @@
 /******************************************************************************
- GPMSystemStats.cpp
+ SystemStats.cpp
 
 	Displays the CPU history and memory usage.
 
@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include "GPMSystemStats.h"
-#include "GPMProcessList.h"
-#include "gpmGlobals.h"
+#include "SystemStats.h"
+#include "ProcessList.h"
+#include "globals.h"
 #include <jx-af/jx/JXWindowPainter.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jcore/JRegex.h>
@@ -28,9 +28,9 @@ const JCoordinate kDisplayMarginWidth    = 5;
 
  ******************************************************************************/
 
-GPMSystemStats::GPMSystemStats
+SystemStats::SystemStats
 	(
-	GPMProcessList*		processList,
+	ProcessList*		processList,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -59,7 +59,7 @@ GPMSystemStats::GPMSystemStats
 
  ******************************************************************************/
 
-GPMSystemStats::~GPMSystemStats()
+SystemStats::~SystemStats()
 {
 	jdelete itsCPUHistory;
 }
@@ -70,7 +70,7 @@ GPMSystemStats::~GPMSystemStats()
  ******************************************************************************/
 
 void
-GPMSystemStats::DrawBorder
+SystemStats::DrawBorder
 	(
 	JXWindowPainter&	p,
 	const JRect&		frame
@@ -84,7 +84,7 @@ GPMSystemStats::DrawBorder
  ******************************************************************************/
 
 void
-GPMSystemStats::Draw
+SystemStats::Draw
 	(	
 	JXWindowPainter&	p,
 	const JRect&		clip
@@ -184,13 +184,13 @@ GPMSystemStats::Draw
  ******************************************************************************/
 
 void
-GPMSystemStats::Receive
+SystemStats::Receive
 	(
 	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
-	if (sender == itsProcessList && message.Is(GPMProcessList::kListChanged))
+	if (sender == itsProcessList && message.Is(ProcessList::kListChanged))
 	{
 		Refresh();
 	}
@@ -210,7 +210,7 @@ static const JRegex bufferMemoryPattern = "^Buffers:\\s*([0-9]+)";
 static const JRegex cacheMemoryPattern  = "^Cached:\\s*([0-9]+)";
 
 void
-GPMSystemStats::ComputeStats
+SystemStats::ComputeStats
 	(
 	JFloat* userCPUPercentage,
 	JFloat* otherCPUPercentage,
@@ -227,7 +227,7 @@ GPMSystemStats::ComputeStats
 	JSize count = itsProcessList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const GPMProcessEntry* e = itsProcessList->GetProcessEntry(i);
+		const ProcessEntry* e = itsProcessList->GetProcessEntry(i);
 		if (e->GetUID() == itsUID)
 		{
 			*userCPUPercentage += e->GetPercentCPU();
@@ -238,18 +238,18 @@ GPMSystemStats::ComputeStats
 		}
 	}
 
-	const JPtrArray<GPMProcessEntry>& hidden = itsProcessList->GetHiddenProcesses();
+	const JPtrArray<ProcessEntry>& hidden = itsProcessList->GetHiddenProcesses();
 	count = hidden.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const GPMProcessEntry* e = hidden.GetElement(i);
+		const ProcessEntry* e = hidden.GetElement(i);
 		*otherCPUPercentage     += e->GetPercentCPU();
 	}
 
 #ifdef _J_HAS_PROC
 {
 	JSize totalMem, freeMem = 0, otherMem = 0, foundCount = 0;
-	if (GPMGetSystemMemory(&totalMem))
+	if (GetSystemMemory(&totalMem))
 	{
 		std::ifstream ms("/proc/meminfo");
 		JString line;

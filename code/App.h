@@ -1,22 +1,22 @@
 /******************************************************************************
- GPMApp.h
+ App.h
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
  *****************************************************************************/
 
-#ifndef _H_GPMApp
-#define _H_GPMApp
+#ifndef _H_App
+#define _H_App
 
 #include <jx-af/jx/JXApplication.h>
 
-class GPMApp : public JXApplication
+class App : public JXApplication
 {
 public:
 
-	GPMApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
+	App(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
 
-	virtual ~GPMApp();
+	virtual ~App();
 
 	void	DisplayAbout(const JString& prevVersStr = JString::empty);
 
