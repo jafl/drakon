@@ -18,7 +18,7 @@ CHANGE_LOG_URL	"http://drakon.sourceforge.net/ChangeLog.html"
 VERSION_URL		"http://drakon.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://sourceforge.net/projects/drakon/"
 
-# gpmGlobals
+# globals
 
 Description::globals
 "Drakon Process Manager $version
@@ -27,7 +27,7 @@ Misbehaving processes require draconian justice!
 
 $copyright"
 
-# GPMMDIServer
+# MDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
 CommandLineHelp::MDIServer
@@ -45,11 +45,11 @@ Usage:
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-# GPMPrefsDialog
+# PrefsDialog
 
 WindowTitle::PrefsDialog "Preferences"
 
-# GPMAboutDialog
+# AboutDialog
 
 WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
@@ -60,14 +60,14 @@ UpgradeNotice::AboutDialog
 
 You have just upgraded from version $vers"
 
-# GPMMainDirector
+# MainDirector
 
 WindowTitle::MainDirector		"Drakon Process Manager"
 ProcessMenuTitle::MainDirector	"Process"
 ListTabTitle::MainDirector		"List"
 TreeTabTitle::MainDirector		"Tree"
 
-# GPMListHeaderWidget
+# ListHeaderWidget
 
 PIDColumnTitle::ListHeaderWidget		"PID"
 UserColumnTitle::ListHeaderWidget		"User"

@@ -16,15 +16,15 @@
 
 // Process menu
 
-#define kShowAllAction   "ShowAll"
-#define kPauseAction     "Pause"
-#define kContinueAction  "Continue"
-#define kReNiceAction    "ReNice"
-#define kStopAction      "Stop"
-#define kKillAction      "Kill"
+#define kShowAllAction   "GPMShowAll"
+#define kPauseAction     "GPMPause"
+#define kContinueAction  "GPMContinue"
+#define kReNiceAction    "GPMReNice"
+#define kStopAction      "GPMStop"
+#define kKillAction      "GPMKill"
 
 // Preferences menu
 
-#define kToolbarButtonsAction "EditToolBar"
+#define kToolbarButtonsAction "GPMEditToolBar"
 
 #endif
