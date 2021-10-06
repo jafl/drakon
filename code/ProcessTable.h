@@ -33,7 +33,7 @@ public:
 	bool	GetSelectedProcess(const ProcessEntry** entry) const;
 	void	SelectProcess(const ProcessEntry& entry);
 
-	virtual void	HandleKeyPress(const JUtf8Character& c,
+	void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	static void	DrawRowBackground(JPainter& p, const JPoint& cell, const JRect& rect,
@@ -50,16 +50,16 @@ public:
 
 protected:
 
-	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
+	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
-	virtual void	HandleFocusEvent() override;
-	virtual void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
+	void	HandleFocusEvent() override;
+	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
 									const JSize clickCount,
 									const JXButtonStates& buttonStates,
 									const JXKeyModifiers& modifiers) override;
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
