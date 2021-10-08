@@ -277,9 +277,8 @@ ProcessList::Update()
 
 	// add new processes to the list
 
-	JListT::CompareResult (*treeCompareFn)(JTreeNode * const &,
-												 JTreeNode * const &);
-	JListT::SortOrder	treeSortOrder;
+	std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)>* treeCompareFn;
+	JListT::SortOrder treeSortOrder;
 	itsRootNode->GetChildCompareFunction(&treeCompareFn, &treeSortOrder);
 
 	count = newEntries.GetElementCount();
@@ -290,7 +289,7 @@ ProcessList::Update()
 		itsVisibleEntries->InsertSorted(pentry);
 		itsAlphaEntries->InsertSorted(pentry);
 
-		pentry->SetChildCompareFunction(treeCompareFn, treeSortOrder, true);
+		pentry->SetChildCompareFunction(*treeCompareFn, treeSortOrder, true);
 	}
 
 	// reparent all nodes
