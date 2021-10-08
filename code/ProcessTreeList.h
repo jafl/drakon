@@ -23,13 +23,13 @@ class ProcessTreeList : public JXNamedTreeListWidget
 public:
 
 	ProcessTreeList(ProcessList* list, JNamedTreeList* treeList,
-						JXTEBase* fullCmdDisplay,
-						JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
-						const HSizingOption hSizing, const VSizingOption vSizing,
-						const JCoordinate x, const JCoordinate y,
-						const JCoordinate w, const JCoordinate h);
+					JXTEBase* fullCmdDisplay,
+					JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
+					const HSizingOption hSizing, const VSizingOption vSizing,
+					const JCoordinate x, const JCoordinate y,
+					const JCoordinate w, const JCoordinate h);
 
-	virtual ~ProcessTreeList();
+	~ProcessTreeList() override;
 
 	bool	GetSelectedProcess(const ProcessEntry** entry) const;
 	void	SelectProcess(const ProcessEntry& entry);
@@ -39,19 +39,19 @@ protected:
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	ProcessList*			itsList;			// not owned
-	JXTextMenu*				itsContextMenu;
-	const ProcessEntry* 	itsSelectedEntry;
-	JXTEBase*				itsFullCmdDisplay;
-	JXImage*				itsZombieImage;		// not owned
+	ProcessList*		itsList;			// not owned
+	JXTextMenu*			itsContextMenu;
+	const ProcessEntry* itsSelectedEntry;
+	JXTEBase*			itsFullCmdDisplay;
+	JXImage*			itsZombieImage;		// not owned
 
 private:
 

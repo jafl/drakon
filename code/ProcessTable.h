@@ -28,16 +28,16 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~ProcessTable();
+	~ProcessTable() override;
 
 	bool	GetSelectedProcess(const ProcessEntry** entry) const;
 	void	SelectProcess(const ProcessEntry& entry);
 
 	void	HandleKeyPress(const JUtf8Character& c,
-								   const int keySym, const JXKeyModifiers& modifiers) override;
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 	static void	DrawRowBackground(JPainter& p, const JPoint& cell, const JRect& rect,
-								  const JColorID color);
+						  const JColorID color);
 	static void	DrawProcessState(const ProcessEntry& entry,
 								 JPainter& p, const JRect& rect,
 								 const JXImage& zombieImage);
@@ -55,20 +55,20 @@ protected:
 
 	void	HandleFocusEvent() override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 
 private:
 
-	ProcessList*			itsList;			// not owned
-	JString					itsKeyBuffer;
-	JXTextMenu*				itsContextMenu;
-	const ProcessEntry* 	itsSelectedEntry;	// nullptr unless updating
-	JXTEBase*				itsFullCmdDisplay;
-	JXImage*				itsZombieImage;		// not owned
+	ProcessList*		itsList;			// not owned
+	JString				itsKeyBuffer;
+	JXTextMenu*			itsContextMenu;
+	const ProcessEntry* itsSelectedEntry;	// nullptr unless updating
+	JXTEBase*			itsFullCmdDisplay;
+	JXImage*			itsZombieImage;		// not owned
 
 private:
 

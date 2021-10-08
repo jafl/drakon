@@ -29,7 +29,7 @@ public:
 public:
 
 	MainDirector(JXDirector* supervisor);
-	virtual ~MainDirector();
+	~MainDirector() override;
 
 protected:
 
@@ -51,7 +51,7 @@ private:
 	SystemStats*	itsSystemStats;
 
 	JXTabGroup*			itsTabGroup;
-	ProcessTable*	itsProcessTable;
+	ProcessTable*		itsProcessTable;
 	ProcessTreeList*	itsProcessTree;
 
 // begin JXLayout

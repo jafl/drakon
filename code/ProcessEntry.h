@@ -42,7 +42,7 @@ public:
 
 	ProcessEntry(JTree* tree, const JString& prefix);
 
-	virtual ~ProcessEntry();
+	~ProcessEntry() override;
 
 	void	Update(const JFloat elapsedTime);
 

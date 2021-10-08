@@ -18,7 +18,7 @@ public:
 
 	MDIServer();
 
-	virtual ~MDIServer();
+	~MDIServer() override;
 
 	static void	PrintCommandLineHelp();
 
@@ -27,7 +27,7 @@ public:
 protected:
 
 	void	HandleMDIRequest(const JString& dir,
-									 const JPtrArray<JString>& argList) override;
+							 const JPtrArray<JString>& argList) override;
 
 private:
 

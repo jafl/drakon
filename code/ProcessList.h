@@ -66,7 +66,7 @@ public:
 public:
 
 	ProcessList();
-	virtual ~ProcessList();
+	~ProcessList() override;
 
 	void	Update();
 
