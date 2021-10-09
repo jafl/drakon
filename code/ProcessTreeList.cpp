@@ -24,7 +24,7 @@
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_edit_clear.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 
 const JCoordinate kHMarginWidth	= 5;
 

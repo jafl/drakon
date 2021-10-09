@@ -32,7 +32,7 @@
 #include <unistd.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx_edit_clear.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 #include "pause.xpm"
 #include "cont.xpm"
 #include "slow.xpm"

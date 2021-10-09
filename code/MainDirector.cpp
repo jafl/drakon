@@ -40,7 +40,7 @@
 #include "slow.xpm"
 #include "gpm_stop.xpm"
 #include "gpm_all_processes.xpm"
-#include <jx_edit_clear.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 
 const JCoordinate kStatusHeight = 30;
 const JCoordinate kStatusMargin = 5;
@@ -168,8 +168,8 @@ MainDirector::~MainDirector()
  ******************************************************************************/
 
 #include "gpm_main_window_icon.xpm"
-#include <jx_help_specific.xpm>
-#include <jx_help_toc.xpm>
+#include <jx-af/image/jx/jx_help_specific.xpm>
+#include <jx-af/image/jx/jx_help_toc.xpm>
 
 void
 MainDirector::BuildWindow()
