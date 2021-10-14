@@ -119,7 +119,7 @@ ProcessList::Update()
 	struct timezone tZone;
 	gettimeofday(&currentTime, &tZone);
 
-	const JFloat newTime = currentTime.tv_sec + (JFloat)(currentTime.tv_usec / 1000000.0);
+	const JFloat newTime = currentTime.tv_sec + (currentTime.tv_usec / 1000000.0);
 	itsElapsedTime       = itsLastTime == 0 ? 0 : newTime - itsLastTime;
 	itsLastTime          = newTime;
 
@@ -144,7 +144,7 @@ ProcessList::Update()
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
 		if (entry.GetName().IsInteger())
 		{
-			ProcessEntry* pentry = jnew ProcessEntry(itsTree, entry);
+			auto* pentry = jnew ProcessEntry(itsTree, entry);
 			assert(pentry != nullptr);
 			newEntries.InsertSorted(pentry);
 		}
@@ -202,7 +202,7 @@ ProcessList::Update()
 	JSize count = itsHiddenEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		ProcessEntry* pentry	= itsHiddenEntries->GetElement(i);
+		auto* pentry = itsHiddenEntries->GetElement(i);
 		JIndex findex;
 		if (!newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
@@ -217,7 +217,7 @@ ProcessList::Update()
 		count = newEntries.GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			ProcessEntry* pentry	= newEntries.GetElement(i);
+			auto* pentry = newEntries.GetElement(i);
 			if (pentry->GetUID() != itsUID)
 			{
 				newEntries.RemoveElement(i);
@@ -246,7 +246,7 @@ ProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		ProcessEntry* pentry	= itsVisibleEntries->GetElement(i);
+		auto* pentry = itsVisibleEntries->GetElement(i);
 		JIndex findex;
 		if (newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
@@ -284,7 +284,7 @@ ProcessList::Update()
 	count = newEntries.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		ProcessEntry* pentry = newEntries.GetElement(i);
+		auto* pentry = newEntries.GetElement(i);
 		pentry->Update(itsElapsedTime);
 		itsVisibleEntries->InsertSorted(pentry);
 		itsAlphaEntries->InsertSorted(pentry);
@@ -297,7 +297,7 @@ ProcessList::Update()
 	count = itsVisibleEntries->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		ProcessEntry* pentry = itsVisibleEntries->GetElement(i);
+		auto* pentry = itsVisibleEntries->GetElement(i);
 		ProcessEntry* parent;
 		if (FindProcessEntry(pentry->GetPPID(), &parent) &&
 			parent != pentry)
@@ -321,7 +321,7 @@ ProcessList::Update()
 bool
 ProcessList::FindProcessEntry
 	(
-	const pid_t			pid,
+	const pid_t		pid,
 	ProcessEntry**	entry
 	)
 	const

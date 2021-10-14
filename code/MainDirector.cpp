@@ -480,18 +480,16 @@ MainDirector::UpdateProcessMenu()
 	assert( ok );
 
 	const ProcessEntry* entry;
-	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
-		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
+	if (((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
+		 (tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry))) &&
+		 entry->GetState() != ProcessEntry::kZombie)
 	{
-		if (entry->GetState() != ProcessEntry::kZombie)
-		{
-			const bool notSelf = entry->GetPID() != getpid();
-			itsProcessMenu->EnableItem(kEndCmd);
-			itsProcessMenu->EnableItem(kKillCmd);
-			itsProcessMenu->SetItemEnable(kPauseCmd, notSelf);
-			itsProcessMenu->SetItemEnable(kContinueCmd, notSelf);
-			itsProcessMenu->EnableItem(kReNiceCmd);
-		}
+		const bool notSelf = entry->GetPID() != getpid();
+		itsProcessMenu->EnableItem(kEndCmd);
+		itsProcessMenu->EnableItem(kKillCmd);
+		itsProcessMenu->SetItemEnable(kPauseCmd, notSelf);
+		itsProcessMenu->SetItemEnable(kContinueCmd, notSelf);
+		itsProcessMenu->EnableItem(kReNiceCmd);
 	}
 }
 
