@@ -1,3 +1,12 @@
+[![Github CI](https://github.com/jafl/drakon/actions/workflows/ci.yml/badge.svg)](https://github.com/jafl/drakon/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_drakon&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_drakon&branch=main)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_drakon&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_drakon&branch=main)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_drakon&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_drakon&branch=main)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_drakon&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_drakon&branch=main)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_drakon&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_drakon&branch=main)
+
 # Drakon
 
 Drakon provides a graphical display of the processes running on your UNIX machine.  The [on-line help](http://drakon.sourceforge.net/help.html) explains all the features of the program.
