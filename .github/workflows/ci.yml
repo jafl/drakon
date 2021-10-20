@@ -82,7 +82,7 @@ jobs:
 
       - name: Build release artifacts
         run: |
-          make VERBOSE=1 release
+          make release
           mv ../drakon_*.tar.gz ../drakon_*.deb .
 
       - name: Store release artifacts
