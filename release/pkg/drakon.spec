@@ -4,7 +4,7 @@ Version: %pkg_version
 Release: 1
 License: GPL
 Group: System/Monitoring
-Source: Drakon_%pkg_version.tar
+Source: %pkg_name
 Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
 
 %description
@@ -21,7 +21,7 @@ Drakon provides a simple way to manage UNIX processes.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT" nozip
+./install "$RPM_BUILD_ROOT"
 
 %post
 gunzip %drakon_lib_dir/*.gz
