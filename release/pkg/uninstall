@@ -6,7 +6,7 @@ if [[ -z $PRE ]]; then
 fi
 
 BIN=$PRE/bin;
-DOC=$PRE/share/doc/nps-ssh-askpass;
+DOC=$PRE/share/doc/drakon;
 APP=$PRE/share/applications;
 ICON=$PRE/share/pixmaps;
 

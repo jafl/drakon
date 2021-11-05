@@ -20,6 +20,7 @@ if [[ $SYS == Darwin ]]; then
 	fi;
 
 	if [[ $1 != ci ]]; then
+		brew tap jafl/jx;
 		brew bundle;
 	fi
 
