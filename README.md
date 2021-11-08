@@ -23,9 +23,9 @@ Drakon provides a graphical display of the processes running on your UNIX machin
 
 For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 
-* brew install --cask xquartz
-* brew tap jafl/jx
-* brew install jafl/jx/drakon
+* `brew install --cask xquartz`
+* `brew tap jafl/jx`
+* `brew install jafl/jx/drakon`
 
 For all other systems, download a package from:
 
@@ -34,7 +34,7 @@ For all other systems, download a package from:
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`
 
-Otherwise, put the program (drakon) in a directory that is on your execution path.  `~/bin` is typically good choices.
+Otherwise, put the program (`drakon`) in a directory that is on your execution path.  `~/bin` is typically good choices.
 
 ### Requirements
 
