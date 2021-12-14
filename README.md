@@ -15,7 +15,7 @@ Drakon provides a graphical display of the processes running on your UNIX machin
 ## Building from source
 
 1. Install the [JX Application Framework](https://github.com/jafl/jx_application_framework),  and set the `JX_ROOT` environment variable to point to its `include` directory.
-1. `makemake`
+1. `./configure`
 1. `make`
 
 
@@ -30,7 +30,6 @@ For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 For all other systems, download a package from:
 
 * https://github.com/jafl/drakon/releases
-* http://sourceforge.net/p/drakon
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
 

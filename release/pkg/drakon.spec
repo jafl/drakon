@@ -1,5 +1,5 @@
 Summary: Drakon provides a simple way to manage UNIX processes.
-Name: Drakon
+Name: %app_name
 Version: %pkg_version
 Release: 1
 License: GPL
@@ -17,24 +17,16 @@ Drakon provides a simple way to manage UNIX processes.
 %install
 
 %define drakon_doc_dir  /usr/share/doc/drakon
-%define drakon_lib_dir  /usr/lib/drakon
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT"
-
-%post
-gunzip %drakon_lib_dir/*.gz
-
-%postun
-rm -rf %drakon_lib_dir
+./install "$RPM_BUILD_ROOT"/usr
 
 %files
 
 %docdir %drakon_doc_dir
 
 /usr/bin/drakon
-%drakon_lib_dir
 %drakon_doc_dir
 
 %gnome_app_path/drakon.desktop
