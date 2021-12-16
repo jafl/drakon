@@ -31,3 +31,4 @@ Drakon provides a simple way to manage UNIX processes.
 
 %gnome_app_path/drakon.desktop
 %gnome_icon_path/drakon.xpm
+%gnome_icon_path/drakon_small.xpm
