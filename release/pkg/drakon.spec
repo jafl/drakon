@@ -9,7 +9,6 @@ Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, lib
 
 %description
 Drakon provides a simple way to manage UNIX processes.
-(http://www.newplanetsoftware.com/drakon/)
 
 %prep
 %setup
@@ -20,7 +19,7 @@ Drakon provides a simple way to manage UNIX processes.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT"/usr
+./install $RPM_BUILD_ROOT
 
 %files
 
@@ -30,5 +29,4 @@ Drakon provides a simple way to manage UNIX processes.
 %drakon_doc_dir
 
 %gnome_app_path/drakon.desktop
-%gnome_icon_path/drakon.xpm
-%gnome_icon_path/drakon_small.xpm
+%gnome_icon_path/drakon.png

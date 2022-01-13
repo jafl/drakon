@@ -11,6 +11,12 @@
 
 Drakon provides a graphical display of the processes running on your UNIX machine.  The [on-line help](http://drakon.sourceforge.net/help.html) explains all the features of the program.
 
+[![Download from Github](http://libjx.sourceforge.net/github.png)](https://github.com/jafl/drakon/releases/latest)
+
+<a href="https://sourceforge.net/p/drakon/"><img alt="Download Drakon" src="https://sourceforge.net/sflogo.php?type=17&group_id=170488" width="250"></a>
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nps-drakon)
+
 
 ## Building from source
 

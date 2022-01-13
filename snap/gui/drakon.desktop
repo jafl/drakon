@@ -2,6 +2,6 @@
 Categories=System;Monitor;X-Red-Hat-Base;
 Name=Drakon Process Manager
 Comment=Drakon Process Manager
-Icon=drakon
+Icon=${SNAP}/meta/gui/drakon.png
 Exec=drakon
 Type=Application

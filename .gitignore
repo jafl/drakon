@@ -4,5 +4,5 @@ Makefile
 *.bak
 code/stringData.h
 strings/version
-strings/drakon_menu_strings
+strings/menu_strings
 .jcc
