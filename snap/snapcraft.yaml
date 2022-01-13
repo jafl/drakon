@@ -20,7 +20,7 @@ architectures:
 
 apps:
   drakon:
-    command: bin/desktop-launch drakon
+    command: bin/desktop-launch nps-drakon.drakon
     plugs:
       - x11
       - desktop-legacy
