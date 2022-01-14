@@ -19,8 +19,8 @@ architectures:
   - build-on: s390x
 
 apps:
-  drakon:
-    command: bin/desktop-launch nps-drakon.drakon
+  nps-drakon:
+    command: bin/desktop-launch nps-drakon
     plugs:
       - x11
       - desktop-legacy
@@ -28,7 +28,7 @@ apps:
       - process-control
 
 parts:
-  drakon:
+  nps-drakon:
     plugin: autotools
     source: .
     build-environment:
@@ -37,8 +37,8 @@ parts:
       - LD_LIBRARY_PATH: $SNAPCRAFT_PART_INSTALL/lib:$SNAPCRAFT_PART_INSTALL/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_PART_INSTALL/usr/lib:$SNAPCRAFT_PART_INSTALL/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     autotools-configure-parameters:
       - release
-    stage:
-      - bin/drakon
+    organize:
+      bin/drakon: bin/nps-drakon
     build-packages:
       - g++
       - make

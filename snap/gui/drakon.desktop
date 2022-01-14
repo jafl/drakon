@@ -3,5 +3,5 @@ Categories=System;Monitor;X-Red-Hat-Base;
 Name=Drakon Process Manager
 Comment=Drakon Process Manager
 Icon=${SNAP}/meta/gui/drakon.png
-Exec=drakon
+Exec=nps-drakon
 Type=Application
