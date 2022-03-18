@@ -39,6 +39,8 @@ parts:
       - release
     organize:
       bin/drakon: bin/nps-drakon
+    stage:
+      - bin/nps-drakon
     build-packages:
       - g++
       - make

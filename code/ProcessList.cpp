@@ -356,7 +356,7 @@ ProcessList::ClosestMatch
 {
 	ProcessEntry target(itsTree, prefix);
 	bool found;
-	JIndex i = itsAlphaEntries->SearchSorted1(&target, JListT::kFirstMatch, &found);
+	JIndex i = itsAlphaEntries->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
 	if (i > itsAlphaEntries->GetElementCount())		// insert beyond end of list
 	{
 		i = itsAlphaEntries->GetElementCount();
