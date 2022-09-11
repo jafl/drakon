@@ -16,7 +16,7 @@ INSTALL_ROOT=/usr/local;
 
 if [[ $SYS == Darwin ]]; then
 
-	if ! command -v brew; then
+	if ! command -v brew > /dev/null; then
 		echo Installing Homebrew...;
 		sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
 	fi;
