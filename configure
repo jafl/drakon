@@ -12,6 +12,8 @@ if [[ $1 == release || $1 == ci ]]; then
 	echo -n 1 >| 0-RELEASE;
 fi
 
+INSTALL_ROOT=/usr/local;
+
 if [[ $SYS == Darwin ]]; then
 
 	if ! command -v brew; then
@@ -20,9 +22,13 @@ if [[ $SYS == Darwin ]]; then
 	fi;
 
 	if [[ $1 != ci ]]; then
-		brew tap jafl/jx;
-		brew bundle;
+		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+			brew tap jafl/jx;
+			brew install jafl/jx/jx-application-framework;
+		fi
 	fi
+
+	INSTALL_ROOT=`brew --prefix`;
 
 elif command -v apt-get; then
 
@@ -39,7 +45,7 @@ elif command -v apt-get; then
 
 fi
 
-if [[ ! -d /usr/local/include/jx-af/ && ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
+if [[ ! -d $INSTALL_ROOT/include/jx-af/ && ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
 
 	echo "Please install jx-application-framework.";
 	exit 1;
