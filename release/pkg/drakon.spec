@@ -15,17 +15,17 @@ Drakon provides a simple way to manage UNIX processes.
 
 %install
 
-%define drakon_doc_dir  /usr/share/doc/drakon
-%define gnome_app_path  /usr/share/applications
-%define gnome_icon_path /usr/share/pixmaps
+%define drakon_doc_dir  /usr/local/share/doc/drakon
+%define gnome_app_path  /usr/local/share/applications
+%define gnome_icon_path /usr/local/share/pixmaps
 
-./install $RPM_BUILD_ROOT
+./install $RPM_BUILD_ROOT/usr/local
 
 %files
 
 %docdir %drakon_doc_dir
 
-/usr/bin/drakon
+/usr/local/bin/drakon
 %drakon_doc_dir
 
 %gnome_app_path/drakon.desktop
