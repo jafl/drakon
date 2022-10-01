@@ -20,7 +20,7 @@ architectures:
 
 apps:
   nps-drakon:
-    command: bin/desktop-launch nps-drakon
+    command: bin/desktop-launch usr/local/bin/nps-drakon
     plugs:
       - x11
       - desktop-legacy
@@ -38,9 +38,9 @@ parts:
     autotools-configure-parameters:
       - release
     organize:
-      bin/drakon: bin/nps-drakon
+      usr/local/bin/drakon: usr/local/bin/nps-drakon
     stage:
-      - bin/nps-drakon
+      - usr/local/bin/nps-drakon
     build-packages:
       - g++
       - make
