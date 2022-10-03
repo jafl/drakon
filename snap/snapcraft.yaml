@@ -2,9 +2,10 @@ name: nps-drakon
 title: Drakon Process Manager
 base: core20
 version: "2.0.1"
-#source-code: https://github.com/jafl/drakon
-#issues: https://github.com/jafl/drakon/issues
-#contact: https://johnlindal.wixsite.com/aboutme/contact-me
+license: GPL-3.0-or-later
+source-code: https://github.com/jafl/drakon
+issues: https://github.com/jafl/drakon/issues
+contact: https://johnlindal.wixsite.com/aboutme/contact-me
 summary: Drakon provides a simple way to manage UNIX processes.
 description: |
   Drakon provides a simple way to manage UNIX processes.
@@ -20,7 +21,7 @@ architectures:
 
 apps:
   nps-drakon:
-    command: bin/desktop-launch usr/local/bin/nps-drakon
+    command: bin/desktop-launch nps-drakon
     plugs:
       - x11
       - desktop-legacy
@@ -38,9 +39,9 @@ parts:
     autotools-configure-parameters:
       - release
     organize:
-      usr/local/bin/drakon: usr/local/bin/nps-drakon
+      bin/drakon: bin/nps-drakon
     stage:
-      - usr/local/bin/nps-drakon
+      - bin/nps-drakon
     build-packages:
       - g++
       - make
