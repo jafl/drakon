@@ -527,8 +527,8 @@ ProcessTable::UpdateContextMenu
 		const bool notSelf = entry.GetPID() != getpid();
 		menu->EnableItem(kContextEndCmd);
 		menu->EnableItem(kContextKillCmd);
-		menu->SetItemEnable(kContextPauseCmd, notSelf);
-		menu->SetItemEnable(kContextContinueCmd, notSelf);
+		menu->SetItemEnabled(kContextPauseCmd, notSelf);
+		menu->SetItemEnabled(kContextContinueCmd, notSelf);
 		menu->EnableItem(kContextReNiceCmd);
 	}
 }

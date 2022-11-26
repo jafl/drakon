@@ -487,8 +487,8 @@ MainDirector::UpdateProcessMenu()
 		const bool notSelf = entry->GetPID() != getpid();
 		itsProcessMenu->EnableItem(kEndCmd);
 		itsProcessMenu->EnableItem(kKillCmd);
-		itsProcessMenu->SetItemEnable(kPauseCmd, notSelf);
-		itsProcessMenu->SetItemEnable(kContinueCmd, notSelf);
+		itsProcessMenu->SetItemEnabled(kPauseCmd, notSelf);
+		itsProcessMenu->SetItemEnabled(kContinueCmd, notSelf);
 		itsProcessMenu->EnableItem(kReNiceCmd);
 	}
 }
