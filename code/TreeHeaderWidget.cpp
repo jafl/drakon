@@ -91,7 +91,7 @@ TreeHeaderWidget::TableDrawCell
 		JFontManager::GetDefaultFontName(), JFontManager::GetDefaultRowColHeaderFontSize(),
 		JFontStyle(true, false, underLines, false, JColorManager::GetBlackColor()));
 	p.SetFont(font);
-	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(rect, str, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

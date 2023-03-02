@@ -240,7 +240,7 @@ ProcessTable::TableDrawCell
 	const ProcessEntry& entry = *(itsList->GetProcessEntry(cell.y));
 
 	JString str;
-	JPainter::HAlignment halign = JPainter::kHAlignRight;
+	JPainter::HAlign halign = JPainter::HAlign::kRight;
 	if (cell.x == ProcessList::kListState)
 	{
 		DrawProcessState(entry, p, rect, *itsZombieImage);
@@ -253,7 +253,7 @@ ProcessTable::TableDrawCell
 	else if (cell.x == ProcessList::kListUser)
 	{
 		str		= entry.GetUser();
-		halign	= JPainter::kHAlignLeft;
+		halign	= JPainter::HAlign::kLeft;
 	}
 /*	else if (cell.x == ProcessList::kListPPID)
 	{
@@ -294,12 +294,12 @@ ProcessTable::TableDrawCell
 	else if (cell.x == ProcessList::kListCommand)
 	{
 		str	= entry.GetCommand();
-		halign	= JPainter::kHAlignLeft;
+		halign	= JPainter::HAlign::kLeft;
 	}
 
 	JRect r = rect;
 	r.Shrink(kHMarginWidth, 0);
-	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
+	p.JPainter::String(r, str, halign, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

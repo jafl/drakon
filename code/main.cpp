@@ -42,24 +42,22 @@ main
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
-	if (displayAbout &&
-		!JGetUserNotification()->AcceptLicense())
+	JXApplication::StartFiber([argc, argv]()
 	{
-		return 0;
-	}
-
-	JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
-
-	(GetMDIServer())->HandleCmdLineOptions(argc, argv);
+		GetMDIServer()->HandleCmdLineOptions(argc, argv);
+	});
 
 	auto* dir = jnew MainDirector(app);
 	assert( dir != nullptr );
-	dir->Activate();
-	(GetMDIServer())->SetMainDirector(dir);
+	GetMDIServer()->SetMainDirector(dir);
 
 	if (displayAbout)
 	{
-		app->DisplayAbout(prevVersStr);
+		app->DisplayAbout(true, prevVersStr);
+	}
+	else
+	{
+		JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
 	}
 
 	JThisProcess::Instance()->SetPriority(19);

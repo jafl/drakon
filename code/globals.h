@@ -19,6 +19,7 @@ class MDIServer;
 
 App*			GetApplication();
 PrefsManager*	GetPrefsManager();
+void			ForgetPrefsManager();
 MDIServer*		GetMDIServer();
 
 const JString&	GetVersionNumberStr();

@@ -181,7 +181,7 @@ ProcessTreeList::TableDrawCell
 	const ProcessEntry& entry = * dynamic_cast<const ProcessEntry*>(node);
 
 	JString str;
-	JPainter::HAlignment halign = JPainter::kHAlignRight;
+	JPainter::HAlign halign = JPainter::HAlign::kRight;
 	if (cell.x == ProcessList::kTreeState)
 	{
 		ProcessTable::DrawProcessState(entry, p, rect, *itsZombieImage);
@@ -193,7 +193,7 @@ ProcessTreeList::TableDrawCell
 	else if (cell.x == ProcessList::kTreeUser)
 	{
 		str    = entry.GetUser();
-		halign = JPainter::kHAlignLeft;
+		halign = JPainter::HAlign::kLeft;
 	}
 /*	else if (cell.x == ProcessList::kTreePPID)
 	{
@@ -235,7 +235,7 @@ ProcessTreeList::TableDrawCell
 	JRect r  = rect;
 	r.left  += kHMarginWidth;
 	r.right -= kHMarginWidth;
-	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
+	p.JPainter::String(r, str, halign, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

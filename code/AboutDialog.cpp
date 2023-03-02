@@ -1,7 +1,7 @@
 /******************************************************************************
  AboutDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2001 by Glenn W. Bach.
 
@@ -26,11 +26,10 @@
 
 AboutDialog::AboutDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	prevVersStr
+	const JString& prevVersStr
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	itsIsUpgradeFlag = false;
 
@@ -164,6 +163,6 @@ AboutDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
