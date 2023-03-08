@@ -335,7 +335,7 @@ ProcessTreeList::GetSelectedProcess
 	const
 {
 	JPtrArray<JTreeNode> list(JPtrArrayT::kForgetAll);
-	const_cast<ProcessTreeList*>(this)->GetSelectedNodes(&list);
+	GetSelectedNodes(&list);
 
 	if (!list.IsEmpty())
 	{
