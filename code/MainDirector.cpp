@@ -26,7 +26,7 @@
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXWindow.h>
@@ -137,15 +137,14 @@ MainDirector::MainDirector
 	JPrefObject(GetPrefsManager(), kMainDirectorID),
 	itsTimerTask(nullptr)
 {
-	itsProcessList	= jnew ProcessList();
+	itsProcessList = jnew ProcessList();
 	assert( itsProcessList != nullptr );
 
 	BuildWindow();
 
-	itsTimerTask = jnew JXTimerTask(kTimerDelay);
+	itsTimerTask = jnew JXFunctionTask(kTimerDelay, std::bind(&ProcessList::Update, itsProcessList));
 	assert( itsTimerTask != nullptr );
 	itsTimerTask->Start();
-	ListenTo(itsTimerTask);
 
 	JPrefObject::ReadPrefs();
 }
@@ -403,11 +402,6 @@ MainDirector::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsTimerTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		itsProcessList->Update();
 	}
 
 	else if (sender == itsTabGroup->GetCardEnclosure() &&

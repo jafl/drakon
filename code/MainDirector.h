@@ -15,7 +15,7 @@ class JXToolBar;
 class JXTabGroup;
 class JXStaticText;
 class JXTextMenu;
-class JXTimerTask;
+class JXFunctionTask;
 
 class SystemStats;
 class ProcessList;
@@ -46,7 +46,7 @@ private:
 	JXTextMenu*	itsHelpMenu;
 
 	ProcessList*	itsProcessList;
-	JXTimerTask*	itsTimerTask;
+	JXFunctionTask*	itsTimerTask;
 
 	SystemStats*	itsSystemStats;
 
