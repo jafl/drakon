@@ -277,7 +277,7 @@ ProcessList::Update()
 
 	// add new processes to the list
 
-	std::function<JListT::CompareResult(JTreeNode * const &, JTreeNode * const &)>* treeCompareFn;
+	std::function<std::weak_ordering(JTreeNode * const &, JTreeNode * const &)>* treeCompareFn;
 	JListT::SortOrder treeSortOrder;
 	itsRootNode->GetChildCompareFunction(&treeCompareFn, &treeSortOrder);
 

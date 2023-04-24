@@ -62,40 +62,40 @@ public:
 	JFloat			GetPercentMemory() const;
 	JFloat			GetPercentCPU() const;
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListPID(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListUser(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListNice(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListSize(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListPercentMemory(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListPercentCPU(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListTime(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListCommand(ProcessEntry * const & e1, ProcessEntry * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareListCommandForIncrSearch(ProcessEntry * const & e1, ProcessEntry * const & e2);
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreePID(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreeUser(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreeNice(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreeSize(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreePercentMemory(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreePercentCPU(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreeTime(JTreeNode * const & e1, JTreeNode * const & e2);
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareTreeCommand(JTreeNode * const & e1, JTreeNode * const & e2);
 
 private:

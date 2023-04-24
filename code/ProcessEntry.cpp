@@ -433,7 +433,7 @@ ProcessEntry::ReadCmdline()
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListPID
 	(
 	ProcessEntry * const & e1,
@@ -442,29 +442,29 @@ ProcessEntry::CompareListPID
 {
 	if (e1->itsPID > e2->itsPID)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPID < e2->itsPID)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListUser
 	(
 	ProcessEntry * const & e1,
 	ProcessEntry * const & e2
 	)
 {
-	JListT::CompareResult	result =
+	const std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		return CompareListPID(e1, e2);
 	}
@@ -474,7 +474,7 @@ ProcessEntry::CompareListUser
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListNice
 	(
 	ProcessEntry * const & e1,
@@ -483,11 +483,11 @@ ProcessEntry::CompareListNice
 {
 	if (e1->itsNice > e2->itsNice)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsNice < e2->itsNice)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -495,7 +495,7 @@ ProcessEntry::CompareListNice
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListSize
 	(
 	ProcessEntry * const & e1,
@@ -504,11 +504,11 @@ ProcessEntry::CompareListSize
 {
 	if (e1->itsSize > e2->itsSize)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsSize < e2->itsSize)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -516,7 +516,7 @@ ProcessEntry::CompareListSize
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListPercentMemory
 	(
 	ProcessEntry * const & e1,
@@ -525,11 +525,11 @@ ProcessEntry::CompareListPercentMemory
 {
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -537,7 +537,7 @@ ProcessEntry::CompareListPercentMemory
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListPercentCPU
 	(
 	ProcessEntry * const & e1,
@@ -546,11 +546,11 @@ ProcessEntry::CompareListPercentCPU
 {
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -558,7 +558,7 @@ ProcessEntry::CompareListPercentCPU
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListTime
 	(
 	ProcessEntry * const & e1,
@@ -567,11 +567,11 @@ ProcessEntry::CompareListTime
 {
 	if (e1->itsTime > e2->itsTime)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsTime < e2->itsTime)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -579,17 +579,17 @@ ProcessEntry::CompareListTime
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListCommand
 	(
 	ProcessEntry * const & e1,
 	ProcessEntry * const & e2
 	)
 {
-	JListT::CompareResult	result =
+	const std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		return CompareListPID(e1, e2);
 	}
@@ -599,7 +599,7 @@ ProcessEntry::CompareListCommand
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareListCommandForIncrSearch
 	(
 	ProcessEntry * const & e1,
@@ -614,7 +614,7 @@ ProcessEntry::CompareListCommandForIncrSearch
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreePID
 	(
 	JTreeNode * const & n1,
@@ -626,19 +626,19 @@ ProcessEntry::CompareTreePID
 
 	if (e1->itsPID > e2->itsPID)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPID < e2->itsPID)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
-		return JListT::kFirstEqualSecond;
+		return std::weak_ordering::equivalent;
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreeUser
 	(
 	JTreeNode * const & n1,
@@ -648,10 +648,10 @@ ProcessEntry::CompareTreeUser
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
-	JListT::CompareResult	result =
+	const std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		return CompareTreePID(n1, n2);
 	}
@@ -661,7 +661,7 @@ ProcessEntry::CompareTreeUser
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreeNice
 	(
 	JTreeNode * const & n1,
@@ -673,11 +673,11 @@ ProcessEntry::CompareTreeNice
 
 	if (e1->itsNice > e2->itsNice)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsNice < e2->itsNice)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -685,7 +685,7 @@ ProcessEntry::CompareTreeNice
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreeSize
 	(
 	JTreeNode * const & n1,
@@ -697,11 +697,11 @@ ProcessEntry::CompareTreeSize
 
 	if (e1->itsSize > e2->itsSize)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsSize < e2->itsSize)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -709,7 +709,7 @@ ProcessEntry::CompareTreeSize
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreePercentMemory
 	(
 	JTreeNode * const & n1,
@@ -721,11 +721,11 @@ ProcessEntry::CompareTreePercentMemory
 
 	if (e1->itsPercentMemory > e2->itsPercentMemory)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPercentMemory < e2->itsPercentMemory)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -733,7 +733,7 @@ ProcessEntry::CompareTreePercentMemory
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreePercentCPU
 	(
 	JTreeNode * const & n1,
@@ -745,11 +745,11 @@ ProcessEntry::CompareTreePercentCPU
 
 	if (e1->itsPercentCPU > e2->itsPercentCPU)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsPercentCPU < e2->itsPercentCPU)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -757,7 +757,7 @@ ProcessEntry::CompareTreePercentCPU
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreeTime
 	(
 	JTreeNode * const & n1,
@@ -769,11 +769,11 @@ ProcessEntry::CompareTreeTime
 
 	if (e1->itsTime > e2->itsTime)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
 	}
 	else if (e1->itsTime < e2->itsTime)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else
 	{
@@ -781,7 +781,7 @@ ProcessEntry::CompareTreeTime
 	}
 }
 
-JListT::CompareResult
+std::weak_ordering
 ProcessEntry::CompareTreeCommand
 	(
 	JTreeNode * const & n1,
@@ -791,10 +791,10 @@ ProcessEntry::CompareTreeCommand
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
 
-	JListT::CompareResult	result =
+	const std::weak_ordering result =
 		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
 
-	if (result == JListT::kFirstEqualSecond)
+	if (result == std::weak_ordering::equivalent)
 	{
 		return CompareTreePID(n1, n2);
 	}
