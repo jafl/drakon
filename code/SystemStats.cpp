@@ -48,7 +48,10 @@ SystemStats::SystemStats
 	itsCPUHistory = jnew JArray<CPU>();
 	assert( itsCPUHistory != nullptr );
 
-	ListenTo(itsProcessList);
+	ListenTo(itsProcessList, std::function([this](const ProcessList::ListChanged&)
+	{
+		Refresh();
+	}));
 }
 
 /******************************************************************************
@@ -175,28 +178,6 @@ SystemStats::Draw
 		p.JPainter::Rect(r);
 
 		r.Shift(-kCPUHistoryBarWidth-kCPUHistoryMarginWidth, 0);
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-SystemStats::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsProcessList && message.Is(ProcessList::kListChanged))
-	{
-		Refresh();
-	}
-	else
-	{
-		JXWidget::Receive(sender, message);
 	}
 }
 

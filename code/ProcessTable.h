@@ -72,8 +72,8 @@ private:
 
 private:
 
-	void	UpdateContextMenu();
-	void	HandleContextMenu(const JIndex index);
+	void	PrivateUpdateContextMenu();
+	void	PrivateHandleContextMenu(const JIndex index);
 
 	void	AdjustColWidths();
 };

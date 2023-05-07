@@ -102,7 +102,9 @@ ProcessTable::ProcessTable
 	itsZombieImage = GetDisplay()->GetImageCache()->GetImage(jx_edit_clear);
 
 	itsContextMenu = CreateContextMenu(this);
-	ListenTo(itsContextMenu);
+	itsContextMenu->AttachHandlers(this,
+		std::bind(&ProcessTable::PrivateUpdateContextMenu, this),
+		std::bind(&ProcessTable::PrivateHandleContextMenu, this, std::placeholders::_1));
 
 	ListenTo(itsList);
 }
@@ -193,21 +195,10 @@ ProcessTable::Receive
 		Refresh();
 	}
 
-	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
 
 	else
 	{
-		if (sender == &(GetTableSelection()) && message.Is(JTableData::kRectChanged))
+		if (sender == &GetTableSelection() && message.Is(JTableData::kRectChanged))
 		{
 			const ProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))
@@ -504,7 +495,7 @@ ProcessTable::HandleKeyPress
  ******************************************************************************/
 
 void
-ProcessTable::UpdateContextMenu()
+ProcessTable::PrivateUpdateContextMenu()
 {
 	const ProcessEntry* entry;
 	if (GetSelectedProcess(&entry))
@@ -518,7 +509,7 @@ ProcessTable::UpdateContextMenu()
 void
 ProcessTable::UpdateContextMenu
 	(
-	JXTextMenu*				menu,
+	JXTextMenu*			menu,
 	const ProcessEntry&	entry
 	)
 {
@@ -539,7 +530,7 @@ ProcessTable::UpdateContextMenu
  ******************************************************************************/
 
 void
-ProcessTable::HandleContextMenu
+ProcessTable::PrivateHandleContextMenu
 	(
 	const JIndex index
 	)
@@ -556,9 +547,9 @@ ProcessTable::HandleContextMenu
 void
 ProcessTable::HandleContextMenu
 	(
-	const JIndex			menuIndex,
+	const JIndex		menuIndex,
 	const ProcessEntry&	entry,
-	ProcessList*			list
+	ProcessList*		list
 	)
 {
 	if (entry.GetState() == ProcessEntry::kZombie)

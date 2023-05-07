@@ -68,7 +68,9 @@ ProcessTreeList::ProcessTreeList
 	itsZombieImage = GetDisplay()->GetImageCache()->GetImage(jx_edit_clear);
 
 	itsContextMenu = ProcessTable::CreateContextMenu(this);
-	ListenTo(itsContextMenu);
+	itsContextMenu->AttachHandlers(this,
+		std::bind(&ProcessTreeList::UpdateContextMenu, this),
+		std::bind(&ProcessTreeList::HandleContextMenu, this, std::placeholders::_1));
 
 	ListenTo(itsList);
 }
@@ -126,21 +128,9 @@ ProcessTreeList::Receive
 		Refresh();
 	}
 
-	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateContextMenu();
-	}
-	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleContextMenu(selection->GetIndex());
-	}
-
 	else
 	{
-		if (sender == &(GetTableSelection()) && message.Is(JTableData::kRectChanged))
+		if (sender == &GetTableSelection() && message.Is(JTableData::kRectChanged))
 		{
 			const ProcessEntry* entry;
 			if (IsVisible() && GetSelectedProcess(&entry))

@@ -221,7 +221,22 @@ MainDirector::BuildWindow()
 					   0,0, 100,100);
 	assert( itsTabGroup != nullptr );
 	itsTabGroup->FitToEnclosure();
-	ListenTo(itsTabGroup->GetCardEnclosure());
+	ListenTo(itsTabGroup->GetCardEnclosure(), std::function([this](const JXCardFile::CardIndexChanged&)
+	{
+		JIndex index;
+		const bool ok = itsTabGroup->GetCurrentTabIndex(&index);
+		assert( ok );
+
+		const ProcessEntry* entry;
+		if (index == kListTabIndex && itsProcessTree->GetSelectedProcess(&entry))
+		{
+			itsProcessTable->SelectProcess(*entry);
+		}
+		else if (index == kTreeTabIndex && itsProcessTable->GetSelectedProcess(&entry))
+		{
+			itsProcessTree->SelectProcess(*entry);
+		}
+	}));
 
 	const JCoordinate statusHeight = kStatusHeight + 2*kStatusMargin;
 	itsTabGroup->AdjustSize(0, -statusHeight);
@@ -296,11 +311,15 @@ MainDirector::BuildWindow()
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		std::bind(&MainDirector::UpdateFileMenu, this),
+		std::bind(&MainDirector::HandleFileMenu, this, std::placeholders::_1));
 
 	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::MainDirector"));
 	itsProcessMenu->SetMenuItems(kProcessMenuStr, "ProcessTable");
-	ListenTo(itsProcessMenu);
+	itsProcessMenu->AttachHandlers(this,
+		std::bind(&MainDirector::UpdateProcessMenu, this),
+		std::bind(&MainDirector::HandleProcessMenu, this, std::placeholders::_1));
 
 	itsProcessMenu->SetItemImage(kShowAllCmd, JXPM(gpm_all_processes));
 	itsProcessMenu->SetItemImage(kEndCmd, JXPM(gpm_stop));
@@ -312,12 +331,16 @@ MainDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrefsMenu);
+	itsPrefsMenu->AttachHandlers(this,
+		std::bind(&MainDirector::UpdatePrefsMenu, this),
+		std::bind(&MainDirector::HandlePrefsMenu, this, std::placeholders::_1));
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandlers(this,
+		std::bind(&MainDirector::UpdateHelpMenu, this),
+		std::bind(&MainDirector::HandleHelpMenu, this, std::placeholders::_1));
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -341,90 +364,6 @@ MainDirector::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-	}
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-MainDirector::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsProcessMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateProcessMenu();
-	}
-	else if (sender == itsProcessMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleProcessMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdatePrefsMenu();
-	}
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrefsMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateHelpMenu();
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsTabGroup->GetCardEnclosure() &&
-			 message.Is(JXCardFile::kCardIndexChanged))
-	{
-		JIndex index;
-		const bool ok = itsTabGroup->GetCurrentTabIndex(&index);
-		assert( ok );
-
-		const ProcessEntry* entry;
-		if (index == kListTabIndex && itsProcessTree->GetSelectedProcess(&entry))
-		{
-			itsProcessTable->SelectProcess(*entry);
-		}
-		else if (index == kTreeTabIndex && itsProcessTable->GetSelectedProcess(&entry))
-		{
-			itsProcessTree->SelectProcess(*entry);
-		}
-	}
-
-	else
-	{
-		JXWindowDirector::Receive(sender, message);
 	}
 }
 
@@ -620,24 +559,24 @@ MainDirector::HandleHelpMenu
 
 	else if (index == kTOCCmd)
 	{
-		(JXGetHelpManager())->ShowTOC();
+		JXGetHelpManager()->ShowTOC();
 	}
 	else if (index == kOverviewCmd)
 	{
-		(JXGetHelpManager())->ShowSection("OverviewHelp");
+		JXGetHelpManager()->ShowSection("OverviewHelp");
 	}
 	else if (index == kThisWindowCmd)
 	{
-		(JXGetHelpManager())->ShowSection("MainHelp");
+		JXGetHelpManager()->ShowSection("MainHelp");
 	}
 
 	else if (index == kChangesCmd)
 	{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 	}
 	else if (index == kCreditsCmd)
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 	}
 }
 
