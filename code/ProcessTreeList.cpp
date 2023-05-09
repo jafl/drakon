@@ -69,8 +69,8 @@ ProcessTreeList::ProcessTreeList
 
 	itsContextMenu = ProcessTable::CreateContextMenu(this);
 	itsContextMenu->AttachHandlers(this,
-		std::bind(&ProcessTreeList::UpdateContextMenu, this),
-		std::bind(&ProcessTreeList::HandleContextMenu, this, std::placeholders::_1));
+		&ProcessTreeList::UpdateContextMenu,
+		&ProcessTreeList::HandleContextMenu);
 
 	ListenTo(itsList);
 }

@@ -103,8 +103,8 @@ ProcessTable::ProcessTable
 
 	itsContextMenu = CreateContextMenu(this);
 	itsContextMenu->AttachHandlers(this,
-		std::bind(&ProcessTable::PrivateUpdateContextMenu, this),
-		std::bind(&ProcessTable::PrivateHandleContextMenu, this, std::placeholders::_1));
+		&ProcessTable::PrivateUpdateContextMenu,
+		&ProcessTable::PrivateHandleContextMenu);
 
 	ListenTo(itsList);
 }

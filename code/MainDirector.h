@@ -69,10 +69,8 @@ private:
 	void	UpdateProcessMenu();
 	void	HandleProcessMenu(const JIndex index);
 
-	void	UpdatePrefsMenu();
 	void	HandlePrefsMenu(const JIndex index);
 
-	void	UpdateHelpMenu();
 	void	HandleHelpMenu(const JIndex index);
 
 	void	ReadPrefs();

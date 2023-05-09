@@ -312,14 +312,14 @@ MainDirector::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
-		std::bind(&MainDirector::UpdateFileMenu, this),
-		std::bind(&MainDirector::HandleFileMenu, this, std::placeholders::_1));
+		&MainDirector::UpdateFileMenu,
+		&MainDirector::HandleFileMenu);
 
 	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::MainDirector"));
 	itsProcessMenu->SetMenuItems(kProcessMenuStr, "ProcessTable");
 	itsProcessMenu->AttachHandlers(this,
-		std::bind(&MainDirector::UpdateProcessMenu, this),
-		std::bind(&MainDirector::HandleProcessMenu, this, std::placeholders::_1));
+		&MainDirector::UpdateProcessMenu,
+		&MainDirector::HandleProcessMenu);
 
 	itsProcessMenu->SetItemImage(kShowAllCmd, JXPM(gpm_all_processes));
 	itsProcessMenu->SetItemImage(kEndCmd, JXPM(gpm_stop));
@@ -331,16 +331,12 @@ MainDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPrefsMenu->AttachHandlers(this,
-		std::bind(&MainDirector::UpdatePrefsMenu, this),
-		std::bind(&MainDirector::HandlePrefsMenu, this, std::placeholders::_1));
+	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandlers(this,
-		std::bind(&MainDirector::UpdateHelpMenu, this),
-		std::bind(&MainDirector::HandleHelpMenu, this, std::placeholders::_1));
+	itsHelpMenu->AttachHandler(this, &MainDirector::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -505,16 +501,6 @@ MainDirector::HandleProcessMenu
 }
 
 /******************************************************************************
- UpdatePrefsMenu
-
- ******************************************************************************/
-
-void
-MainDirector::UpdatePrefsMenu()
-{
-}
-
-/******************************************************************************
  HandlePrefsMenu
 
  ******************************************************************************/
@@ -529,16 +515,6 @@ MainDirector::HandlePrefsMenu
 	{
 		itsToolBar->Edit();
 	}
-}
-
-/******************************************************************************
- UpdateHelpMenu
-
- ******************************************************************************/
-
-void
-MainDirector::UpdateHelpMenu()
-{
 }
 
 /******************************************************************************
