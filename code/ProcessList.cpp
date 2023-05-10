@@ -138,10 +138,8 @@ ProcessList::Update()
 		itsDirInfo->ForceUpdate();
 	}
 
-	const JSize count = itsDirInfo->GetEntryCount();
-	for (JIndex i=1; i<=count; i++)
+	for (const auto& entry : *itsDirInfo)
 	{
-		const JDirEntry& entry = itsDirInfo->GetEntry(i);
 		if (entry.GetName().IsInteger())
 		{
 			auto* pentry = jnew ProcessEntry(itsTree, entry);
@@ -234,10 +232,9 @@ ProcessList::Update()
 			}
 		}
 
-		count = itsHiddenEntries->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
+		for (auto* pentry : *itsHiddenEntries)
 		{
-			(itsHiddenEntries->GetElement(i))->Update(itsElapsedTime);
+			pentry->Update(itsElapsedTime);
 		}
 	}
 
@@ -266,10 +263,9 @@ ProcessList::Update()
 
 	// update information on all pre-existing processes
 
-	count = itsVisibleEntries->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (auto* pentry : *itsVisibleEntries)
 	{
-		(itsVisibleEntries->GetElement(i))->Update(itsElapsedTime);
+		pentry->Update(itsElapsedTime);
 	}
 
 	itsVisibleEntries->Sort();
@@ -281,10 +277,8 @@ ProcessList::Update()
 	JListT::SortOrder treeSortOrder;
 	itsRootNode->GetChildCompareFunction(&treeCompareFn, &treeSortOrder);
 
-	count = newEntries.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (auto* pentry : newEntries)
 	{
-		auto* pentry = newEntries.GetElement(i);
 		pentry->Update(itsElapsedTime);
 		itsVisibleEntries->InsertSorted(pentry);
 		itsAlphaEntries->InsertSorted(pentry);
@@ -294,10 +288,8 @@ ProcessList::Update()
 
 	// reparent all nodes
 
-	count = itsVisibleEntries->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
+	for (auto* pentry : *itsVisibleEntries)
 	{
-		auto* pentry = itsVisibleEntries->GetElement(i);
 		ProcessEntry* parent;
 		if (FindProcessEntry(pentry->GetPPID(), &parent) &&
 			parent != pentry)

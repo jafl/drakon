@@ -17,6 +17,7 @@
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <unistd.h>
+#include <ranges>
 #include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kCPUHistoryBarWidth    = 2;
@@ -165,10 +166,8 @@ SystemStats::Draw
 	r.left              = r.right - kCPUHistoryBarWidth;
 	const JCoordinate h = r.height();
 
-	for (JIndex i=historyCount; i>=1; i--)
+	for (auto& cpu : std::views::reverse(*itsCPUHistory))
 	{
-		const CPU cpu = itsCPUHistory->GetElement(i);
-
 		p.SetPenColor(userCPU);
 		r.top = r.bottom - JRound(h * (cpu.user + cpu.other) / itsMaxCPU);
 		p.JPainter::Rect(r);
