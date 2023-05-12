@@ -138,11 +138,11 @@ ProcessList::Update()
 		itsDirInfo->ForceUpdate();
 	}
 
-	for (const auto& entry : *itsDirInfo)
+	for (const auto* entry : *itsDirInfo)
 	{
-		if (entry.GetName().IsInteger())
+		if (entry->GetName().IsInteger())
 		{
-			auto* pentry = jnew ProcessEntry(itsTree, entry);
+			auto* pentry = jnew ProcessEntry(itsTree, *entry);
 			assert(pentry != nullptr);
 			newEntries.InsertSorted(pentry);
 		}
