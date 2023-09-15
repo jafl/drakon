@@ -224,7 +224,7 @@ ProcessEntry::ReadStat()
 		{
 			JStringIterator iter(&itsCommand);
 			iter.RemoveNext();
-			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			iter.MoveTo(JStringIterator::kStartAtEnd, 0);
 			iter.RemovePrev();
 		}
 		JString state = JReadUntilws(is);
@@ -334,7 +334,7 @@ ProcessEntry::ReadCmdline()
 		{
 			if (c == '\0')
 			{
-				iter.SetPrev(JUtf8Character(' '), kJIteratorStay);
+				iter.SetPrev(JUtf8Character(' '), JStringIterator::kStay);
 			}
 		}
 
