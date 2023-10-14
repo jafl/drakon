@@ -12,20 +12,9 @@
 Drakon provides a graphical display of the processes running on your UNIX machine.  The [on-line help](http://drakon.sourceforge.net/help.html) explains all the features of the program.
 
 
-## Requirements
-
-On MacOS, this program requires XQuartz, the X11 server.  Before running this program, you must first start XQuartz.
-
-
 ## Installing a binary
 
-For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
-
-    brew install --cask xquartz
-    brew tap jafl/jx
-    brew install jafl/jx/drakon
-
-For all other systems, download a package:
+Download a package:
 
 [![Download from Github](http://libjx.sourceforge.net/github.png)](https://github.com/jafl/drakon/releases/latest)
 
