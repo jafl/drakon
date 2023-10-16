@@ -93,9 +93,6 @@ jobs:
     name: Build & Package Fedora
     runs-on: ubuntu-latest
     container: fedora:latest
-    env:
-      LC_ALL: en_US.utf8
-      LANG: en_US.utf8
     steps:
       - name: Install git, glibc-langpack-en for LC_ALL
         run: dnf install -y git glibc-langpack-en
