@@ -51,7 +51,7 @@ elif command -v dnf; then
 
 	if [[ -z $SNAPCRAFT_BUILD_ENVIRONMENT ]]; then
 		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
-			$SUDO dnf install \
+			$SUDO dnf install -y \
 				https://libjx.sourceforge.net/${MODE:-release}/jx-application-framework-fedora.rpm \
 				https://libjx.sourceforge.net/${MODE:-release}/ace-fedora.rpm;
 		fi
