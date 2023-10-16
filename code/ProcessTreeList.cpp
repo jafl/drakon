@@ -225,7 +225,7 @@ ProcessTreeList::TableDrawCell
 	JRect r  = rect;
 	r.left  += kHMarginWidth;
 	r.right -= kHMarginWidth;
-	p.JPainter::String(r, str, halign, JPainter::VAlign::kCenter);
+	p.String(r, str, halign, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

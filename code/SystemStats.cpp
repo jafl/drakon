@@ -131,11 +131,11 @@ SystemStats::Draw
 
 	p.SetFilling(true);
 	p.SetPenColor(otherMem);
-	p.JPainter::Arc(r, 90, -360);
+	p.Arc(r, 90, -360);
 	p.SetPenColor(userMem);
-	p.JPainter::Arc(r, 90 - angle1, -360 + angle1);
+	p.Arc(r, 90 - angle1, -360 + angle1);
 	p.SetPenColor(freeMem);
-	p.JPainter::Arc(r, 90 - angle1 - angle2, - 360 + angle1 + angle2);
+	p.Arc(r, 90 - angle1 - angle2, - 360 + angle1 + angle2);
 
 	// render cpu history
 
@@ -144,7 +144,7 @@ SystemStats::Draw
 	r.right -= bounds.height() + 2*kDisplayMarginWidth;
 
 	p.SetPenColor(cpuBack);
-	p.JPainter::Rect(r);
+	p.Rect(r);
 
 	r.Shrink(1,1);
 
@@ -170,11 +170,11 @@ SystemStats::Draw
 	{
 		p.SetPenColor(userCPU);
 		r.top = r.bottom - JRound(h * (cpu.user + cpu.other) / itsMaxCPU);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 
 		p.SetPenColor(otherCPU);
 		r.top = r.bottom - JRound(h * cpu.other / itsMaxCPU);
-		p.JPainter::Rect(r);
+		p.Rect(r);
 
 		r.Shift(-kCPUHistoryBarWidth-kCPUHistoryMarginWidth, 0);
 	}
