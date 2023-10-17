@@ -116,14 +116,16 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           make release
-          mv ../drakon_* .
+          mv ../drakon_* ../drakon-* .
 
       - name: Save release packages
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: drakon_*
+          path: |
+            drakon_*
+            drakon-*
 
   release:
     name: Upload releases
