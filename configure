@@ -15,23 +15,7 @@ fi
 
 INSTALL_ROOT=/usr/local;
 
-if [[ $SYS == Darwin ]]; then
-
-	if ! command -v brew > /dev/null; then
-		echo Installing Homebrew...;
-		$SUDO /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
-	fi;
-
-	if [[ $MODE != ci ]]; then
-		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
-			brew tap jafl/jx;
-			brew install jafl/jx/jx-application-framework;
-		fi
-	fi
-
-	INSTALL_ROOT=`brew --prefix`;
-
-elif command -v apt-get; then
+if command -v apt-get; then
 
 	# debian
 
