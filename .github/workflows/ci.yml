@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: drakon*
+          path: drakon*.*
 
   build-fedora:
     name: Build & Package Fedora
@@ -120,7 +120,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: drakon*
+          path: drakon*.*
 
   release:
     name: Upload releases
@@ -136,6 +136,6 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: drakon*
+          file: drakon*.*
           tag: ${{ github.ref }}
           file_glob: true
