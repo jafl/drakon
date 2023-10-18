@@ -71,7 +71,7 @@ parts:
   libs:
     plugin: nil
     stage-packages:
-      - libace-6.4.5
+      - libace-7.0.6
       - libfontconfig1
       - libfreetype6
       - libgd3
