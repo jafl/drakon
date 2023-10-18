@@ -80,7 +80,7 @@ parts:
       - libjpeg-turbo8
       - libpng16-16
       - libtiff5
-      - libwebp
+      - libwebp7
       - libx11-6
       - libxau6
       - libxcb1
