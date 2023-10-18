@@ -23,7 +23,7 @@ if command -v apt-get; then
 		$SUDO apt update;
 
 		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
-			curl -LO https://libjx.sourceforge.net/${MODE:-release}/jx-application-framework.deb;
+			curl -LO https://libjx.sourceforge.net/ci/jx-application-framework.deb;
 			$SUDO apt -y remove nginx libgd3;	# hack
 			$SUDO apt install ./jx-application-framework.deb;
 		fi
@@ -36,8 +36,8 @@ elif command -v dnf; then
 	if [[ -z $SNAPCRAFT_BUILD_ENVIRONMENT ]]; then
 		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
 			$SUDO dnf install -y \
-				https://libjx.sourceforge.net/${MODE:-release}/jx-application-framework-fedora.rpm \
-				https://libjx.sourceforge.net/${MODE:-release}/ace-fedora.rpm;
+				https://libjx.sourceforge.net/ci/jx-application-framework-fedora.rpm \
+				https://libjx.sourceforge.net/ci/ace-fedora.rpm;
 		fi
 	fi;
 
