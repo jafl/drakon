@@ -43,7 +43,6 @@ parts:
     stage:
       - bin/nps-drakon
     build-packages:
-      - g++-10
       - make
       - pkg-config
       - libx11-dev
