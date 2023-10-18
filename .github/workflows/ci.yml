@@ -43,8 +43,7 @@ jobs:
           languages: cpp
 
       - name: Configure
-        run: |
-          ./configure ci
+        run: ./configure ci
 
       - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
@@ -59,7 +58,7 @@ jobs:
         uses: github/codeql-action/analyze@v2
 
   build-ubuntu-release:
-    name: Build & Package Ubuntu Release
+    name: Build & Package Ubuntu
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     env:
@@ -71,8 +70,7 @@ jobs:
           fetch-depth: 0
 
       - name: Configure
-        run: |
-          ./configure ci
+        run: ./configure ci
 
       - name: Build
         run: make
@@ -86,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: drakon_*
+          path: drakon*
 
   build-fedora:
     name: Build & Package Fedora
@@ -106,8 +104,7 @@ jobs:
           fetch-depth: 0
 
       - name: Configure CI
-        run: |
-          ./configure ci
+        run: ./configure ci
 
       - name: Build
         run: make
@@ -123,9 +120,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: |
-            drakon_*
-            drakon-*
+          path: drakon*
 
   release:
     name: Upload releases
