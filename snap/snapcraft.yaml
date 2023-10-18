@@ -75,7 +75,7 @@ parts:
       - libfontconfig1
       - libfreetype6
       - libgd3
-      - libicu66
+      - libicu
       - libjbig0
       - libjpeg-turbo8
       - libpng16-16
