@@ -34,7 +34,7 @@ jobs:
     uses: jafl/jx_application_framework/.github/workflows/app-release.yml@main
     with:
       pkg-name: drakon
-      forge-name: nps-drakon
+      forge-name: drakon
     secrets:
       api-key: ${{ secrets.SOURCEFORGE_API_KEY }}
       ssh-key: ${{ secrets.SOURCEFORGE_SSH_KEY }}
