@@ -1,6 +1,6 @@
 name: nps-drakon
 title: Drakon Process Manager
-base: core22
+base: core20
 version: "2.0.2"
 license: GPL-3.0-or-later
 source-code: https://github.com/jafl/drakon
@@ -15,14 +15,14 @@ confinement: strict
 
 architectures:
   - build-on: amd64
+  - build-on: arm64
   - build-on: ppc64el
 
 apps:
   nps-drakon:
     command: bin/desktop-launch nps-drakon
     plugs:
-      - x11
-      - desktop-legacy
+      - unity7
       - network
       - process-control
 
@@ -30,6 +30,10 @@ parts:
   nps-drakon:
     plugin: autotools
     source: .
+    override-pull: |
+      snapcraftctl pull
+      sudo locale-gen en_US.UTF-8
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
     build-environment:
       - JX_ROOT: /snap/jx-application-framework/current
       - PATH: $PATH:$JX_ROOT/bin
@@ -41,6 +45,7 @@ parts:
     stage:
       - bin/nps-drakon
     build-packages:
+      - g++-10
       - make
       - pkg-config
       - libx11-dev
@@ -69,16 +74,16 @@ parts:
   libs:
     plugin: nil
     stage-packages:
-      - libace-7.0.6
+      - libace-6.4.5
       - libfontconfig1
       - libfreetype6
       - libgd3
-      - libicu70
+      - libicu66
       - libjbig0
       - libjpeg-turbo8
       - libpng16-16
       - libtiff5
-      - libwebp7
+      - libwebp6
       - libx11-6
       - libxau6
       - libxcb1
