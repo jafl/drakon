@@ -68,6 +68,7 @@ parts:
       - xutils-dev
       - libdrm-dev
       - aspell
+      - locales
     build-snaps:
       - jx-application-framework
     after: [ libs ]
