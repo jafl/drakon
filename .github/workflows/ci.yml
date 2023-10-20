@@ -29,7 +29,7 @@ jobs:
 
   release:
     name: Release
-    needs: [ build-ubuntu, build-fedora, build-macos ]
+    needs: [ build-ubuntu, build-fedora ]
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     uses: jafl/jx_application_framework/.github/workflows/app-release.yml@main
     with:
