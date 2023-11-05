@@ -138,7 +138,6 @@ MainDirector::MainDirector
 	itsTimerTask(nullptr)
 {
 	itsProcessList = jnew ProcessList();
-	assert( itsProcessList != nullptr );
 
 	BuildWindow();
 
@@ -176,7 +175,6 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 530,350, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -250,7 +248,6 @@ MainDirector::BuildWindow()
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(listTab, JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	const JCoordinate kHeaderHeight	= 25;
@@ -277,7 +274,6 @@ MainDirector::BuildWindow()
 	scrollbarSet =
 		jnew JXScrollbarSet(treeTab, JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 
 	auto* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());

@@ -44,12 +44,10 @@ CreateGlobals
 
 	bool isNew;
 	thePrefsManager	= jnew PrefsManager(&isNew);
-	assert( thePrefsManager != nullptr );
 
 	JXInitHelp();
 
 	theMDIServer = jnew MDIServer;
-	assert( theMDIServer != nullptr );
 
 #ifdef _J_HAS_PROC
 {

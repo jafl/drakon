@@ -60,12 +60,10 @@ ProcessList::ProcessList()
 	itsHiddenEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 
 	itsRootNode = jnew JTreeNode(nullptr);
-	assert( itsRootNode != nullptr );
 	itsRootNode->SetChildCompareFunction(ProcessEntry::CompareTreeCommand,
 										 JListT::kSortAscending, true);
 
 	itsTree = jnew JTree(itsRootNode);
-	assert( itsTree != nullptr );
 
 	Update();
 }
@@ -143,7 +141,6 @@ ProcessList::Update()
 		if (entry->GetName().IsInteger())
 		{
 			auto* pentry = jnew ProcessEntry(itsTree, *entry);
-			assert(pentry != nullptr);
 			newEntries.InsertSorted(pentry);
 		}
 	}
@@ -180,7 +177,6 @@ ProcessList::Update()
 			for (JUnsignedOffset i=0; i<count; i++)
 			{
 				auto* pentry = jnew ProcessEntry(itsTree, list[i]);
-				assert( pentry != nullptr );
 				newEntries.InsertSorted(pentry);
 			}
 		}

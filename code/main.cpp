@@ -40,7 +40,6 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 	auto* app = jnew App(&argc, argv, &displayAbout, &prevVersStr);
-	assert( app != nullptr );
 
 	JXApplication::StartFiber([argc, argv]()
 	{
@@ -48,7 +47,6 @@ main
 	});
 
 	auto* dir = jnew MainDirector(app);
-	assert( dir != nullptr );
 	GetMDIServer()->SetMainDirector(dir);
 
 	if (displayAbout)

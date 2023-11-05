@@ -130,7 +130,6 @@ ProcessTable::CreateContextMenu
 	)
 {
 	auto* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
-	assert( menu != nullptr );
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(true);
 
