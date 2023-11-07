@@ -193,14 +193,14 @@ ProcessList::Update()
 
 	// remove dead processes from the hidden list
 
-	JSize count = itsHiddenEntries->GetElementCount();
+	JSize count = itsHiddenEntries->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		auto* pentry = itsHiddenEntries->GetElement(i);
+		auto* pentry = itsHiddenEntries->GetItem(i);
 		JIndex findex;
 		if (!newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
-			itsHiddenEntries->DeleteElement(i);
+			itsHiddenEntries->DeleteItem(i);
 		}
 	}
 
@@ -208,13 +208,13 @@ ProcessList::Update()
 
 	if (itsIsShowingUserOnly)
 	{
-		count = newEntries.GetElementCount();
+		count = newEntries.GetItemCount();
 		for (JIndex i=count; i>=1; i--)
 		{
-			auto* pentry = newEntries.GetElement(i);
+			auto* pentry = newEntries.GetItem(i);
 			if (pentry->GetUID() != itsUID)
 			{
-				newEntries.RemoveElement(i);
+				newEntries.RemoveItem(i);
 
 				JIndex findex;
 				if (itsHiddenEntries->SearchSorted(pentry, JListT::kAnyMatch, &findex))
@@ -236,14 +236,14 @@ ProcessList::Update()
 
 	// remove dead processes from the visible list
 
-	count = itsVisibleEntries->GetElementCount();
+	count = itsVisibleEntries->GetItemCount();
 	for (JIndex i=count; i>=1; i--)
 	{
-		auto* pentry = itsVisibleEntries->GetElement(i);
+		auto* pentry = itsVisibleEntries->GetItem(i);
 		JIndex findex;
 		if (newEntries.SearchSorted(pentry, JListT::kAnyMatch, &findex))
 		{
-			newEntries.DeleteElement(findex);
+			newEntries.DeleteItem(findex);
 		}
 		else
 		{
@@ -253,7 +253,7 @@ ProcessList::Update()
 			}
 
 			itsAlphaEntries->Remove(pentry);
-			itsVisibleEntries->DeleteElement(i);
+			itsVisibleEntries->DeleteItem(i);
 		}
 	}
 
@@ -314,10 +314,10 @@ ProcessList::FindProcessEntry
 	)
 	const
 {
-	const JSize count = itsVisibleEntries->GetElementCount();
+	const JSize count = itsVisibleEntries->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		ProcessEntry* e = itsVisibleEntries->GetElement(i);
+		ProcessEntry* e = itsVisibleEntries->GetItem(i);
 		if (e->GetPID() == pid)
 		{
 			*entry = e;
@@ -345,14 +345,14 @@ ProcessList::ClosestMatch
 	ProcessEntry target(itsTree, prefix);
 	bool found;
 	JIndex i = itsAlphaEntries->SearchSortedOTI(&target, JListT::kFirstMatch, &found);
-	if (i > itsAlphaEntries->GetElementCount())		// insert beyond end of list
+	if (i > itsAlphaEntries->GetItemCount())		// insert beyond end of list
 	{
-		i = itsAlphaEntries->GetElementCount();
+		i = itsAlphaEntries->GetItemCount();
 	}
 
 	if (i > 0)
 	{
-		*entry = itsAlphaEntries->GetElement(i);
+		*entry = itsAlphaEntries->GetItem(i);
 		return true;
 	}
 	else

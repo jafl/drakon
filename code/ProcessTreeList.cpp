@@ -329,7 +329,7 @@ ProcessTreeList::GetSelectedProcess
 
 	if (!list.IsEmpty())
 	{
-		*entry = dynamic_cast<ProcessEntry*>(list.GetFirstElement());
+		*entry = dynamic_cast<ProcessEntry*>(list.GetFirstItem());
 		return true;
 	}
 	else

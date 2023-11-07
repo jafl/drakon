@@ -169,7 +169,7 @@ ProcessTable::Receive
 		s.ClearSelection();
 
 		const JSize count	= GetRowCount();
-		const JSize lCount	= itsList->GetElementCount();
+		const JSize lCount	= itsList->GetItemCount();
 		if (lCount > count)
 		{
 			AppendRows(lCount - count);

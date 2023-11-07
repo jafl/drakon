@@ -101,8 +101,8 @@ SystemStats::Draw
 	ComputeStats(&cpuPercentage.user, &cpuPercentage.other,
 				 &userMemoryPercentage, &otherMemoryPercentage);
 
-	itsCPUHistory->AppendElement(cpuPercentage);
-	itsCPUHistory->RemoveElement(1);
+	itsCPUHistory->AppendItem(cpuPercentage);
+	itsCPUHistory->RemoveItem(1);
 
 	// detect multiple CPU's by looking for > 100% usages
 
@@ -149,17 +149,17 @@ SystemStats::Draw
 	r.Shrink(1,1);
 
 	const JSize historyCount = r.width() / (kCPUHistoryBarWidth + kCPUHistoryMarginWidth);
-	if (itsCPUHistory->GetElementCount() > historyCount)
+	if (itsCPUHistory->GetItemCount() > historyCount)
 	{
-		itsCPUHistory->RemoveNextElements(1, itsCPUHistory->GetElementCount() - historyCount);
+		itsCPUHistory->RemoveNextItems(1, itsCPUHistory->GetItemCount() - historyCount);
 	}
 	else
 	{
 		CPU blank;
 		blank.user = blank.other = 0;
-		while (itsCPUHistory->GetElementCount() < historyCount)
+		while (itsCPUHistory->GetItemCount() < historyCount)
 		{
-			itsCPUHistory->PrependElement(blank);
+			itsCPUHistory->PrependItem(blank);
 		}
 	}
 
@@ -204,7 +204,7 @@ SystemStats::ComputeStats
 	*userMemoryPercentage  = 0;
 	*otherMemoryPercentage = 0;
 
-	JSize count = itsProcessList->GetElementCount();
+	JSize count = itsProcessList->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
 		const ProcessEntry* e = itsProcessList->GetProcessEntry(i);
@@ -219,10 +219,10 @@ SystemStats::ComputeStats
 	}
 
 	const JPtrArray<ProcessEntry>& hidden = itsProcessList->GetHiddenProcesses();
-	count = hidden.GetElementCount();
+	count = hidden.GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const ProcessEntry* e = hidden.GetElement(i);
+		const ProcessEntry* e = hidden.GetItem(i);
 		*otherCPUPercentage     += e->GetPercentCPU();
 	}
 

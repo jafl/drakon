@@ -231,7 +231,7 @@ ProcessList::GetProcessEntry
 	)
 	const
 {
-	return itsVisibleEntries->GetElement(index);
+	return itsVisibleEntries->GetItem(index);
 }
 
 /******************************************************************************
