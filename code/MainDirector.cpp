@@ -14,9 +14,7 @@
 #include "ProcessTreeList.h"
 #include "TreeHeaderWidget.h"
 #include "ProcessList.h"
-
 #include "globals.h"
-#include "actionDefs.h"
 
 #include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXHelpManager.h>

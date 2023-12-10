@@ -9,7 +9,6 @@
 
 #include "ProcessTable.h"
 #include "ProcessList.h"
-
 #include "globals.h"
 
 #include <jx-af/jx/JXDisplay.h>
