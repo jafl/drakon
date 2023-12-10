@@ -35,13 +35,6 @@
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include "pause.xpm"
-#include "cont.xpm"
-#include "slow.xpm"
-#include "gpm_stop.xpm"
-#include "gpm_all_processes.xpm"
-#include <jx-af/image/jx/jx_edit_clear.xpm>
-
 const JCoordinate kStatusHeight = 30;
 const JCoordinate kStatusMargin = 5;
 
@@ -60,67 +53,6 @@ enum
 {
 	kListTabIndex = 1,
 	kTreeTabIndex
-};
-
-// File menu
-
-static const JUtf8Byte* kFileMenuStr =
-	"Quit %k Meta-Q %i" kJXQuitAction;
-
-enum
-{
-	kQuitCmd = 1
-};
-
-// Process menu
-
-static const JUtf8Byte* kProcessMenuStr =
-	"    Show processes from all users %b %i" kShowAllAction
-	"%l| End process                      %i" kStopAction
-	"  | Kill process                     %i" kKillAction
-	"%l| Pause process                    %i" kPauseAction
-	"  | Continue process                 %i" kContinueAction
-	"%l| Re-nice process                  %i" kReNiceAction;
-//	"  | Send signal to process";
-
-enum
-{
-	kShowAllCmd = 1,
-	kEndCmd,
-	kKillCmd,
-	kPauseCmd,
-	kContinueCmd,
-	kReNiceCmd
-};
-
-// Prefs menu
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"Toolbar buttons...  %i" kToolbarButtonsAction;
-
-enum
-{
-	kEditToolBarCmd = 1
-};
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"    About"
-	"%l| Table of Contents       %i" kJXHelpTOCAction
-	"  | Overview"
-	"  | This window       %k F1 %i" kJXHelpSpecificAction
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kOverviewCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
 };
 
 /******************************************************************************
@@ -166,8 +98,10 @@ MainDirector::~MainDirector()
  ******************************************************************************/
 
 #include "gpm_main_window_icon.xpm"
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
+#include "MainDirector-File.h"
+#include "MainDirector-Process.h"
+#include "MainDirector-Preferences.h"
+#include "MainDirector-Help.h"
 
 void
 MainDirector::BuildWindow()
@@ -304,38 +238,32 @@ MainDirector::BuildWindow()
 
 	// menus
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&MainDirector::UpdateFileMenu,
 		&MainDirector::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
-	itsProcessMenu = menuBar->AppendTextMenu(JGetString("ProcessMenuTitle::MainDirector"));
-	itsProcessMenu->SetMenuItems(kProcessMenuStr, "ProcessTable");
+	itsProcessMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Process"));
+	itsProcessMenu->SetMenuItems(kProcessMenuStr);
 	itsProcessMenu->AttachHandlers(this,
 		&MainDirector::UpdateProcessMenu,
 		&MainDirector::HandleProcessMenu);
+	ConfigureProcessMenu(itsProcessMenu);
 
-	itsProcessMenu->SetItemImage(kShowAllCmd, JXPM(gpm_all_processes));
-	itsProcessMenu->SetItemImage(kEndCmd, JXPM(gpm_stop));
-	itsProcessMenu->SetItemImage(kKillCmd, JXPM(jx_edit_clear));
-	itsProcessMenu->SetItemImage(kPauseCmd, JXPM(gpm_pause));
-	itsProcessMenu->SetItemImage(kContinueCmd, JXPM(gpm_cont));
-	itsProcessMenu->SetItemImage(kReNiceCmd, JXPM(gpm_slow));
-
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &MainDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::MainDirector_Help"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsHelpMenu->AttachHandler(this, &MainDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	ConfigureHelpMenu(itsHelpMenu);
 
 	// must be done after creating widgets
 

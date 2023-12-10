@@ -1,0 +1,76 @@
+jx_menu_editor 0
+670 300
+"MainDirector"
+"Process"
+'p
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+1
+0 "gpm_all_processes.xpm"
+"Show processes from all users"
+""
+'s
+"ShowAll"
+"kShowAllCmd"
+1
+
+1
+0
+0 "gpm_stop.xpm"
+"End process"
+""
+'e
+"Stop"
+"kEndCmd"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Kill process"
+""
+'k
+"Kill"
+"kKillCmd"
+1
+
+1
+0
+0 "gpm_pause.xpm"
+"Pause process"
+""
+'p
+"Pause"
+"kPauseCmd"
+0
+
+1
+0
+0 "gpm_cont.xpm"
+"Continue process"
+""
+'c
+"Continue"
+"kContinueCmd"
+1
+
+1
+0
+0 "gpm_slow.xpm"
+"Re-nice process"
+""
+'r
+"ReNice"
+"kReNiceCmd"
+0
+
+0

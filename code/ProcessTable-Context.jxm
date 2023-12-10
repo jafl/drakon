@@ -1,0 +1,66 @@
+jx_menu_editor 0
+670 300
+"ProcessTable"
+"Context"
+' 
+40
+40
+100
+100
+100
+100
+100
+75
+
+0
+1
+0
+0 "gpm_stop.xpm"
+"End process"
+""
+' 
+"__EndProcess"
+"kContextEndCmd"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Kill process"
+""
+' 
+"__KillProcess"
+"kContextKillCmd"
+1
+
+1
+0
+0 "gpm_pause.xpm"
+"Pause process"
+""
+' 
+"__PauseProcess"
+"kContextPauseCmd"
+0
+
+1
+0
+0 "gpm_cont.xpm"
+"Continue process"
+""
+' 
+"__ContinueProcess"
+"kContextContinueCmd"
+1
+
+1
+0
+0 "gpm_slow.xpm"
+"Re-nice process"
+""
+' 
+"__ReNiceProcess"
+"kContextReNiceCmd"
+0
+
+0

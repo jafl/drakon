@@ -1,4 +1,4 @@
-jx_browser_data 92
+jx_browser_data 94
 # project tree
 0 "root"
 T
@@ -41,6 +41,22 @@ T
 2 "MainDirector.cpp"
 F
 "./code/MainDirector.cpp"
+T
+2 "MainDirector-File.jxm"
+F
+"./code/MainDirector-File.jxm"
+T
+2 "MainDirector-Process.jxm"
+F
+"./code/MainDirector-Process.jxm"
+T
+2 "MainDirector-Preferences.jxm"
+F
+"./code/MainDirector-Preferences.jxm"
+T
+2 "MainDirector-Help.jxm"
+F
+"./code/MainDirector-Help.jxm"
 T
 2 "ProcessTable.cpp"
 F

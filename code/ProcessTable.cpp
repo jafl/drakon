@@ -32,32 +32,11 @@
 #include <unistd.h>
 #include <jx-af/jcore/jAssert.h>
 
-#include <jx-af/image/jx/jx_edit_clear.xpm>
-#include "pause.xpm"
-#include "cont.xpm"
-#include "slow.xpm"
-#include "gpm_stop.xpm"
+#include "ProcessTable-Context.h"
 
 const JCoordinate kDefColWidth	= 100;
 const JCoordinate kDefRowHeight	= 20;
 const JCoordinate kHMarginWidth	= 5;
-
-static const JUtf8Byte* kContextMenuStr =
-	"    End process"
-	"  | Kill process"
-	"%l| Pause process"
-	"  | Continue process"
-	"%l| Re-nice process";
-//	"  | Send signal to process";
-
-enum
-{
-	kContextEndCmd = 1,
-	kContextKillCmd,
-	kContextPauseCmd,
-	kContextContinueCmd,
-	kContextReNiceCmd
-};
 
 /******************************************************************************
  Constructor
@@ -132,13 +111,7 @@ ProcessTable::CreateContextMenu
 	auto* menu = jnew JXTextMenu(JString::empty, enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(true);
-
-	menu->SetItemImage(kContextEndCmd,      JXPM(gpm_stop));
-	menu->SetItemImage(kContextKillCmd,     JXPM(jx_edit_clear));
-	menu->SetItemImage(kContextPauseCmd,    JXPM(gpm_pause));
-	menu->SetItemImage(kContextContinueCmd, JXPM(gpm_cont));
-	menu->SetItemImage(kContextReNiceCmd,   JXPM(gpm_slow));
-
+	ConfigureContextMenu(menu);
 	return menu;
 }
 
@@ -468,13 +441,13 @@ ProcessTable::HandleKeyPress
 		if (itsList->ClosestMatch(itsKeyBuffer, &entry) &&
 			itsList->GetEntryIndex(entry, &index))
 		{
-			(GetTableSelection()).ClearSelection();
-			(GetTableSelection()).SelectRow(index);
+			GetTableSelection().ClearSelection();
+			GetTableSelection().SelectRow(index);
 			TableScrollToCell(JPoint(1, index));
 		}
 		else
 		{
-			(GetTableSelection()).ClearSelection();
+			GetTableSelection().ClearSelection();
 		}
 	}
 
