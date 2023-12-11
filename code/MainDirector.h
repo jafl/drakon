@@ -75,6 +75,8 @@ private:
 
 	void	ReadPrefs();
 	void	WritePrefs();
+
+	static void	UpgradeToolBarID(JString* s);
 };
 
 #endif

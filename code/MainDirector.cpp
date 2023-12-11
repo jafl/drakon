@@ -265,7 +265,7 @@ MainDirector::BuildWindow()
 
 	// must be done after creating widgets
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(UpgradeToolBarID);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
@@ -282,6 +282,26 @@ MainDirector::BuildWindow()
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
+	}
+}
+
+/******************************************************************************
+ UpgradeToolBarID (static private)
+
+ ******************************************************************************/
+
+void
+MainDirector::UpgradeToolBarID
+	(
+	JString* s
+	)
+{
+	if (s->StartsWith("GPM"))
+	{
+		JStringIterator iter(s);
+		iter.SkipNext(3);
+		iter.RemoveAllPrev();
+		*s += "::MainDirector";
 	}
 }
 
