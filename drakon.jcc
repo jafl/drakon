@@ -62,6 +62,10 @@ T
 F
 "./code/ProcessTable.cpp"
 T
+2 "ProcessTable-Context.jxm"
+F
+"./code/ProcessTable-Context.jxm"
+T
 2 "ListHeaderWidget.cpp"
 F
 "./code/ListHeaderWidget.cpp"

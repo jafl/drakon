@@ -24,7 +24,6 @@ if command -v apt-get; then
 
 		if [[ ! -f ../JX/Makefile && -z $JX_ROOT ]]; then
 			curl -LO https://libjx.sourceforge.net/ci/jx-application-framework.deb;
-			$SUDO apt -y remove nginx libgd3;	# hack
 			$SUDO apt install ./jx-application-framework.deb;
 		fi
 	fi;
