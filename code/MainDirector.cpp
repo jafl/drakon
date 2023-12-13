@@ -265,7 +265,8 @@ MainDirector::BuildWindow()
 
 	// must be done after creating widgets
 
-	itsToolBar->LoadPrefs(UpgradeToolBarID);
+	auto f = std::function(UpgradeToolBarID);
+	itsToolBar->LoadPrefs(&f);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kQuitCmd);
