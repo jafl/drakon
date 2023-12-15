@@ -1,7 +1,7 @@
 name: nps-drakon
 title: Drakon Process Manager
 base: core20
-version: "2.0.2"
+version: "2.0.3"
 license: GPL-3.0-or-later
 source-code: https://github.com/jafl/drakon
 issues: https://github.com/jafl/drakon/issues
