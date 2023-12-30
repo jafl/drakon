@@ -14,14 +14,7 @@ static const JUtf8Byte* kProcessMenuStr =
 "|* %i ReNice::MainDirector"
 ;
 
-enum {
-	kShowAllCmd=1,
-	kEndCmd,
-	kKillCmd,
-	kPauseCmd,
-	kContinueCmd,
-	kReNiceCmd,
-};
+#include "MainDirector-Process-enum.h"
 
 #ifndef _H_gpm_all_processes
 #define _H_gpm_all_processes
@@ -50,7 +43,7 @@ enum {
 
 static void ConfigureProcessMenu(JXTextMenu* menu, const int offset = 0) {
 	if (offset == 0 && JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle) {
-		menu->SetShortcuts(JString("#p", JString::kNoCopy));
+		menu->SetShortcuts("#p");
 	}
 	menu->SetItemImage(kShowAllCmd + offset, gpm_all_processes);
 	menu->SetItemImage(kEndCmd + offset, gpm_stop);

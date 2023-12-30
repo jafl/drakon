@@ -13,13 +13,7 @@ static const JUtf8Byte* kContextMenuStr =
 "|* %i __ReNiceProcess::ProcessTable"
 ;
 
-enum {
-	kContextEndCmd=1,
-	kContextKillCmd,
-	kContextPauseCmd,
-	kContextContinueCmd,
-	kContextReNiceCmd,
-};
+#include "ProcessTable-Context-enum.h"
 
 #ifndef _H_gpm_stop
 #define _H_gpm_stop
