@@ -24,8 +24,8 @@ static App*				theApplication  = nullptr;		// owns itself
 static PrefsManager*	thePrefsManager = nullptr;
 static MDIServer*		theMDIServer    = nullptr;
 
-static JSize			theSystemMemory      = 0;
-static const JRegex		totalMemoryPattern   = "^MemTotal:\\s*([0-9]+)";
+static JSize			theSystemMemory = 0;
+static const JRegex		totalMemoryPattern("^MemTotal:\\s*([0-9]+)");
 
 /******************************************************************************
  CreateGlobals

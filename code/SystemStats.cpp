@@ -185,9 +185,9 @@ SystemStats::Draw
 
  ******************************************************************************/
 
-static const JRegex freeMemoryPattern   = "^MemFree:\\s*([0-9]+)";
-static const JRegex bufferMemoryPattern = "^Buffers:\\s*([0-9]+)";
-static const JRegex cacheMemoryPattern  = "^Cached:\\s*([0-9]+)";
+static const JRegex freeMemoryPattern("^MemFree:\\s*([0-9]+)");
+static const JRegex bufferMemoryPattern("^Buffers:\\s*([0-9]+)");
+static const JRegex cacheMemoryPattern("^Cached:\\s*([0-9]+)");
 
 void
 SystemStats::ComputeStats
