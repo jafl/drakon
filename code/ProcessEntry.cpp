@@ -440,18 +440,7 @@ ProcessEntry::CompareListPID
 	ProcessEntry * const & e2
 	)
 {
-	if (e1->itsPID > e2->itsPID)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsPID < e2->itsPID)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return e1->itsPID <=> e2->itsPID;
 }
 
 std::weak_ordering
@@ -461,17 +450,12 @@ ProcessEntry::CompareListUser
 	ProcessEntry * const & e2
 	)
 {
-	const std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
-
-	if (result == std::weak_ordering::equivalent)
+	auto r = JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
+	if (r == std::weak_ordering::equivalent)
 	{
-		return CompareListPID(e1, e2);
+		r = CompareListPID(e1, e2);
 	}
-	else
-	{
-		return result;
-	}
+	return r;
 }
 
 std::weak_ordering
@@ -481,18 +465,12 @@ ProcessEntry::CompareListNice
 	ProcessEntry * const & e2
 	)
 {
-	if (e1->itsNice > e2->itsNice)
+	std::weak_ordering r = e1->itsNice <=> e2->itsNice;
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::greater;
+		r = CompareListPID(e1, e2);
 	}
-	else if (e1->itsNice < e2->itsNice)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareListPID(e1, e2);
-	}
+	return r;
 }
 
 std::weak_ordering
@@ -502,18 +480,12 @@ ProcessEntry::CompareListSize
 	ProcessEntry * const & e2
 	)
 {
-	if (e1->itsSize > e2->itsSize)
+	std::weak_ordering r = e1->itsSize <=> e2->itsSize;
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::greater;
+		r = CompareListPID(e1, e2);
 	}
-	else if (e1->itsSize < e2->itsSize)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareListPID(e1, e2);
-	}
+	return r;
 }
 
 std::weak_ordering
@@ -565,18 +537,12 @@ ProcessEntry::CompareListTime
 	ProcessEntry * const & e2
 	)
 {
-	if (e1->itsTime > e2->itsTime)
+	std::weak_ordering r = e1->itsTime <=> e2->itsTime;
+	if (r == std::weak_ordering::equivalent)
 	{
-		return std::weak_ordering::greater;
+		r = CompareListPID(e1, e2);
 	}
-	else if (e1->itsTime < e2->itsTime)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareListPID(e1, e2);
-	}
+	return r;
 }
 
 std::weak_ordering
@@ -586,17 +552,12 @@ ProcessEntry::CompareListCommand
 	ProcessEntry * const & e2
 	)
 {
-	const std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
-
-	if (result == std::weak_ordering::equivalent)
+	auto r = JCompareStringsCaseInsensitive(&e1->itsCommand, &e2->itsCommand);
+	if (r == std::weak_ordering::equivalent)
 	{
-		return CompareListPID(e1, e2);
+		r = CompareListPID(e1, e2);
 	}
-	else
-	{
-		return result;
-	}
+	return r;
 }
 
 std::weak_ordering
@@ -606,7 +567,7 @@ ProcessEntry::CompareListCommandForIncrSearch
 	ProcessEntry * const & e2
 	)
 {
-	return JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
+	return JCompareStringsCaseInsensitive(&e1->itsCommand, &e2->itsCommand);
 }
 
 /******************************************************************************
@@ -623,19 +584,7 @@ ProcessEntry::CompareTreePID
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsPID > e2->itsPID)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsPID < e2->itsPID)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return std::weak_ordering::equivalent;
-	}
+	return CompareListPID(e1, e2);
 }
 
 std::weak_ordering
@@ -647,18 +596,7 @@ ProcessEntry::CompareTreeUser
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	const std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&(e1->itsUser), &(e2->itsUser));
-
-	if (result == std::weak_ordering::equivalent)
-	{
-		return CompareTreePID(n1, n2);
-	}
-	else
-	{
-		return result;
-	}
+	return CompareListUser(e1, e2);
 }
 
 std::weak_ordering
@@ -670,19 +608,7 @@ ProcessEntry::CompareTreeNice
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsNice > e2->itsNice)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsNice < e2->itsNice)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareTreePID(n1, n2);
-	}
+	return CompareListNice(e1, e2);
 }
 
 std::weak_ordering
@@ -694,19 +620,7 @@ ProcessEntry::CompareTreeSize
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsSize > e2->itsSize)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsSize < e2->itsSize)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareTreePID(n1, n2);
-	}
+	return CompareListSize(e1, e2);
 }
 
 std::weak_ordering
@@ -718,19 +632,7 @@ ProcessEntry::CompareTreePercentMemory
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsPercentMemory > e2->itsPercentMemory)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsPercentMemory < e2->itsPercentMemory)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareTreePID(n1, n2);
-	}
+	return CompareListPercentMemory(e1, e2);
 }
 
 std::weak_ordering
@@ -742,19 +644,7 @@ ProcessEntry::CompareTreePercentCPU
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsPercentCPU > e2->itsPercentCPU)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsPercentCPU < e2->itsPercentCPU)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareTreePID(n1, n2);
-	}
+	return CompareListPercentCPU(e1, e2);
 }
 
 std::weak_ordering
@@ -766,19 +656,7 @@ ProcessEntry::CompareTreeTime
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	if (e1->itsTime > e2->itsTime)
-	{
-		return std::weak_ordering::greater;
-	}
-	else if (e1->itsTime < e2->itsTime)
-	{
-		return std::weak_ordering::less;
-	}
-	else
-	{
-		return CompareTreePID(n1, n2);
-	}
+	return CompareListTime(e1, e2);
 }
 
 std::weak_ordering
@@ -790,16 +668,5 @@ ProcessEntry::CompareTreeCommand
 {
 	auto * const e1 = dynamic_cast<ProcessEntry*const>(n1);
 	auto * const e2 = dynamic_cast<ProcessEntry*const>(n2);
-
-	const std::weak_ordering result =
-		JCompareStringsCaseInsensitive(&(e1->itsCommand), &(e2->itsCommand));
-
-	if (result == std::weak_ordering::equivalent)
-	{
-		return CompareTreePID(n1, n2);
-	}
-	else
-	{
-		return result;
-	}
+	return CompareListCommand(e1, e2);
 }
