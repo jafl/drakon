@@ -1,0 +1,65 @@
+jx_layout_editor 5
+530
+350
+"JXLayout"
+"Drakon Process Manager"
+"Drakon_Main_Window"
+""
+0
+
+1
+0
+"MenuBar"
+2
+0
+0 0 30 530
+"menuBar"
+0
+0
+0
+
+1
+0
+"ToolBar"
+2
+2
+30 0 330 530
+"itsToolBar"
+1
+0
+0
+"GetPrefsManager()"
+"kMainToolBarID"
+"menuBar"
+
+1
+2
+"CustomWidget"
+2
+0
+5 0 35 530
+"itsSystemStats"
+1
+0
+0
+"SystemStats"
+"itsProcessList"
+0
+""
+
+1
+0
+"CustomWidget"
+2
+1
+330 0 350 530
+"itsFullCmdDisplay"
+1
+0
+0
+"JXStaticText"
+"JString::empty, false, true, false, nullptr"
+0
+""
+
+0

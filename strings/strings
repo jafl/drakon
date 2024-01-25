@@ -53,7 +53,6 @@ WindowTitle::PrefsDialog "Preferences"
 
 # AboutDialog
 
-WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
 
 UpgradeNotice::AboutDialog
@@ -64,7 +63,6 @@ You have just upgraded from version $vers"
 
 # MainDirector
 
-WindowTitle::MainDirector		"Drakon Process Manager"
 ProcessMenuTitle::MainDirector	"Process"
 ListTabTitle::MainDirector		"List"
 TreeTabTitle::MainDirector		"Tree"

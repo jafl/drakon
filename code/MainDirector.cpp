@@ -106,7 +106,9 @@ MainDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 530,350, JString::empty);
+	auto* window = jnew JXWindow(this, 530,350, JGetString("WindowTitle::MainDirector::JXLayout"));
+	window->SetMinSize(530, 250);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "Drakon_Main_Window");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -116,32 +118,22 @@ MainDirector::BuildWindow()
 	itsToolBar =
 		jnew JXToolBar(GetPrefsManager(), kMainToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
-	assert( itsToolBar != nullptr );
+
+	itsSystemStats =
+		jnew SystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,5, 530,30);
 
 	itsFullCmdDisplay =
 		jnew JXStaticText(JString::empty, false, true, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
-	assert( itsFullCmdDisplay != nullptr );
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::MainDirector"));
 	window->SetCloseAction(JXWindow::kQuitApp);
-	window->SetMinSize(530, 250);
-	window->SetWMClass(GetWMClassInstance(), GetMainWindowClass());
 
 	auto* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
 	assert( image != nullptr );
 	window->SetIcon(image);
-
-	// system stats
-
-	itsSystemStats =
-		jnew SystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
-					   JXWidget::kHElastic, JXWidget::kFixedTop,
-					   0,kStatusMargin, 100,kStatusHeight);
-	assert( itsSystemStats != nullptr );
-	itsSystemStats->FitToEnclosure(true, false);
 
 	// tab group
 

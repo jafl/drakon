@@ -27,6 +27,10 @@ T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
 F
 T
 1 "system stats"
@@ -41,6 +45,10 @@ T
 2 "MainDirector.cpp"
 F
 "./code/MainDirector.cpp"
+T
+2 "MainDirector.jxl"
+F
+"./code/MainDirector.jxl"
 T
 2 "MainDirector-File.jxm"
 F
@@ -88,13 +96,6 @@ T
 2 "ProcessEntry.cpp"
 F
 "./code/ProcessEntry.cpp"
-F
-T
-1 "layout"
-T
-2 "drakon.fd"
-F
-"./drakon.fd"
 F
 T
 1 "strings"

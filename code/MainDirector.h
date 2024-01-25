@@ -46,8 +46,6 @@ private:
 	ProcessList*	itsProcessList;
 	JXFunctionTask*	itsTimerTask;
 
-	SystemStats*	itsSystemStats;
-
 	JXTabGroup*			itsTabGroup;
 	ProcessTable*		itsProcessTable;
 	ProcessTreeList*	itsProcessTree;
@@ -55,6 +53,7 @@ private:
 // begin JXLayout
 
 	JXToolBar*    itsToolBar;
+	SystemStats*  itsSystemStats;
 	JXStaticText* itsFullCmdDisplay;
 
 // end JXLayout
