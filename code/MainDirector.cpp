@@ -33,9 +33,6 @@
 #include <jx-af/jcore/JSimpleProcess.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kStatusHeight = 30;
-const JCoordinate kStatusMargin = 5;
-
 const JFileVersion kCurrentPrefsVersion	= 6;
 
 	// version  6: removed showFullCommand; added tree sorting column
@@ -104,10 +101,12 @@ MainDirector::~MainDirector()
 void
 MainDirector::BuildWindow()
 {
+	auto* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
+	assert( treeList != nullptr );
+
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 530,350, JGetString("WindowTitle::MainDirector::JXLayout"));
-	window->SetMinSize(530, 250);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "Drakon_Main_Window");
 
 	auto* menuBar =
@@ -123,9 +122,43 @@ MainDirector::BuildWindow()
 		jnew SystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,5, 530,30);
 
+	itsTabGroup =
+		jnew JXTabGroup(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,40, 530,260);
+	itsTabGroup->AppendTab(JGetString("itsTabGroup::tab1::MainDirector::JXLayout"));
+	itsTabGroup->AppendTab(JGetString("itsTabGroup::tab2::MainDirector::JXLayout"));
+
+	auto* treeScrollbarSet =
+		jnew JXScrollbarSet(itsTabGroup->GetTabEnclosure(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 526,229);
+	assert( treeScrollbarSet != nullptr );
+
+	auto* listScrollbarSet =
+		jnew JXScrollbarSet(itsTabGroup->GetTabEnclosure(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 526,229);
+	assert( listScrollbarSet != nullptr );
+
 	itsFullCmdDisplay =
 		jnew JXStaticText(JString::empty, false, true, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
+
+	itsProcessTree =
+		jnew ProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay, treeScrollbarSet, treeScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,25, 526,204);
+
+	itsProcessTable =
+		jnew ProcessTable(itsProcessList, itsFullCmdDisplay, listScrollbarSet, listScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,25, 526,204);
+
+	auto* treeHeader =
+		jnew TreeHeaderWidget(itsProcessTree, itsProcessList, treeScrollbarSet, treeScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 526,25);
+	assert( treeHeader != nullptr );
+
+	auto* tableHeader =
+		jnew ListHeaderWidget(itsProcessTable, itsProcessList, listScrollbarSet, listScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 526,25);
+	assert( tableHeader != nullptr );
 
 // end JXLayout
 
@@ -137,12 +170,6 @@ MainDirector::BuildWindow()
 
 	// tab group
 
-	itsTabGroup =
-		jnew JXTabGroup(itsToolBar->GetWidgetEnclosure(),
-					   JXWidget::kHElastic, JXWidget::kVElastic,
-					   0,0, 100,100);
-	assert( itsTabGroup != nullptr );
-	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure(), std::function([this](const JXCardFile::CardIndexChanged&)
 	{
 		JIndex index;
@@ -159,65 +186,6 @@ MainDirector::BuildWindow()
 			itsProcessTree->SelectProcess(*entry);
 		}
 	}));
-
-	const JCoordinate statusHeight = kStatusHeight + 2*kStatusMargin;
-	itsTabGroup->AdjustSize(0, -statusHeight);
-	itsTabGroup->Move(0, statusHeight);
-
-	JXContainer* listTab = itsTabGroup->AppendTab(JGetString("ListTabTitle::MainDirector"));
-	JXContainer* treeTab = itsTabGroup->AppendTab(JGetString("TreeTabTitle::MainDirector"));
-
-	// list view
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(listTab, JXWidget::kHElastic, JXWidget::kVElastic,
-						   0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-
-	const JCoordinate kHeaderHeight	= 25;
-	const JCoordinate tableHeight   = scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kHeaderHeight;
-
-	itsProcessTable =
-		jnew ProcessTable(itsProcessList, itsFullCmdDisplay,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,kHeaderHeight, 100,tableHeight);
-	assert( itsProcessTable != nullptr );
-	itsProcessTable->FitToEnclosure(true, false);
-
-	auto* tableHeader =
-		jnew ListHeaderWidget(itsProcessTable, itsProcessList,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0,0, 100,kHeaderHeight);
-	assert( tableHeader != nullptr );
-	tableHeader->FitToEnclosure(true, false);
-
-	// tree view
-
-	scrollbarSet =
-		jnew JXScrollbarSet(treeTab, JXWidget::kHElastic, JXWidget::kVElastic,
-						   0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-
-	auto* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
-	assert( treeList != nullptr );
-
-	itsProcessTree =
-		jnew ProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,kHeaderHeight, 100,tableHeight);
-	assert( itsProcessTree != nullptr );
-	itsProcessTree->FitToEnclosure(true, false);
-
-	auto* treeHeader =
-		jnew TreeHeaderWidget(itsProcessTree, itsProcessList,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0,0, 100,kHeaderHeight);
-	assert( treeHeader != nullptr );
-	treeHeader->FitToEnclosure(true, false);
 
 	itsProcessTable->SetDefaultRowHeight(itsProcessTree->GetDefaultRowHeight());
 

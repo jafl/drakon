@@ -61,12 +61,6 @@ UpgradeNotice::AboutDialog
 
 You have just upgraded from version $vers"
 
-# MainDirector
-
-ProcessMenuTitle::MainDirector	"Process"
-ListTabTitle::MainDirector		"List"
-TreeTabTitle::MainDirector		"Tree"
-
 # ListHeaderWidget
 
 PIDColumnTitle::ListHeaderWidget		"PID"

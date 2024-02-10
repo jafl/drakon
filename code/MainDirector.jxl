@@ -1,4 +1,4 @@
-jx_layout_editor 5
+jx_layout_editor 8
 530
 350
 "JXLayout"
@@ -8,6 +8,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "MenuBar"
 2
@@ -19,6 +20,7 @@ jx_layout_editor 5
 0
 
 1
+0
 0
 "ToolBar"
 2
@@ -34,6 +36,7 @@ jx_layout_editor 5
 
 1
 2
+1
 "CustomWidget"
 2
 0
@@ -48,6 +51,111 @@ jx_layout_editor 5
 ""
 
 1
+2
+1
+"TabGroup"
+2
+2
+40 0 270 530
+"itsTabGroup"
+1
+0
+0
+0
+2
+"List"
+"Tree"
+
+1
+4
+2
+"ScrollbarSet"
+2
+2
+0 0 199 526
+"treeScrollbarSet"
+0
+0
+0
+
+1
+4
+1
+"ScrollbarSet"
+2
+2
+0 0 199 526
+"listScrollbarSet"
+0
+0
+0
+
+1
+5
+1
+"CustomWidget"
+2
+0
+0 0 25 511
+"treeHeader"
+0
+0
+0
+"TreeHeaderWidget"
+"itsProcessTree, itsProcessList, treeScrollbarSet"
+0
+"itsProcessTree"
+
+1
+6
+1
+"CustomWidget"
+2
+0
+0 0 25 511
+"tableHeader"
+0
+0
+0
+"ListHeaderWidget"
+"itsProcessTable, itsProcessList, listScrollbarSet"
+0
+"itsProcessTable"
+
+1
+5
+1
+"CustomWidget"
+2
+2
+25 0 184 511
+"itsProcessTree"
+1
+0
+0
+"ProcessTreeList"
+"itsProcessList, treeList, itsFullCmdDisplay, treeScrollbarSet"
+0
+"itsFullCmdDisplay"
+
+1
+6
+1
+"CustomWidget"
+2
+2
+25 0 184 511
+"itsProcessTable"
+1
+0
+0
+"ProcessTable"
+"itsProcessList, itsFullCmdDisplay, listScrollbarSet"
+0
+"itsFullCmdDisplay"
+
+1
+0
 0
 "CustomWidget"
 2
