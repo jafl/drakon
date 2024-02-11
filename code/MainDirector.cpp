@@ -394,9 +394,9 @@ MainDirector::HandleProcessMenu
 		else
 		{
 			JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
-			cmd += JString((JUInt64) sigValue);
+			cmd += JString(sigValue);
 			cmd += " ";
-			cmd += JString((JUInt64) pid);
+			cmd += JString(pid);
 			cmd += "'";
 			JSimpleProcess::Create(cmd, true);
 		}

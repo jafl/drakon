@@ -210,7 +210,7 @@ ProcessTable::TableDrawCell
 	}
 	else if (cell.x == ProcessList::kListPID)
 	{
-		str	= JString((JUInt64) entry.GetPID());
+		str	= JString(entry.GetPID());
 	}
 	else if (cell.x == ProcessList::kListUser)
 	{
@@ -219,27 +219,27 @@ ProcessTable::TableDrawCell
 	}
 /*	else if (cell.x == ProcessList::kListPPID)
 	{
-		str	= JString((JUInt64) entry.GetPPID());
+		str	= JString(entry.GetPPID());
 	}
 	else if (cell.x == ProcessList::kListPriority)
 	{
-		str	= JString((JUInt64) entry.GetPriority());
+		str	= JString(entry.GetPriority());
 	}
 */	else if (cell.x == ProcessList::kListNice)
 	{
-		str	= JString((JUInt64) entry.GetNice());
+		str	= JString(entry.GetNice());
 	}
 	else if (cell.x == ProcessList::kListSize)
 	{
-		str	= JString((JUInt64) entry.GetSize());
+		str	= JString(entry.GetSize());
 	}
 /*	else if (cell.x == ProcessList::kListResident)
 	{
-		str	= JString((JUInt64) entry.GetResident());
+		str	= JString(entry.GetResident());
 	}
 	else if (cell.x == ProcessList::kListShare)
 	{
-		str	= JString((JUInt64) entry.GetShare());
+		str	= JString(entry.GetShare());
 	}
 */	else if (cell.x == ProcessList::kListCPU)
 	{
@@ -251,7 +251,7 @@ ProcessTable::TableDrawCell
 	}
 	else if (cell.x == ProcessList::kListTime)
 	{
-		str	= JString((JUInt64) entry.GetTime());
+		str	= JString(entry.GetTime());
 	}
 	else if (cell.x == ProcessList::kListCommand)
 	{
@@ -568,9 +568,9 @@ ProcessTable::HandleContextMenu
 	else
 	{
 		JString cmd("xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -");
-		cmd += JString((JUInt64) sigValue);
+		cmd += JString(sigValue);
 		cmd += " ";
-		cmd += JString((JUInt64) pid);
+		cmd += JString(pid);
 		cmd += "'";
 		JSimpleProcess::Create(cmd, true);
 	}

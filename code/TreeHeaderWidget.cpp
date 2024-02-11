@@ -78,7 +78,7 @@ TreeHeaderWidget::TableDrawCell
 	JString str;
 	if (!GetColTitle(cell.x, &str))
 	{
-		str = JString((JUInt64) cell.x);
+		str = JString(cell.x);
 	}
 
 	JSize underLines = 0;
