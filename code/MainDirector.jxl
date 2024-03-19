@@ -1,8 +1,10 @@
-jx_layout_editor 8
+jx_layout_editor 9
 530
 350
 "JXLayout"
 "Drakon Process Manager"
+200
+200
 "Drakon_Main_Window"
 ""
 0
@@ -79,18 +81,6 @@ jx_layout_editor 8
 0
 
 1
-4
-1
-"ScrollbarSet"
-2
-2
-0 0 199 526
-"listScrollbarSet"
-0
-0
-0
-
-1
 5
 1
 "CustomWidget"
@@ -107,7 +97,19 @@ jx_layout_editor 8
 "itsProcessTree"
 
 1
-6
+4
+1
+"ScrollbarSet"
+2
+2
+0 0 199 526
+"listScrollbarSet"
+0
+0
+0
+
+1
+7
 1
 "CustomWidget"
 2
@@ -139,7 +141,7 @@ jx_layout_editor 8
 "itsFullCmdDisplay"
 
 1
-6
+7
 1
 "CustomWidget"
 2

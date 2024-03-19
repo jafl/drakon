@@ -107,6 +107,7 @@ MainDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 530,350, JGetString("WindowTitle::MainDirector::JXLayout"));
+	window->SetMinSize(200, 200);
 	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "Drakon_Main_Window");
 
 	auto* menuBar =
