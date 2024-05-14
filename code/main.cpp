@@ -44,7 +44,8 @@ main
 	JXApplication::StartFiber([argc, argv]()
 	{
 		GetMDIServer()->HandleCmdLineOptions(argc, argv);
-	});
+	},
+	"main->mdi");
 
 	auto* dir = jnew MainDirector(app);
 	GetMDIServer()->SetMainDirector(dir);

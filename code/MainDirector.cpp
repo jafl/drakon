@@ -68,8 +68,9 @@ MainDirector::MainDirector
 
 	BuildWindow();
 
-	itsTimerTask = jnew JXFunctionTask(kTimerDelay, std::bind(&ProcessList::Update, itsProcessList));
-	assert( itsTimerTask != nullptr );
+	itsTimerTask = jnew JXFunctionTask(kTimerDelay,
+		std::bind(&ProcessList::Update, itsProcessList),
+		"ProcessList::Update");
 	itsTimerTask->Start();
 
 	JPrefObject::ReadPrefs();
@@ -102,7 +103,6 @@ void
 MainDirector::BuildWindow()
 {
 	auto* treeList = jnew JNamedTreeList(itsProcessList->GetProcessTree());
-	assert( treeList != nullptr );
 
 // begin JXLayout
 
@@ -164,10 +164,7 @@ MainDirector::BuildWindow()
 // end JXLayout
 
 	window->SetCloseAction(JXWindow::kQuitApp);
-
-	auto* image = jnew JXImage(GetDisplay(), gpm_main_window_icon);
-	assert( image != nullptr );
-	window->SetIcon(image);
+	window->SetIcon(jnew JXImage(GetDisplay(), gpm_main_window_icon));
 
 	// tab group
 

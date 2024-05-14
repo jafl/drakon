@@ -47,7 +47,6 @@ SystemStats::SystemStats
 	itsMaxCPU(100)
 {
 	itsCPUHistory = jnew JArray<CPU>();
-	assert( itsCPUHistory != nullptr );
 
 	ListenTo(itsProcessList, std::function([this](const ProcessList::ListChanged&)
 	{

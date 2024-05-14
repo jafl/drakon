@@ -45,18 +45,15 @@ ProcessList::ProcessList()
 #endif
 {
 	itsVisibleEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kForgetAll);
-	assert(itsVisibleEntries != nullptr);
 	itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 	InstallCollection(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 
 	itsAlphaEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kForgetAll);
-	assert( itsAlphaEntries != nullptr );
 	itsAlphaEntries->SetCompareFunction(ProcessEntry::CompareListCommandForIncrSearch);
 
 	itsHiddenEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kDeleteAll);
-	assert(itsHiddenEntries != nullptr);
 	itsHiddenEntries->SetCompareFunction(ProcessEntry::CompareListPID);
 
 	itsRootNode = jnew JTreeNode(nullptr);
