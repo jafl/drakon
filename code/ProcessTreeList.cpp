@@ -167,8 +167,8 @@ ProcessTreeList::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	const JTreeNode* node        = GetTreeList()->GetNode(cell.y);
-	const ProcessEntry& entry = * dynamic_cast<const ProcessEntry*>(node);
+	const JTreeNode* node = GetTreeList()->GetNode(cell.y);
+	auto& entry           = dynamic_cast<const ProcessEntry&>(*node);
 
 	JString str;
 	JPainter::HAlign halign = JPainter::HAlign::kRight;
@@ -330,6 +330,7 @@ ProcessTreeList::GetSelectedProcess
 	if (!list.IsEmpty())
 	{
 		*entry = dynamic_cast<ProcessEntry*>(list.GetFirstItem());
+		assert( *entry != nullptr );
 		return true;
 	}
 	else
