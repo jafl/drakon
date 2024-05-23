@@ -7,8 +7,8 @@
 
  *****************************************************************************/
 
-#include <ProcessList.h>
-#include <ProcessEntry.h>
+#include "ProcessList.h"
+#include "ProcessEntry.h"
 
 #include <jx-af/jcore/JTree.h>
 
@@ -19,11 +19,9 @@
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jSysUtil.h>
-
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <sys/time.h>
 #include <unistd.h>
-
 #include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* ProcessList::kListChanged      = "ListChanged::ProcessList";
