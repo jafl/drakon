@@ -225,8 +225,6 @@ SystemStats::ComputeStats
 		*otherCPUPercentage     += e->GetPercentCPU();
 	}
 
-#ifdef _J_HAS_PROC
-{
 	JSize totalMem, freeMem = 0, otherMem = 0, foundCount = 0;
 	if (GetSystemMemory(&totalMem))
 	{
@@ -262,6 +260,4 @@ SystemStats::ComputeStats
 		*userMemoryPercentage  = 100 * (1 - (freeMem + otherMem) / JFloat(totalMem));
 		*otherMemoryPercentage = 100 * otherMem / JFloat(totalMem);
 	}
-}
-#endif
 }

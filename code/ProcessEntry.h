@@ -13,10 +13,6 @@
 #include <jx-af/jcore/JNamedTreeNode.h>
 #include <sys/types.h>
 
-#ifdef _J_HAS_SYSCTL
-#include <sys/sysctl.h>
-#endif
-
 class JDirEntry;
 
 class ProcessEntry : public JNamedTreeNode
@@ -34,12 +30,7 @@ public:
 
 public:
 
-	#ifdef _J_HAS_PROC
 	ProcessEntry(JTree* tree, const JDirEntry& entry);
-	#elif defined _J_HAS_SYSCTL
-	ProcessEntry(JTree* tree, const kinfo_proc& entry);
-	#endif
-
 	ProcessEntry(JTree* tree, const JString& prefix);
 
 	~ProcessEntry() override;
@@ -100,10 +91,7 @@ public:
 
 private:
 
-	#ifdef _J_HAS_PROC
 	JString			itsProcPath;
-	#endif
-
 	uid_t			itsUID;
 	JString			itsUser;
 	pid_t			itsPID;
@@ -127,11 +115,8 @@ private:
 private:
 
 	void	ReadCmdline();
-
-	#ifdef _J_HAS_PROC
 	void	ReadStat();
 	void	ReadStatM();
-	#endif
 };
 
 

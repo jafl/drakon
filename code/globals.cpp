@@ -13,11 +13,6 @@
 #include "MDIServer.h"
 #include <jx-af/jcore/JRegex.h>
 #include <jx-af/jcore/jStreamUtil.h>
-
-#ifdef _J_HAS_SYSCTL
-#include <sys/sysctl.h>
-#endif
-
 #include <jx-af/jcore/jAssert.h>
 
 static App*				theApplication  = nullptr;		// owns itself
@@ -49,8 +44,6 @@ CreateGlobals
 
 	theMDIServer = jnew MDIServer;
 
-#ifdef _J_HAS_PROC
-{
 	std::ifstream ms("/proc/meminfo");
 	JString line;
 	while (ms.good() && !ms.eof())
@@ -64,18 +57,6 @@ CreateGlobals
 			break;
 		}
 	}
-}
-#elif defined _J_HAS_SYSCTL
-{
-	int mib[] = { CTL_HW, HW_PHYSMEM };
-	int memPages;
-	size_t len = sizeof(memPages);
-	if (sysctl(mib, 2, &memPages, &len, nullptr, 0) == 0)
-	{
-		theSystemMemory = memPages;	// bytes
-	}
-}
-#endif
 
 	return isNew;
 }

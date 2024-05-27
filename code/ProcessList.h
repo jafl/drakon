@@ -103,10 +103,7 @@ private:
 	TreeColType					itsTreeColType;
 	bool						itsIsShowingUserOnly;
 	const JIndex				itsUID;
-
-	#ifdef _J_HAS_PROC
 	JDirInfo*					itsDirInfo;
-	#endif
 
 private:
 

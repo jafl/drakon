@@ -9,13 +9,8 @@
 
 #include "ProcessList.h"
 #include "ProcessEntry.h"
-
 #include <jx-af/jcore/JTree.h>
-
-#ifdef _J_HAS_PROC
 #include <jx-af/jcore/JDirInfo.h>
-#endif
-
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jSysUtil.h>
@@ -37,10 +32,8 @@ ProcessList::ProcessList()
 	itsElapsedTime(0),
 	itsLastTime(0),
 	itsIsShowingUserOnly(true),
-	itsUID(getuid())
-#ifdef _J_HAS_PROC
-	,itsDirInfo(nullptr)
-#endif
+	itsUID(getuid()),
+	itsDirInfo(nullptr)
 {
 	itsVisibleEntries = jnew JPtrArray<ProcessEntry>(JPtrArrayT::kForgetAll);
 	itsVisibleEntries->SetCompareFunction(ProcessEntry::CompareListPID);
@@ -74,10 +67,7 @@ ProcessList::~ProcessList()
 	jdelete itsVisibleEntries;
 	jdelete itsAlphaEntries;
 	jdelete itsTree;
-
-	#ifdef _J_HAS_PROC
 	jdelete itsDirInfo;
-	#endif
 }
 
 /******************************************************************************
@@ -119,8 +109,6 @@ ProcessList::Update()
 	JPtrArray<ProcessEntry> newEntries(JPtrArrayT::kForgetAll);
 	newEntries.SetCompareFunction(ProcessEntry::CompareListPID);
 
-#ifdef _J_HAS_PROC
-{
 	if (itsDirInfo == nullptr)
 	{
 		bool ok	= JDirInfo::Create(JString("/proc", false), &itsDirInfo);
@@ -139,47 +127,6 @@ ProcessList::Update()
 			newEntries.InsertSorted(pentry);
 		}
 	}
-}
-#elif defined _J_HAS_SYSCTL
-{
-	int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0 };
-
-	size_t len;
-	int result = sysctl(mib, 4, nullptr, &len, nullptr, 0);
-	if (result != 0)
-	{
-		itsRootNode->DeleteAllChildren();
-		itsVisibleEntries->RemoveAll();
-		itsAlphaEntries->RemoveAll();
-	}
-	else
-	{
-		void* buf = malloc(len);
-		assert( buf != nullptr );
-
-		result = sysctl(mib, 4, buf, &len, nullptr, 0);
-		if (result != 0)
-		{
-			itsRootNode->DeleteAllChildren();
-			itsVisibleEntries->RemoveAll();
-			itsAlphaEntries->RemoveAll();
-		}
-		else
-		{
-			auto* list = (kinfo_proc*) buf;
-
-			const JSize count = len / sizeof(kinfo_proc);
-			for (JUnsignedOffset i=0; i<count; i++)
-			{
-				auto* pentry = jnew ProcessEntry(itsTree, list[i]);
-				newEntries.InsertSorted(pentry);
-			}
-		}
-
-		free(buf);
-	}
-}
-#endif
 
 	if (!itsIsShowingUserOnly)
 	{
