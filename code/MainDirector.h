@@ -15,7 +15,7 @@ class JXToolBar;
 class JXTabGroup;
 class JXStaticText;
 class JXTextMenu;
-class JXFunctionTask;
+class JXIdleTask;
 
 class SystemStats;
 class ProcessList;
@@ -44,7 +44,7 @@ private:
 	JXTextMenu*	itsHelpMenu;
 
 	ProcessList*	itsProcessList;
-	JXFunctionTask*	itsTimerTask;
+	JXIdleTask*		itsTimerTask;
 
 // begin JXLayout
 
